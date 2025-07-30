@@ -66,15 +66,15 @@ public class BaseController : MonoBehaviour
 
     private void Rotate(Vector2 direction)                              // 캐릭터, 무기 방향 처리
     {
-        float mouseRotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float RotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         
-        bool isLeft = Mathf.Abs(mouseRotationAngle) > 90f;
+        bool isLeft = Mathf.Abs(RotationAngle) > 90f;
 
         characterRenderer.flipX = isLeft;
 
         if (weaponPivot != null)
         {
-            weaponPivot.rotation = Quaternion.Euler(0, 0, mouseRotationAngle);
+            weaponPivot.rotation = Quaternion.Euler(0, 0, RotationAngle);
         }
     }
 
