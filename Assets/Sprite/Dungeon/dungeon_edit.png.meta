@@ -1,0 +1,482 @@
+fileFormatVersion: 2
+guid: 5e8eff88f41c43948bd92df3ea47078b
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: dungeon_wall_top_left_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 288
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2862c0e143b7c184285d6d8012747d88
+      internalID: -807319195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeon_wall_top_right_0
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 288
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77e4b53bb2070334ea497521959e9993
+      internalID: -52455569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeon_wall_fornt_0
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 241
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c67f4b0ee156cd418ab6310b49519f0
+      internalID: -1830053600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeon_floor_0
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2edca536380c2364186df81de5fcbaac
+      internalID: 802931210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeon_wall_side_0
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 272
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1760ad667d722234abf455785fd34e21
+      internalID: -1740856691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeon_wall_bottom_right_0
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 210
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7963fd583238a9c488d04e44e2e96216
+      internalID: -1939339442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeon_wall_bottom_left_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 210
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3985842f00f78c24eb63cda10b48eb82
+      internalID: -494322431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeon_wall_back_0
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29592e76c9273264ebe17d5333405808
+      internalID: -372266509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      dungeon_edit_10: -598344522
+      dungeon_edit_100: 579996630
+      dungeon_edit_101: -148947853
+      dungeon_edit_102: -1749966300
+      dungeon_edit_103: -1728974516
+      dungeon_edit_104: 1937227208
+      dungeon_edit_105: -143739260
+      dungeon_edit_106: -810096026
+      dungeon_edit_107: -414317077
+      dungeon_edit_108: 827559294
+      dungeon_edit_109: -161222940
+      dungeon_edit_11: -1717435066
+      dungeon_edit_110: -2147381663
+      dungeon_edit_111: 185817572
+      dungeon_edit_112: 1088368618
+      dungeon_edit_113: -1779992191
+      dungeon_edit_114: 1422760687
+      dungeon_edit_115: 531524801
+      dungeon_edit_117: -2112504876
+      dungeon_edit_118: 1346494000
+      dungeon_edit_119: 1635102533
+      dungeon_edit_12: 1069064862
+      dungeon_edit_120: 227942830
+      dungeon_edit_121: 904259396
+      dungeon_edit_122: 899524797
+      dungeon_edit_123: -1118514919
+      dungeon_edit_124: 57217327
+      dungeon_edit_125: -1957773163
+      dungeon_edit_126: 1035700437
+      dungeon_edit_127: -9442099
+      dungeon_edit_128: -1745247904
+      dungeon_edit_129: -189056786
+      dungeon_edit_13: 684524132
+      dungeon_edit_130: -200043942
+      dungeon_edit_131: 137483229
+      dungeon_edit_132: -1649171279
+      dungeon_edit_133: -203957457
+      dungeon_edit_134: 110251282
+      dungeon_edit_135: -371128379
+      dungeon_edit_136: -1448487651
+      dungeon_edit_137: -1032494475
+      dungeon_edit_138: -758390371
+      dungeon_edit_139: 1721772303
+      dungeon_edit_14: -2048892237
+      dungeon_edit_140: -167589400
+      dungeon_edit_141: -524845073
+      dungeon_edit_142: -81638759
+      dungeon_edit_143: -225172440
+      dungeon_edit_144: -93892057
+      dungeon_edit_145: -2023347802
+      dungeon_edit_146: -2005819272
+      dungeon_edit_147: 999240176
+      dungeon_edit_148: 1653520962
+      dungeon_edit_149: 1121550441
+      dungeon_edit_15: 793589249
+      dungeon_edit_150: -896410597
+      dungeon_edit_151: 1825934052
+      dungeon_edit_152: -1936620726
+      dungeon_edit_153: 153413759
+      dungeon_edit_154: 348873143
+      dungeon_edit_155: -452094569
+      dungeon_edit_156: 799799321
+      dungeon_edit_157: -1446697339
+      dungeon_edit_158: -587684724
+      dungeon_edit_159: 554196331
+      dungeon_edit_16: -1527015753
+      dungeon_edit_17: 1154025892
+      dungeon_edit_18: 1381447402
+      dungeon_edit_19: 1682705799
+      dungeon_edit_20: 907296378
+      dungeon_edit_21: 62509549
+      dungeon_edit_22: 1806603192
+      dungeon_edit_23: 1799009908
+      dungeon_edit_24: 1983534861
+      dungeon_edit_25: -1506235907
+      dungeon_edit_26: 1884779032
+      dungeon_edit_27: 11911360
+      dungeon_edit_28: 1178268949
+      dungeon_edit_29: 679137597
+      dungeon_edit_30: 1720480533
+      dungeon_edit_32: 533184
+      dungeon_edit_33: -1753283890
+      dungeon_edit_34: -847947042
+      dungeon_edit_35: -1619467225
+      dungeon_edit_36: 2106536586
+      dungeon_edit_37: 2084994009
+      dungeon_edit_38: -1752759746
+      dungeon_edit_39: -1443878785
+      dungeon_edit_4: -211693893
+      dungeon_edit_40: -835849292
+      dungeon_edit_41: 1148420836
+      dungeon_edit_42: 1396274457
+      dungeon_edit_43: -741932075
+      dungeon_edit_44: 326105420
+      dungeon_edit_45: -1384313754
+      dungeon_edit_46: 1905616197
+      dungeon_edit_47: -556420936
+      dungeon_edit_48: -2075422624
+      dungeon_edit_49: -603113418
+      dungeon_edit_5: 767717114
+      dungeon_edit_50: 368831502
+      dungeon_edit_51: 1762065214
+      dungeon_edit_52: -1067022827
+      dungeon_edit_53: -1608073271
+      dungeon_edit_54: -915331332
+      dungeon_edit_55: -1292757075
+      dungeon_edit_56: -1494578110
+      dungeon_edit_57: -1879609625
+      dungeon_edit_58: 915106441
+      dungeon_edit_59: -1972401607
+      dungeon_edit_60: -1822315300
+      dungeon_edit_61: -1284593511
+      dungeon_edit_62: -504187110
+      dungeon_edit_63: 1527215431
+      dungeon_edit_64: -2003580549
+      dungeon_edit_65: -36846866
+      dungeon_edit_66: 568467245
+      dungeon_edit_67: 1135218499
+      dungeon_edit_68: -82124886
+      dungeon_edit_69: -2138340363
+      dungeon_edit_7: 1242064329
+      dungeon_edit_70: 1011487059
+      dungeon_edit_71: 2020062211
+      dungeon_edit_72: 636096090
+      dungeon_edit_73: -256707982
+      dungeon_edit_74: -1212191315
+      dungeon_edit_75: -948080002
+      dungeon_edit_76: -1662588789
+      dungeon_edit_77: -1980623796
+      dungeon_edit_78: 1882044533
+      dungeon_edit_79: -114841046
+      dungeon_edit_8: -228307772
+      dungeon_edit_80: 2137365465
+      dungeon_edit_81: 565995072
+      dungeon_edit_82: 1437473888
+      dungeon_edit_83: 1341732327
+      dungeon_edit_84: 2055838013
+      dungeon_edit_85: 895056020
+      dungeon_edit_86: -967372614
+      dungeon_edit_87: 635078274
+      dungeon_edit_88: -472416886
+      dungeon_edit_89: 49362626
+      dungeon_edit_9: -102773787
+      dungeon_edit_90: 1153357003
+      dungeon_edit_91: 771594620
+      dungeon_edit_92: 383056442
+      dungeon_edit_93: -335938890
+      dungeon_edit_94: 2027137806
+      dungeon_edit_95: -1675861778
+      dungeon_edit_96: 580838366
+      dungeon_edit_97: 896821512
+      dungeon_edit_98: -1669612888
+      dungeon_edit_99: -840928619
+      dungeon_floor_0: 802931210
+      dungeon_wall_back_0: -372266509
+      dungeon_wall_bottom_left_0: -494322431
+      dungeon_wall_bottom_right_0: -1939339442
+      dungeon_wall_fornt_0: -1830053600
+      dungeon_wall_side_0: -1740856691
+      dungeon_wall_top_left_0: -807319195
+      dungeon_wall_top_right_0: -52455569
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
