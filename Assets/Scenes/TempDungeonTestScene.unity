@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6e46295faacae4aafa1f2e977ba5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dungeonBuilderObj: {fileID: 560058751112396725, guid: 74ce8829d32e68342922507c2447a174, type: 3}
+  dungeonBuilder: {fileID: 5729417262404796022, guid: 74ce8829d32e68342922507c2447a174, type: 3}
 --- !u!4 &1250632564
 Transform:
   m_ObjectHideFlags: 0

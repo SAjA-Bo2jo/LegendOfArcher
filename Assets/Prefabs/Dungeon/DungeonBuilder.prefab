@@ -44,12 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a68fb40711f096947ae1138bc020a155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dungeon: {fileID: 8161726642140908092, guid: 9861ade14ba42884ba45043301608a5a, type: 3}
-  dungeonPosX: 0
-  dungeonPosY: 0
+  dungeonRoot: {fileID: 8161726642140908092, guid: 9861ade14ba42884ba45043301608a5a, type: 3}
   entryGate: {fileID: 2693293464429072703, guid: bba2479c328c0994692c1835c16fc802, type: 3}
-  entryGatePosX: 0
-  entryGatePosY: 0
   exitGate: {fileID: 2693293464429072703, guid: bba2479c328c0994692c1835c16fc802, type: 3}
-  exitGatePosX: 0
-  exitGatePosY: 0
+  playerPrefeb: {fileID: 7072391522761673993, guid: 1668ce8d19ae7e54185a942772b29bda, type: 3}
