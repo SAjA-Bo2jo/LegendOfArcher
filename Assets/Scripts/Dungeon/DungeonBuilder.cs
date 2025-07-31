@@ -23,7 +23,7 @@ public class DungeonBuilder : MonoBehaviour
     Vector3 exitGatePos = Vector3.zero;
 
     // 플레이어 - 추후 위치 수정
-    [SerializeField] private GameObject playerPrefeb;
+    [SerializeField] private GameObject playerPrefab;
     private float playerPosX = 0;
     private float playerPosY = 0;
     Vector3 playerPos = Vector3.zero;
@@ -54,7 +54,7 @@ public class DungeonBuilder : MonoBehaviour
 
         // 플레이어 생성
         playerPos = new Vector3(playerPosX, playerPosY);
-        result.player = Instantiate(playerPrefeb, playerPos, Quaternion.identity);
+        result.player = Instantiate(playerPrefab, playerPos, Quaternion.identity);
 
         return result;
     }
