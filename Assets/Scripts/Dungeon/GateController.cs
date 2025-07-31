@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GateController : MonoBehaviour
 {
-    public enum GateType { Entry, Exit  };
+    public enum GateType { Entry, Exit };
 
     [SerializeField] private GateType gateType;
     [SerializeField] Animator animator;

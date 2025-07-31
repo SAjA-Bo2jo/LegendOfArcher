@@ -1,45 +1,37 @@
-//using System.Collections;
-//using System.Collections.Generic;
-//using System.Runtime.CompilerServices;
-//using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEngine;
 
-//public class DungeonBuilder : MonoBehaviour
-//{
-//    [SerializeField] private SpriteRenderer wall;
-//    [SerializeField] private SpriteRenderer floorTile;
+public class DungeonBuilder : MonoBehaviour
+{
 
-//    [SerializeField] private int width = 21;
-//    [SerializeField] private int height = 13;
+    // 던전 프리팹 준비
+    [SerializeField] private GameObject dungeon;
+    [SerializeField] private float dungeonPosX = 0;
+    [SerializeField] private float dungeonPosY = 0;
+    Vector3 dungeonPos = Vector3.zero;
 
-//    private WallType wallType;
+    // 게이트 프리팹 준비
+    [SerializeField] private GameObject entryGate;
+    [SerializeField] private float entryGatePosX = 0;
+    [SerializeField] private float entryGatePosY = 0;
+    Vector3 entryGatePos = Vector3.zero;
+    [SerializeField] private GameObject exitGate;
+    [SerializeField] private float exitGatePosX = 0;
+    [SerializeField] private float exitGatePosY = 0;
+    Vector3 exitGatePos = Vector3.zero;
 
-//    public void BuildRoom(Vector2 startPos)
-//    {
-//        for (int y = 0; y < height; y++)
-//        {
-//            for (int x = 0; x < width; x++)
-//            {
-//                Vector2 tilePos = startPos + new Vector2(x, y);
-
-//                // 벽 배치
-//            //    if (x == 0 && y == height - 1)
-//            //        //Instantiate(wallTopLeft, tilePos, Quaternion.identity, transform);
-                    
-//            //    else if (x == width - 1 && y == height - 1)
-//            //        //Instantiate(wallTopRight, tilePos, Quaternion.identity, transform);
-//            //    else if (x == 0 && y == 0)
-//            //        //Instantiate(wallBottomLeft, tilePos, Quaternion.identity, transform);
-//            //    else if (x == width - 1 && y == 0)
-//            //        //Instantiate(wallBottomRight, tilePos, Quaternion.identity, transform);
-//            //    else if (y == height - 1)
-//            //        //Instantiate(wallBack, tilePos, Quaternion.identity, transform);
-//            //    else if (y == 0)
-//            //        //Instantiate(wallFront, tilePos, Quaternion.identity, transform);
-//            //    else if (x == 0 || x == width - 1)
-//            //        //Instantiate(wallSide, tilePos, Quaternion.identity, transform);
-//            //    else
-//            //        //Instantiate(floorTile, tilePos, Quaternion.identity, transform);
-//            }
-//        }
-//    }
-//}
+    public void Build()
+    {
+        // 던전 생성
+        dungeonPos = new Vector3(dungeonPosX, dungeonPosY);
+        Instantiate(dungeon, dungeonPos, Quaternion.identity);
+        
+        // 게이트 생성
+        entryGatePos = new Vector3(entryGatePosX, entryGatePosY);
+        Instantiate(entryGate, entryGatePos, Quaternion.identity);
+        exitGatePos = new Vector3(exitGatePosX, exitGatePosY);
+        Instantiate(exitGate, exitGatePos, Quaternion.identity);
+    }
+}
