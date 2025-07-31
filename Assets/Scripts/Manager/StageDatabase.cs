@@ -1,0 +1,66 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+// 스테이지 데이터는 추후에 편집할 예정
+[System.Serializable]
+public struct StageData
+{
+    public int stageLevel;
+    public int enemyCount;
+    public bool isBossStage;
+    public int bossCount;
+
+    public StageData(int stageLevel, int enemyCount, bool isBossStage, int bossCount)
+    {
+        this.stageLevel = stageLevel;
+        this.enemyCount = enemyCount;
+        this.isBossStage = isBossStage;
+        this.bossCount = bossCount;
+    }
+}
+
+public class StageDatabase : MonoBehaviour
+{
+    public static StageDatabase Instance { get; private set; }
+
+    private List<StageData> _stageList;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            InitDatabase();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    // stageDatabase 초기화 메소드. 스테이지를 늘리고 싶으면 여기에 추가하면 될듯
+    private void InitDatabase()
+    {
+        _stageList = new List<StageData>
+        {
+            new StageData(1, 1, false, 0),
+            new StageData(2, 2, false, 0)
+        };
+        
+        Debug.Log("stageList에 " + _stageList.Count + "개의 스테이지 데이터가 초기화되었습니다.");
+    }
+
+    // stageManager의 현재 레벨과 비교하여 현재 레벨의 스테이지 정보를 가져오는 메소드
+    public StageData GetStageData(int stageLevel)
+    {
+        // foreach (var stage in _stageList)
+        // {
+        //     if (stage.stageLevel == stageLevel)
+        //         return stage;
+        // }
+
+        return _stageList[stageLevel - 1];
+    }
+}
