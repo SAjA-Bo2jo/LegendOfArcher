@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponHandler : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
     [Header("Attack Info")]
     [SerializeField] private float delay = 1f;
@@ -14,6 +16,9 @@ public class WeaponHandler : MonoBehaviour
 
     [SerializeField] private float speed = 1f;
     public float Speed { get => speed; set => speed = value; }
+
+    [SerializeField] private float detectRange = 15f;
+    public float DetectRange { get => detectRange; set => detectRange = value; }
 
     [SerializeField] private float attackRange = 10f;
     public float AttackRange { get => attackRange; set => attackRange = value; }
