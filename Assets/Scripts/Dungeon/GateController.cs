@@ -10,17 +10,17 @@ public class GateController : MonoBehaviour
 
     [SerializeField] private GateType gateType;
     [SerializeField] private Animator animator;
-    [SerializeField] private Collider2D collider;
+    [SerializeField] private Collider2D gateCollider;
 
     public Action OnPlayerEnterExitGate;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        collider = GetComponent<Collider2D>();
+        gateCollider = GetComponent<Collider2D>();
 
         // 출구 충돌 비활성화
-        collider.enabled = false;
+        gateCollider.enabled = false;
     }
 
     public void OpenExitGate()
@@ -28,7 +28,7 @@ public class GateController : MonoBehaviour
         if (gateType == GateType.Exit)
         {
             animator.SetTrigger("OpenDoor");
-            collider.enabled = true;
+            gateCollider.enabled = true;
         }
     }
 
@@ -51,7 +51,7 @@ public class GateController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collider.enabled) return;
+        if (!gateCollider.enabled) return;
 
         // 플레이어 외 오브젝트 충돌 무시
         if (!collision.CompareTag("Player")) return;
