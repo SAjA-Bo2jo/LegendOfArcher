@@ -8,6 +8,11 @@ using UnityEngine.SceneManagement;
 // GameManager는 게임의 흐름을 감지하고 그 흐름에 맞게 씬을 변경해주는 역할
 public class GameManager : MonoSingleton<GameManager>
 {
+    public void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+    
     public void LoadTitleScene()
     {
         // SceneManager.LoadScene("TitleScene");
