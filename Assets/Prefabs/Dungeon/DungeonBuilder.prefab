@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 560058751112396725}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3362918, y: 1.0792098, z: 0.03878781}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47,4 +47,5 @@ MonoBehaviour:
   dungeonRoot: {fileID: 8161726642140908092, guid: 9861ade14ba42884ba45043301608a5a, type: 3}
   entryGate: {fileID: 2693293464429072703, guid: bba2479c328c0994692c1835c16fc802, type: 3}
   exitGate: {fileID: 2693293464429072703, guid: bba2479c328c0994692c1835c16fc802, type: 3}
-  playerPrefeb: {fileID: 7072391522761673993, guid: 1668ce8d19ae7e54185a942772b29bda, type: 3}
+  playerPrefab: {fileID: 7072391522761673993, guid: 1668ce8d19ae7e54185a942772b29bda, type: 3}
+  enemyCount: 5

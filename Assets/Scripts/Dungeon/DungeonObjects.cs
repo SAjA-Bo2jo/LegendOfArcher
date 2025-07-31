@@ -10,11 +10,11 @@ public class DungeonObjects
     public GameObject player;
     public GateController entryGate;
     public GateController exitGate;
-    //public List<GameObject> enemies;
+    public List<GameObject> enemies;
 
 
-    //public DungeonInstance()
-    //{
-    //    enemies = new List<GameObject>();
-    //}
+    public DungeonObjects()
+    {
+        enemies = new List<GameObject>();
+    }
 }

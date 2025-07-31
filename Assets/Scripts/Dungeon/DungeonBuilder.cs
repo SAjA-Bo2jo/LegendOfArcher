@@ -28,7 +28,11 @@ public class DungeonBuilder : MonoBehaviour
     private float playerPosY = 0;
     Vector3 playerPos = Vector3.zero;
 
-    // 몬스터 - 오브젝트 풀 작성 후 작성 예정
+    // 적
+    [SerializeField] private int enemyCount = 5;
+    private float enemyPosX = 0;
+    private float enemyPosY = 0;
+    Vector2 enemyPos = Vector2.zero;
 
     public DungeonObjects Build()
     {
@@ -52,10 +56,19 @@ public class DungeonBuilder : MonoBehaviour
         exitCtrl.SetGateType(GateType.Exit);
         result.exitGate = exitCtrl;
 
+        // 적 생성
+        result.enemies = new List<GameObject>();
+        for (int i = 0; i < enemyCount; i++)
+        {
+            GameObject enemy = ObjectPoolManager.Instance.Get("enemy");            // 적 키값은 enum으로 관리되도록 수정
+            enemy.transform.position = new Vector2(enemyPosX, enemyPosY);
+            result.enemies.Add(enemy);
+        }
+
         // 플레이어 생성
         playerPos = new Vector3(playerPosX, playerPosY);
         result.player = Instantiate(playerPrefab, playerPos, Quaternion.identity);
-
+        
         return result;
     }
 }
