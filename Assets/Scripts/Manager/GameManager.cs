@@ -22,4 +22,9 @@ public class GameManager : MonoSingleton<GameManager>
     {
         // SceneManager.LoadScene("MainGameScene");
     }
+
+    public void LoadResultScene()
+    {
+        // SceneManager.LoadScene("ResultScene");
+    }
 }
