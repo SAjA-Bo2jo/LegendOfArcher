@@ -1,7 +1,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class RangeWeaponHandler : WeaponHandler
+public class RangedWeaponHandler : WeaponHandler
 {
 
     [Header("Ranged Attack Data")]
@@ -36,7 +36,6 @@ public class RangeWeaponHandler : WeaponHandler
         int numberOfProjectilesPerShot = numberofProjectilesPerShot;
 
         float minAngle = -(numberOfProjectilesPerShot / 2f) * projectilesAngleSpace + 0.5f * multipleProjectilesAngel;
-
 
         for (int i = 0; i < numberOfProjectilesPerShot; i++)
         {

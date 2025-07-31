@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3958370077564874157}
-  - component: {fileID: 4421449057339995079}
   m_Layer: 0
   m_Name: P_BOw_EquipedWeapon
   m_TagString: Untagged
@@ -34,37 +33,6 @@ Transform:
   - {fileID: 1901343333080587755}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4421449057339995079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1903816813450961515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77d7d227537b81948b2e43b993027b82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  delay: 0.5
-  weaponSize: 0.7
-  power: 5
-  speed: 10
-  attackRange: 10
-  target:
-    serializedVersion: 2
-    m_Bits: 0
-  isOnKnockback: 1
-  knockbackPower: 0.1
-  knockbackTime: 0.5
-  projectileSpawnPosition: {fileID: 1901343333080587755}
-  bulletIndex: 0
-  bulletSize: 0.7
-  duration: 10
-  spread: 1
-  numberofProjectilesPerShot: 3
-  multipleProjectilesAngel: 3
-  projectileColor: {r: 1, g: 1, b: 1, a: 0}
 --- !u!1 &2753724295006635910
 GameObject:
   m_ObjectHideFlags: 0
