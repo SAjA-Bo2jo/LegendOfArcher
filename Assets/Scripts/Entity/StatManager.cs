@@ -9,7 +9,7 @@ public class StatManager : MonoBehaviour
         set => health = Mathf.Clamp(value, 0, 100);
     }
 
-    [Range(1f, 20f)][SerializeField] private float speed = 3;
+    [Range(1f, 20f)][SerializeField] private float speed = 5;
     public float Speed
     {
         get => speed;

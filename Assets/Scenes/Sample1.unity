@@ -352,12 +352,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 908772523}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d0bf3018c3d0dc43a44f2adcf472759, type: 3}
+  m_Script: {fileID: 11500000, guid: 63cf6d0663e51ea458775a89899cf28f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 106536158}
   weaponPivot: {fileID: 1430200876}
-  WeaponPrefab: {fileID: 4421449057339995079, guid: 7105d64924c2a184e90cf8fc83d6afa2, type: 3}
+  moveSpeed: 5
+  detectRange: 15
+  attackRange: 6
+  WeaponPrefab: {fileID: 0}
 --- !u!61 &908772525
 BoxCollider2D:
   m_ObjectHideFlags: 0

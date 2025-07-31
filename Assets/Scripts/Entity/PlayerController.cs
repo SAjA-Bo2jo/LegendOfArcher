@@ -6,11 +6,13 @@ public class PlayerController : BaseController
 {
     private new Camera camera;
 
+    private Transform target;
+
+    [SerializeField] private float detectRange = 15f;
+    [SerializeField] private float attackRange = 6f;
     [SerializeField] public WeaponHandler WeaponPrefab;
     protected WeaponHandler weaponHandler;
-
     protected AnimationHandler animationHandler;
-
     protected StatManager statManager;
 
     protected bool isAttacking;
@@ -29,7 +31,6 @@ public class PlayerController : BaseController
         base.Start();
         camera = Camera.main;
     }
-
 
     protected override void MoveToward(Vector2 direction)
     {
@@ -86,5 +87,26 @@ public class PlayerController : BaseController
     {
         if (lookDirection != Vector2.zero)
             weaponHandler?.Attack();
+    }
+
+    public void Init(Transform target)                                      // 추적 대상 정하는 메서드
+    {
+        this.target = target;
+    }
+
+    protected float DistanceToTarget()                                      // 플레이어 ~ 적 거리 구하는 메서드
+    {
+        return Vector2.Distance(transform.position, target.position);
+    }
+
+    protected Vector2 DirectionToTarget()                                   // 적 -> 플레이어 단위벡터 구함
+    {
+        return (target.position - transform.position).normalized;
+    }
+
+    public bool IsInAttackRange()                                           // 공격 사거리 내에 플레이어 있는 지 확인
+    {
+        if (target == null) return false;
+        return DistanceToTarget() <= attackRange;
     }
 }

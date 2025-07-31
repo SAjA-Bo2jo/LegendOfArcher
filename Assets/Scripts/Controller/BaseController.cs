@@ -11,21 +11,23 @@ public class BaseController : MonoBehaviour
 
     protected Vector2 moveDirection = Vector2.zero;                     // moveDirection : 이동하려는 방향
     public Vector2 MoveDirection                                        // -> 참조 시에 MoveDirection
-    {
-        get { return moveDirection; }
-        set { moveDirection = value; }
-    }      
+    { get => moveDirection; set => moveDirection = value; }      
 
     protected Vector2 lookDirection = Vector2.zero;                     // lookDirection : 바라보는 방향
-    public Vector2 LookDirection { get { return lookDirection; } }      // -> 참조 시에 LookDirection
+    public Vector2 LookDirection                                        // -> 참조 시에 LookDirection
+    { get => lookDirection; set => lookDirection = value; }      
 
     private Vector2 knockback = Vector2.zero;                           // knockback : 넉백 방향, 크기
-    public Vector2 Knockback { get { return knockback; } }
+    public Vector2 Knockback                                            // -> 참조 시에 Knockback
+    { get => knockback; set => knockback = value; }
 
     private float knockbackTime = 0.0f;                                 // knockbackTime : 넉백 지속 시간
-    public float KnockbackTime {get { return knockbackTime; } }
+    public float KnockbackTime                                          // -> 참조 시에 KnockbackTime
+    { get => knockbackTime; set => knockbackTime = value; }
 
     public float moveSpeed = 5.0f;                                      // moveSpeed : 이동속도
+    public float MoveSpeed                                              // -> 참조 시에 MoveSpeed
+    { get => moveSpeed; set => moveSpeed = value; }
 
     protected virtual void Awake()
     {
@@ -60,7 +62,7 @@ public class BaseController : MonoBehaviour
 
     protected virtual void MoveToward(Vector2 direction)                          // 단위 벡터만 받아서 이동속도만큼 움직이게 함
     {
-        direction = direction * moveSpeed;                              
+        direction = direction * MoveSpeed;                              
 
         if (knockbackTime > 0.0f)
         {
