@@ -15,6 +15,8 @@ public class SoundManager : MonoSingleton<SoundManager>
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+        
         musicAudioSource = GetComponent<AudioSource>();
         musicAudioSource.volume = musicVolume;
         musicAudioSource.loop = true;
