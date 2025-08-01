@@ -15,8 +15,6 @@ public class PlayerController : BaseController
 
     protected Abillity abillity;    // 플레이어가 소유한 능력 컴포넌트
 
-    protected AnimationHandler animationHandler;    // 애니메이션을 제어하는 핸들러
-
     protected Player player;    // 플레이어 클래스 참조 (체력, 속도 등 데이터 보관)
 
     protected override void Awake()    // 컴포넌트 초기화. Rigidbody, Player, AnimationHandler, Abillity 등을 가져옵니다.

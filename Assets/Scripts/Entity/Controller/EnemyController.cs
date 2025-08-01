@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyController : BaseController
@@ -15,6 +16,13 @@ public class EnemyController : BaseController
     [SerializeField] private bool canRetreat = true;                        // canRetreat : 적이 후퇴할 수 있는지 여부
 
     private float OptimalDistance => attackRange * optimalDistanceRatio;    // OptimalDistance : 계산된 최적거리
+
+    protected override void Start()
+    {
+        base.Start();
+        
+        Init(StageManager.Instance._Player.transform);
+    }
 
     public void Init(Transform target)                                      // 추적 대상 정하는 메서드
     {
