@@ -8,14 +8,10 @@ using UnityEngine;
 
 public class Bow : Abillity
 {
-    // 이전 코드에서 사용되던 arrowPrefab 필드는 이제 필요 없습니다.
-    // 오브젝트 풀 매니저가 프리팹을 관리합니다.
-    // [SerializeField] private GameObject arrowPrefab;
-
     [SerializeField] private Animator bowAnimator;
     [SerializeField] private Transform weaponPivot;  // 회전 중심
     [SerializeField] private float radius = 40f;     // 중심에서 떨어진 거리
-    private PlayerController playerController; // 이 변수에 값이 할당되어야 합니다!
+    private PlayerController playerController;
     [SerializeField] private Transform firePoint; // Bow 스크립트에 추가
 
     // 오브젝트 풀링을 위한 상수 키
@@ -40,19 +36,26 @@ public class Bow : Abillity
         // playerController가 null이 아니어야 합니다.
         if (player == null || weaponPivot == null || playerController == null) return;
 
-        // 바라보는 방향이 0이면 회전 생략
-        if (playerController.LookDirection == Vector2.zero) return;
+        // 타겟이 존재할 때만 활의 위치와 회전을 업데이트합니다.
+        if (target != null)
+        {
+            // 방향 벡터를 각도로 변환
+            float angle = Mathf.Atan2(playerController.LookDirection.y, playerController.LookDirection.x);
 
-        // 방향 벡터를 각도로 변환
-        float angle = Mathf.Atan2(playerController.LookDirection.y, playerController.LookDirection.x);
+            // 활의 위치 계산 (WeaponPivot 기준)
+            Vector3 offset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * radius;
+            transform.position = weaponPivot.position + offset;
 
-        // 활의 위치 계산 (WeaponPivot 기준)
-        Vector3 offset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * radius;
-        transform.position = weaponPivot.position + offset;
-
-        // 활의 회전도 바라보는 방향으로 설정
-        float angleDeg = angle * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angleDeg);
+            // 활의 회전도 바라보는 방향으로 설정
+            float angleDeg = angle * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angleDeg);
+        }
+        // 타겟이 없으면 활을 weaponPivot 위치에 유지합니다.
+        else
+        {
+            transform.position = weaponPivot.position;
+            transform.rotation = Quaternion.identity;
+        }
     }
 
     protected void Update()

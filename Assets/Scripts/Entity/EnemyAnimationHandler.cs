@@ -41,7 +41,7 @@ public class EnemyAnimationHandler : MonoBehaviour
     public virtual void Damage()                                                // 데미지 받았을 때 애니메이션 재생 관리
     {
         if (isDead) return;
-
+        
         animator.SetTrigger(IsDamage);
     }
 
@@ -65,6 +65,8 @@ public class EnemyAnimationHandler : MonoBehaviour
     private IEnumerator DeathCoroutine()                                        // Death 애니메이션 재생 완료 후 오브젝트 삭제
     {
         yield return new WaitForSeconds(0.4f);
+        
+        StageManager.Instance.RemoveMonsterFromList(gameObject);
 
         if (poolObject != null)
         {
@@ -75,5 +77,6 @@ public class EnemyAnimationHandler : MonoBehaviour
             Debug.Log($"{gameObject.name}: EnemyPoolObject 없음 Destroy로 대체");
             Destroy(gameObject);
         }
+        
     }
 }
