@@ -32,16 +32,16 @@ public class StageDatabase : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            InitDatabase();
         }
         else
         {
             Destroy(gameObject);
         }
+        InitDatabase();
     }
 
     // stageDatabase 초기화 메소드. 스테이지를 늘리고 싶으면 여기에 추가하면 될듯
-    private void InitDatabase()
+    public void InitDatabase()
     {
         _stageList = new List<StageData>
         {
