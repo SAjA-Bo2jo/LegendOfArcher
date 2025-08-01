@@ -5,9 +5,12 @@ using UnityEngine;
 public class BaseController : MonoBehaviour
 {
     protected Rigidbody2D _rigidbody;
+    protected WeaponHandler weaponHandler;
+    protected AnimationHandler animationHandler;
 
     [SerializeField] private SpriteRenderer characterRenderer;
     [SerializeField] private Transform weaponPivot;
+    [SerializeField] public WeaponHandler WeaponPrefab;
 
     protected Vector2 moveDirection = Vector2.zero;                     // moveDirection : 이동하려는 방향
     public Vector2 MoveDirection                                        // -> 참조 시에 MoveDirection
@@ -29,9 +32,22 @@ public class BaseController : MonoBehaviour
     public float MoveSpeed                                              // -> 참조 시에 MoveSpeed
     { get => moveSpeed; set => moveSpeed = value; }
 
+    protected bool isAttacking;
+    private float timeSinceLastAttack = float.MaxValue;
+
     protected virtual void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        animationHandler = GetComponent<AnimationHandler>();
+
+        if (WeaponPrefab != null)
+        {
+            weaponHandler = Instantiate(WeaponPrefab, weaponPivot);     // WeaponPrefeb 있으면 WeaponPivot 자리에 생성
+        }
+        else
+        {
+            weaponHandler = GetComponentInChildren<WeaponHandler>();    // 없으면 자식으로 배치된 weaponHandler 사용
+        }
     }
     protected virtual void Start()
     {
@@ -43,11 +59,13 @@ public class BaseController : MonoBehaviour
         HandleInput();
 
         Rotate(lookDirection);
+
+
     }
 
     protected virtual void FixedUpdate()
     {
-        MoveToward(MoveDirection);
+        MoveToward(MoveDirection);                                      // 이동 처리
 
         if (knockbackTime > 0.0f)
         {
@@ -60,7 +78,7 @@ public class BaseController : MonoBehaviour
 
     }
 
-    protected virtual void MoveToward(Vector2 direction)                          // 단위 벡터만 받아서 이동속도만큼 움직이게 함
+    protected virtual void MoveToward(Vector2 direction)                // 단위 벡터만 받아서 이동속도만큼 움직이게 함
     {
         direction = direction * MoveSpeed;                              
 
@@ -73,7 +91,7 @@ public class BaseController : MonoBehaviour
         _rigidbody.velocity = direction;
     }
 
-    protected void Rotate(Vector2 direction)                              // 캐릭터, 무기 방향 처리
+    protected void Rotate(Vector2 direction)                            // 캐릭터, 무기 방향 처리
     {
         float rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         
@@ -84,6 +102,32 @@ public class BaseController : MonoBehaviour
         if (weaponPivot != null)
         {
             weaponPivot.rotation = Quaternion.Euler(0, 0, rotationAngle);
+        }
+
+        weaponHandler?.Rotate(isLeft);
+    }
+
+    private void HandleAttackDelay()                                    // 공격 딜레이 구하는 메서드
+    {
+        if (weaponHandler == null) return;                              // 무기 없으면 공격 X.
+
+        if (timeSinceLastAttack <= weaponHandler.Delay)
+        {
+            timeSinceLastAttack += Time.deltaTime;
+        }
+
+        if (isAttacking && timeSinceLastAttack > weaponHandler.Delay)
+        {
+            timeSinceLastAttack = 0;
+            Attack();
+        }
+    }
+
+    protected virtual void Attack()                                     // 실제 공격 메서드
+    {
+        if (lookDirection != Vector2.zero)
+        {
+            weaponHandler?.Attack();                                    // 명확한 방향이 있어야 공격
         }
     }
 
