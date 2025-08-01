@@ -60,7 +60,7 @@ public class BaseController : MonoBehaviour
 
         Rotate(lookDirection);
 
-
+        HandleAttackDelay();
     }
 
     protected virtual void FixedUpdate()
