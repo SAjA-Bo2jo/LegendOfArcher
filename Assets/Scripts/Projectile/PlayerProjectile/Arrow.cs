@@ -49,7 +49,6 @@ public class Arrow : Projectile
             bool isCrit = Random.value * 100f < critRate;
             float finalDamage = isCrit ? damage * 2f : damage;
             other.GetComponent<EnemyController>().GetDamage(finalDamage);
-            Debug.Log("������ ����� �����մϴ�");
             
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0;

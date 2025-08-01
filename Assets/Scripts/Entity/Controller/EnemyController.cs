@@ -19,6 +19,11 @@ public class EnemyController : BaseController
 
     private float OptimalDistance => attackRange * optimalDistanceRatio;    // OptimalDistance : 계산된 최적거리
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -48,7 +53,7 @@ public class EnemyController : BaseController
         return DistanceToTarget() <= attackRange;
     }
 
-    protected override void HandleInput()                                   // 적 개체 추적 AI
+    protected override void HandleInput()                           // 적 개체 추적 AI
     {
         if (target == null)                                         // 추적 대상(플레이어) 없을 경우
         {
@@ -86,7 +91,10 @@ public class EnemyController : BaseController
                 moveDirection = Vector2.zero ;                      // 경우3. 최적거리 범위 내일 경우
             }
         }
-        else { moveDirection = Vector2.zero ; }                     // 추적 범위 외일 경우 : 정지
+        else 
+        { 
+            moveDirection = Vector2.zero;                           // 추적 범위 외일 경우 : 정지
+        }
     }
 
     public void GetDamage(float dmg)

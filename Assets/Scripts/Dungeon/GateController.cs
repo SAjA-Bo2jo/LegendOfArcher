@@ -27,9 +27,10 @@ public class GateController : MonoBehaviour
     {
         if (gateType == GateType.Exit)
         {
-            animator.SetTrigger("OpenDoor");
+            animator.SetTrigger("OpenGate");
             gateCollider.enabled = true;
         }
+        Debug.Log("다음 스테이지로 이동합니다.");
     }
 
     public void SetGateType(GateType type)

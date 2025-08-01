@@ -29,11 +29,13 @@ public partial class DungeonBuilder : MonoBehaviour
     private float playerPosY = 0;
     Vector3 playerPos = Vector3.zero;
 
-    // 적
+    /*
+    // 적 
     [SerializeField] private int enemyCount;
     private float enemyPosX = 0;
     private float enemyPosY = 0;
-    Vector2 enemyPos = Vector2.zero;
+    Vector2 enemyPos = Vector2.zero; 
+    */
 
     public DungeonObjects Build()
     {
@@ -56,20 +58,24 @@ public partial class DungeonBuilder : MonoBehaviour
         GateController exitCtrl = exit.GetComponent<GateController>();
         exitCtrl.SetGateType(GateType.Exit);
         result.exitGate = exitCtrl;
+        StageManager.Instance.ExitGate = result.exitGate;
 
         // build obstacles
         result.obstacles = SpawnObstacles();
 
         // 적 생성
-        enemyCount = StageManager.Instance.CurrentStageData.enemyCount;
-        result.enemies = new List<GameObject>();
-        for (int i = 0; i < enemyCount; i++)
-        {
-            GameObject enemy = ObjectPoolManager.Instance.Get("enemy");            // 적 키값은 enum으로 관리되도록 수정
-            enemy.transform.position = new Vector2(enemyPosX, enemyPosY);
-            result.enemies.Add(enemy);
-            StageManager.Instance.AddMonsterToList(enemy);
-        }
+        /*
+       enemyCount = StageManager.Instance.CurrentStageData.enemyCount;
+       result.enemies = SpawnEnemies();
+       result.enemies = new List<GameObject>();
+       for (int i = 0; i < enemyCount; i++)
+       {
+           GameObject enemy = ObjectPoolManager.Instance.Get("enemy");            // 적 키값은 enum으로 관리되도록 수정
+           enemy.transform.position = new Vector2(enemyPosX, enemyPosY);
+           result.enemies.Add(enemy);
+           StageManager.Instance.AddMonsterToList(enemy);
+       }
+       */
 
         // 플레이어 생성
         playerPos = new Vector3(playerPosX, playerPosY);
