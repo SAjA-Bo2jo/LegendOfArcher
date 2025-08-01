@@ -1,9 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageManager : MonoSingleton<StageManager>
+public class Entity : MonoBehaviour
 {
-    
+    protected virtual void Awake()
+    {
+
+    }
 }
