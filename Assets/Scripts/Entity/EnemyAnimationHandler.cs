@@ -7,10 +7,12 @@ public class EnemyAnimationHandler : MonoBehaviour
     private static readonly int IsMoving = Animator.StringToHash("IsMove");     // IsMoving : bool IsMove 값
     private static readonly int IsDamage = Animator.StringToHash("IsDamage");   // IsDamage : 트리거 IsDamage
     private static readonly int Die = Animator.StringToHash("Die");             // Die : 트리거 Die
-    private static readonly int Attack = Animator.StringToHash("Attack");        // Attack : 트리거 Attack
+    private static readonly int Attack = Animator.StringToHash("Attack");       // Attack : 트리거 Attack
 
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
+
+    private EnemyPoolObject poolObject;
 
     private bool isDead = false;
     public bool IsDead => isDead;                                               // 외부에서 죽었는지 확인용
@@ -64,6 +66,14 @@ public class EnemyAnimationHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(0.4f);
 
-        Destroy(gameObject);
+        if (poolObject != null)
+        {
+            poolObject.ReturnToPool();                                          // Pool로 죽은 개체 돌려보냄
+        }
+        else
+        {
+            Debug.Log($"{gameObject.name}: EnemyPoolObject 없음 Destroy로 대체");
+            Destroy(gameObject);
+        }
     }
 }

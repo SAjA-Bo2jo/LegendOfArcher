@@ -14,7 +14,7 @@ public class EnemyCollisionHandler : MonoBehaviour
 
         if (enemyAnimationHandler == null )
         {
-            Debug.Log($"{gameObject.name}: EnemyAnimationHandler not found");
+            Debug.Log($"{gameObject.name}: EnemyAnimationHandler 없음");
         }
     }
 
@@ -35,11 +35,19 @@ public class EnemyCollisionHandler : MonoBehaviour
         {
             Rescource.ChangeHealth(-contactDamage);
         }
+        else
+        {
+            Debug.LogWarning($"Player에 ResourceController 없음 : {Collider.name}");
+        }
 
         AnimationHandler Animation = Collider.GetComponent<AnimationHandler>();
         if ( Animation != null )
         {
             Animation.Damage();
+        }
+        else
+        {
+            Debug.LogWarning($"Player에 AnimationHandler 없음 : {Collider.name}");
         }
     }
 }
