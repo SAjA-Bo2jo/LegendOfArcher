@@ -13,6 +13,9 @@ public class StageManager : MonoSingleton<StageManager>
 
     private StageDatabase _stageDatabase;
     private StageData _currentStageData;
+    
+    [SerializeField] private DungeonBuilder dungeonBuilder;
+    private DungeonObjects _dungeon;
 
     // 던전에 스폰된 몬스터 정보를 담아둘 몬스터 리스트
     // private List<Monster> monsterList = new List<Monster>();
@@ -22,6 +25,20 @@ public class StageManager : MonoSingleton<StageManager>
         _stageDatabase = StageDatabase.Instance;
 
         LoadCurrentStageData();
+        
+        if (dungeonBuilder == null)
+        {
+            Debug.LogError("DungeonBuilder가 연결되지 않았습니다!");
+            return;
+        }
+
+        _dungeon = dungeonBuilder.Build();
+
+        // 게이트 충돌 이벤트 연결 - 게이트 충돌 시 메서드와 스테이지 이동 메서드를 통일하는 코드
+        if (_dungeon.exitGate == null)
+            Debug.LogError("exitGate 생성에 문제가 생겼습니다!");
+        
+        _dungeon.exitGate.OnPlayerEnterExitGate = StageClear;
     }
 
     private void Update()
