@@ -3,14 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// 오브젝트 풀 매니저를 사용하기 위해 추가
+// using ObjectPoolManager;
+
 public class Bow : Abillity
 {
+    // 이전 코드에서 사용되던 arrowPrefab 필드는 이제 필요 없습니다.
+    // 오브젝트 풀 매니저가 프리팹을 관리합니다.
+    // [SerializeField] private GameObject arrowPrefab;
+
     [SerializeField] private Animator bowAnimator;
     [SerializeField] private Transform weaponPivot;  // 회전 중심
     [SerializeField] private float radius = 40f;     // 중심에서 떨어진 거리
     private PlayerController playerController; // 이 변수에 값이 할당되어야 합니다!
-    [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private Transform firePoint; // Bow 스크립트에 추가
+
+    // 오브젝트 풀링을 위한 상수 키
+    private const string ARROW_POOL_KEY = "Arrow";
 
 
     protected void Start()
@@ -24,10 +33,6 @@ public class Bow : Abillity
         // 이 줄을 추가하여 PlayerController 참조를 가져옵니다.
         // PlayerController가 Player와 같은 GameObject 또는 부모에 있다고 가정합니다.
         playerController = GetComponentInParent<PlayerController>();
-        if (playerController == null)
-        {
-            Debug.LogError("Bow 스크립트의 부모에서 PlayerController를 찾을 수 없습니다!", this);
-        }
     }
 
     private void LateUpdate()
@@ -68,15 +73,6 @@ public class Bow : Abillity
             .Where(enemy => Vector3.Distance(enemy.transform.position, transform.position) < player.AttackRange)
             .OrderBy(enemy => Vector3.Distance(enemy.transform.position, transform.position))
             .FirstOrDefault();
-
-        if (target != null)
-        {
-            Debug.Log($"Target found: {target.name} at distance: {Vector3.Distance(target.transform.position, transform.position)}");
-        }
-        else
-        {
-            Debug.Log("No target found in range.");
-        }
         return target;
     }
 
@@ -111,16 +107,10 @@ public class Bow : Abillity
 
         if (Time.time >= lastAttackTime + delay)
         {
-            Debug.Log("Attack condition met: Performing attack!");
             PerformAttack();
             lastAttackTime = Time.time;
         }
-        else
-        {
-            Debug.Log("Attack delay not finished.");
-        }
     }
-    // Bow.cs
 
     protected void PerformAttack()
     {
@@ -132,23 +122,33 @@ public class Bow : Abillity
             animationHandler.Attack();
         }
 
-        // 1. 화살의 발사 방향을 활(Bow)이 현재 바라보는 방향으로 설정합니다.
-        //    이전에 LateUpdate에서 playerController.LookDirection에 맞춰 활을 회전시켰으므로
-        //    활의 로컬 '오른쪽' 방향 (transform.right)이 곧 플레이어가 바라보는 방향입니다.
-        Vector3 finalLaunchDirection = transform.right;
-        // 만약 활 스프라이트가 '위'를 향하도록 그려져 있다면 transform.up을 사용하세요.
+        // 1. 오브젝트 풀에서 화살을 가져옵니다.
+        var arrowObj = ObjectPoolManager.Instance.Get(ARROW_POOL_KEY);
 
-        // 2. 이 발사 방향을 기준으로 화살의 초기 회전을 계산합니다.
-        //    활의 방향과 동일하게 화살이 생성될 때부터 바라보도록 합니다.
+        if (arrowObj == null)
+        {
+            Debug.LogError("Failed to get arrow from object pool.");
+            return;
+        }
+
+        var arrow = arrowObj.GetComponent<Arrow>();
+        if (arrow == null)
+        {
+            Debug.LogError("Arrow component not found on pooled object.");
+            return;
+        }
+
+        // 2. 화살의 위치와 회전을 설정합니다.
+        // 화살의 발사 방향을 활(Bow)이 현재 바라보는 방향으로 설정
+        Vector3 finalLaunchDirection = transform.right;
+        // 화살의 초기 회전을 계산
         float angle = Mathf.Atan2(finalLaunchDirection.y, finalLaunchDirection.x) * Mathf.Rad2Deg;
         Quaternion arrowInitialRotation = Quaternion.Euler(0, 0, angle);
 
-        // 3. 화살을 FirePoint의 위치와 계산된 회전으로 생성합니다.
-        //    firePoint는 플레이어의 자식이므로 플레이어가 움직여도 올바른 위치를 가리킵니다.
-        var arrowObj = Instantiate(arrowPrefab, firePoint.position, arrowInitialRotation);
-        var arrow = arrowObj.GetComponent<Arrow>();
+        arrowObj.transform.position = firePoint.position;
+        arrowObj.transform.rotation = arrowInitialRotation;
 
-        // Player 스탯을 넘겨서 세팅
+        // 3. 플레이어 스탯을 넘겨서 세팅
         arrow.Setup(
             damage: player.AttackDamage,
             size: player.AttackSize,
