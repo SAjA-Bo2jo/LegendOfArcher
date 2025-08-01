@@ -71,6 +71,7 @@ public partial class DungeonBuilder : MonoBehaviour
         // 플레이어 생성
         playerPos = new Vector3(playerPosX, playerPosY);
         result.player = Instantiate(playerPrefab, playerPos, Quaternion.identity);
+        StageManager.Instance._Player = result.player;
         
         return result;
     }

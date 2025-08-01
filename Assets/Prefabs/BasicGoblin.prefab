@@ -124,12 +124,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 4759241726147098205}
   weaponPivot: {fileID: 1139880285270477428}
-  moveSpeed: 5
+  WeaponPrefab: {fileID: 0}
+  moveSpeed: 2
   detectRange: 15
   attackRange: 0
   optimalDistanceRatio: 0
   distanceTolerance: 0.1
-  canRetreat: 0
+  canRetreat: 1
 --- !u!114 &5227514501822563952
 MonoBehaviour:
   m_ObjectHideFlags: 0
