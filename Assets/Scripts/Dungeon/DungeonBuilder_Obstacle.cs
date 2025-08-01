@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public partial class DungeonBuilder : MonoBehaviour
 {
-    [SerializeField] private GameObject obstacle;
+    [SerializeField] private GameObject[] obstaclePrefabs;
 
     // Number of Obstacles - Modifiable in Stage Manager
     public int obstacleCount = 1;
@@ -18,9 +19,15 @@ public partial class DungeonBuilder : MonoBehaviour
         List<Vector3> positions = SetObstaclesPosition(obstacleCount);
 
         // Obstacle Generation
-        foreach (Vector3 pos in positions)
+        for (int i = 0; i < obstacleCount; i++)
         {
-            GameObject obj = Instantiate(obstacle, pos, Quaternion.identity);
+            // Get Random Obstacle
+            int index = Random.Range(0, obstaclePrefabs.Count());
+            
+            GameObject prefab = obstaclePrefabs[index];
+            Vector3 pos = positions[i];
+            
+            GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
             obstacles.Add(obj);
         }
         
@@ -32,11 +39,32 @@ public partial class DungeonBuilder : MonoBehaviour
     {
         List<Vector3> positions = new List<Vector3>();
 
+        float minDistance = 1.0f;
+        int maxAttempt = 100;
+        bool flag = true;
+
         for (int i = 0; i < count; i++)
         {
-            float x = Random.Range(-8.3f, 8.3f);
-            float y = Random.Range(-0.5f, 3.3f);
-            positions.Add(new Vector3(x, y));
+            int attempt = 0;
+            Vector3 newPos;
+            do
+            {
+                float x = Random.Range(-8.3f, 8.3f);
+                float y = Random.Range(-0.5f, 3.3f);
+                newPos = new Vector3(x, y);
+                attempt++;
+
+                // break and force to place obj after try 100 times
+                if (attempt > maxAttempt)
+                    break;
+
+                flag = (IsOverlapping(newPos, minDistance)
+                    || IsInPlayerSpawnArea(newPos)) ? true : false;
+            }
+            while (flag);
+
+            positions.Add(newPos);
+            allOccupiedPositions.Add(newPos);
         }
 
         return positions;
