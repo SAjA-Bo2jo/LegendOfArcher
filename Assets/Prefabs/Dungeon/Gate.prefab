@@ -166,5 +166,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gateType: 0
-  animator: {fileID: 0}
-  gateCollider: {fileID: 0}
+  animator: {fileID: 8101701905323685534}
+  gateCollider: {fileID: 8117125691531205511}
