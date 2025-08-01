@@ -20,7 +20,14 @@ public class StageManager : MonoSingleton<StageManager>
     
     [SerializeField] private DungeonBuilder dungeonBuilder;
     private DungeonObjects _dungeon;
+    private GateController exitGate;
 
+    public GateController ExitGate
+    {
+        get { return exitGate; }
+        set { exitGate = value; }
+    }
+    
     // 던전에 스폰된 몬스터 정보를 담아둘 몬스터 리스트
     [SerializeField] private List<GameObject> monsterList = new List<GameObject>();
     [SerializeField] public GameObject _Player;
@@ -48,10 +55,10 @@ public class StageManager : MonoSingleton<StageManager>
 
     private void Update()
     {
-        // if (monsterList.Count <= 0)
-        // {
-        //     StageClear();
-        // }
+        if (monsterList.Count <= 0)
+        {
+            StageClear();
+        }
     }
 
     private void LoadCurrentStageData()
@@ -63,13 +70,21 @@ public class StageManager : MonoSingleton<StageManager>
     {
         monsterList.Add(monster);
     }
+
+    public void RemoveMonsterFromList(GameObject monster)
+    {
+        monsterList.Remove(monster);
+    }
     
     // 스테이지 안의 몬스터가 0 -> 스테이지 클리어, 다음 스테이지로 가는 게이트가 열림
     // 나중에 Update 안에서 사용할 예정
     public void StageClear()
     {
+        Debug.Log("스테이지 클리어!");
         // isClear를 true로 바꿈
+        isClear = true;
         // 던전의 게이트 오픈
+        exitGate.OpenExitGate();
         // 스테이지 레벨 +1
         // 다음 스테이지의 정보를 _currentStageData로 옮겨야 함
     }
