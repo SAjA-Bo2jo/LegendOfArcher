@@ -2,65 +2,161 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Bow : Abillity
 {
-    protected void Awake()
+    [SerializeField] private Animator bowAnimator;
+    [SerializeField] private Transform weaponPivot;  // 회전 중심
+    [SerializeField] private float radius = 40f;     // 중심에서 떨어진 거리
+    private PlayerController playerController; // 이 변수에 값이 할당되어야 합니다!
+    [SerializeField] private GameObject arrowPrefab;
+    [SerializeField] private Transform firePoint; // Bow 스크립트에 추가
+
+
+    protected void Start()
     {
-        player = GetComponent<Player>();                        // 플레이어 컴포넌트 가져오기
-        animationHandler = GetComponent<AnimationHandler>();    // 애니메이션 핸들러 가져오기
+        // 부모 오브젝트에서 Player 컴포넌트 가져오기
+        player = GetComponentInParent<Player>();
+
+        // 자신에게 붙은 AnimationHandler 가져오기
+        animationHandler = GetComponent<AnimationHandler>();
+
+        // 이 줄을 추가하여 PlayerController 참조를 가져옵니다.
+        // PlayerController가 Player와 같은 GameObject 또는 부모에 있다고 가정합니다.
+        playerController = GetComponentInParent<PlayerController>();
+        if (playerController == null)
+        {
+            Debug.LogError("Bow 스크립트의 부모에서 PlayerController를 찾을 수 없습니다!", this);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        // playerController가 null이 아니어야 합니다.
+        if (player == null || weaponPivot == null || playerController == null) return;
+
+        // 바라보는 방향이 0이면 회전 생략
+        if (playerController.LookDirection == Vector2.zero) return;
+
+        // 방향 벡터를 각도로 변환
+        float angle = Mathf.Atan2(playerController.LookDirection.y, playerController.LookDirection.x);
+
+        // 활의 위치 계산 (WeaponPivot 기준)
+        Vector3 offset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * radius;
+        transform.position = weaponPivot.position + offset;
+
+        // 활의 회전도 바라보는 방향으로 설정
+        float angleDeg = angle * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angleDeg);
     }
 
     protected void Update()
     {
-        target = FindTarget();                                  // 매 프레임마다 대상 갱신
-        TryAttack();                                            // 공격 시도
+        target = FindTarget();  // 매 프레임마다 대상 갱신
+        TryAttack();            // 공격 시도
     }
 
-    protected GameObject FindTarget()  // 공격 대상 탐색
+    protected GameObject FindTarget()
     {
-        GameObject target = GameObject
-            .FindGameObjectsWithTag("Enemy")                                                   // "Enemy" 태그를 가진 오브젝트들 중
-            .Where(enemy => enemy.activeInHierarchy)                                           // 활성화된 것만 필터링
-            .Where(enemy => Vector3.Distance(enemy.transform.position, transform.position) < player.AttackRange) // 사정거리 이내
-            .OrderBy(enemy => Vector3.Distance(enemy.transform.position, transform.position))  // 가장 가까운 순으로 정렬
-            .FirstOrDefault();                                                                 // 가장 가까운 대상 선택
+        // 플레이어 없으면 null 반환
+        if (player == null) return null;
 
+        // Enemy 태그를 가진 오브젝트들 중 조건에 맞는 가장 가까운 대상 찾기
+        GameObject target = GameObject
+            .FindGameObjectsWithTag("Enemy")
+            .Where(enemy => enemy != null && enemy.activeInHierarchy && enemy.transform != null)
+            .Where(enemy => Vector3.Distance(enemy.transform.position, transform.position) < player.AttackRange)
+            .OrderBy(enemy => Vector3.Distance(enemy.transform.position, transform.position))
+            .FirstOrDefault();
+
+        if (target != null)
+        {
+            Debug.Log($"Target found: {target.name} at distance: {Vector3.Distance(target.transform.position, transform.position)}");
+        }
+        else
+        {
+            Debug.Log("No target found in range.");
+        }
         return target;
     }
 
-    protected float AttackDelay()   // 공격 딜레이 계산 (공격속도 기반), 공격속도가 높을수록 딜레이는 짧아짐
+    protected float AttackDelay()
     {
-        float attackSpeed = player.AttackSpeed;                     // 기본 공격속도
-        float multiplier = player.AttackSpeedMultiplier / 100f;     // 공격속도 배율 (퍼센트를 1.x로 변환)
-        float totalAttackSpeed = attackSpeed * multiplier;          // 최종 공격속도
-        float delay = 1f / totalAttackSpeed;                        // 공격속도를 딜레이(초)로 변환
+        // 기본 공격 속도
+        float attackSpeed = player.AttackSpeed;
+
+        // 공격 속도 배율을 100 기준 비율로 변환
+        float multiplier = player.AttackSpeedMultiplier / 100f;
+
+        // 총 공격 속도 계산
+        float totalAttackSpeed = attackSpeed * multiplier;
+
+        // 딜레이 계산
+        float delay = 1f / totalAttackSpeed;
 
         return delay;
     }
 
-    protected void TryAttack()  // 공격을 시도하는 함수
+    protected void TryAttack()
     {
-        if (target == null) return;                           // 대상 없으면 무시
+        if (target == null) return; // 타겟 없으면 공격 안 함
 
-        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();  // Rigidbody2D를 통해 플레이어의 정지 여부 확인
+        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();  // 플레이어의 Rigidbody2D를 통해 이동 중인지 확인
         if (rb != null && rb.velocity.magnitude > 0.01f)
-            return;                                           // 플레이어가 이동 중이면 공격하지 않음
+            return; // 이동 중이면 공격 안 함
 
-        float delay = AttackDelay();                          // 현재 공격 딜레이 계산
+        float delay = AttackDelay();
+        Debug.Log($"Calculated attack delay: {delay}");
+        Debug.Log($"Current Time: {Time.time}, Last Attack Time: {lastAttackTime}");
 
-        if (Time.time >= lastAttackTime + delay)              // 현재 시간(Time.time)이 마지막 공격 시간 + 딜레이를 초과했는지 확인
+        if (Time.time >= lastAttackTime + delay)
         {
-            PerformAttack();                                  // 공격 실행
-            lastAttackTime = Time.time;                       // 마지막 공격 시간 갱신
+            Debug.Log("Attack condition met: Performing attack!");
+            PerformAttack();
+            lastAttackTime = Time.time;
+        }
+        else
+        {
+            Debug.Log("Attack delay not finished.");
         }
     }
+    // Bow.cs
 
-    protected void PerformAttack()      // 실제 공격 로직 수행 (이 부분을 상속해서 각 능력마다 다르게 구현 가능)
+    protected void PerformAttack()
     {
-        Debug.Log("공격 실행됨! 대상: " + target.name);
-        // 여기서 실제 투사체 생성이나 데미지 계산 등을 구현
+        if (target == null) return;
 
+        // 애니메이션 실행
+        if (animationHandler != null)
+        {
+            animationHandler.Attack();
+        }
+
+        // 1. 화살의 발사 방향을 활(Bow)이 현재 바라보는 방향으로 설정합니다.
+        //    이전에 LateUpdate에서 playerController.LookDirection에 맞춰 활을 회전시켰으므로
+        //    활의 로컬 '오른쪽' 방향 (transform.right)이 곧 플레이어가 바라보는 방향입니다.
+        Vector3 finalLaunchDirection = transform.right;
+        // 만약 활 스프라이트가 '위'를 향하도록 그려져 있다면 transform.up을 사용하세요.
+
+        // 2. 이 발사 방향을 기준으로 화살의 초기 회전을 계산합니다.
+        //    활의 방향과 동일하게 화살이 생성될 때부터 바라보도록 합니다.
+        float angle = Mathf.Atan2(finalLaunchDirection.y, finalLaunchDirection.x) * Mathf.Rad2Deg;
+        Quaternion arrowInitialRotation = Quaternion.Euler(0, 0, angle);
+
+        // 3. 화살을 FirePoint의 위치와 계산된 회전으로 생성합니다.
+        //    firePoint는 플레이어의 자식이므로 플레이어가 움직여도 올바른 위치를 가리킵니다.
+        var arrowObj = Instantiate(arrowPrefab, firePoint.position, arrowInitialRotation);
+        var arrow = arrowObj.GetComponent<Arrow>();
+
+        // Player 스탯을 넘겨서 세팅
+        arrow.Setup(
+            damage: player.AttackDamage,
+            size: player.AttackSize,
+            critRate: player.CriticalRate,
+            speed: player.AttackSpeed * (player.AttackSpeedMultiplier / 100f)
+        );
+
+        // 4. 생성된 화살에 최종 발사 방향을 전달하여 물리적인 힘을 가합니다.
+        arrow.LaunchTowards(finalLaunchDirection); // 여기에는 '방향' 벡터를 넘겨야 합니다.
     }
 }

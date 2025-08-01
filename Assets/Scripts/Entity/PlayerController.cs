@@ -25,6 +25,10 @@ public class PlayerController : BaseController
         player = GetComponent<Player>();
         animationHandler = GetComponent<AnimationHandler>();
         abillity = GetComponentInChildren<Abillity>();
+        if (_rigidbody == null)
+        {
+            Debug.LogError("Rigidbody2D가 Player 오브젝트에 없습니다!", this);
+        }
     }
 
     // 게임 시작 시 호출. 카메라 설정 포함.
@@ -83,9 +87,6 @@ public class PlayerController : BaseController
 
         lookDirection = ((Vector2)target.transform.position - (Vector2)player.transform.position);        // 타겟 방향 계산
 
-        if (lookDirection.sqrMagnitude < 0.81f)        // 너무 가까우면 회전하지 않음
-            lookDirection = Vector2.zero;
-        else
             lookDirection = lookDirection.normalized;
     }
 

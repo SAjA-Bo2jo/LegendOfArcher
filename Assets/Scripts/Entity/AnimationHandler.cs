@@ -6,7 +6,7 @@ public class AnimationHandler : MonoBehaviour
 {
     private static readonly int IsMoving = Animator.StringToHash("IsMove");
     private static readonly int IsDamage = Animator.StringToHash("IsDamage");
-
+    private static int IsAttack = Animator.StringToHash("IsAttack");
     protected Animator animator;
 
     protected virtual void Awake()
@@ -27,5 +27,9 @@ public class AnimationHandler : MonoBehaviour
     public void InvincibilityEnd()
     {
         animator.SetBool(IsDamage, false);
+    }
+    public void Attack()
+    {
+        animator.SetBool(IsAttack, true);
     }
 }
