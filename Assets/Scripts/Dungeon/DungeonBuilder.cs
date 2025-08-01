@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class DungeonBuilder : MonoBehaviour
+public partial class DungeonBuilder : MonoBehaviour
 {
-
+    
     // 던전 기반
     [SerializeField] private GameObject dungeonRoot;
     private float dungeonPosX = 0;
