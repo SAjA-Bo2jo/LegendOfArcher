@@ -7,6 +7,7 @@ public class EnemyAnimationHandler : MonoBehaviour
     private static readonly int IsMoving = Animator.StringToHash("IsMove");     // IsMoving : bool IsMove 값
     private static readonly int IsDamage = Animator.StringToHash("IsDamage");   // IsDamage : 트리거 IsDamage
     private static readonly int Die = Animator.StringToHash("Die");             // Die : 트리거 Die
+    private static readonly int Attack = Animator.StringToHash("Attack");        // Attack : 트리거 Attack
 
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
@@ -40,6 +41,13 @@ public class EnemyAnimationHandler : MonoBehaviour
         if (isDead) return;
 
         animator.SetTrigger(IsDamage);
+    }
+
+    public virtual void AttackTarget()                                          // 공격 애니메이션 재생 관리
+    {
+        if (isDead) return;
+
+        animator.SetTrigger(Attack);                                            // Attack 트리거 켜서 공격 애니메이션 재생
     }
 
     public virtual void Death()                                                 // 적 처치 애니메이션 재생 관리
