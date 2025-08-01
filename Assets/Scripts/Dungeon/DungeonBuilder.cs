@@ -57,6 +57,9 @@ public partial class DungeonBuilder : MonoBehaviour
         exitCtrl.SetGateType(GateType.Exit);
         result.exitGate = exitCtrl;
 
+        // build obstacles
+        result.obstacles = SpawnObstacles();
+
         // Àû »ý¼º
         enemyCount = StageManager.Instance.CurrentStageData.enemyCount;
         result.enemies = new List<GameObject>();
