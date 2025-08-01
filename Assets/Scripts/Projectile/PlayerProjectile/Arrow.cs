@@ -44,17 +44,25 @@ public class Arrow : Projectile
     {
         if (other.CompareTag("Enemy"))
         {
-            var enemy = other.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                bool isCrit = Random.value * 100f < critRate;
-                float finalDamage = isCrit ? damage * 2f : damage;
-            }
+            bool isCrit = Random.value * 100f < critRate;
+            float finalDamage = isCrit ? damage * 2f : damage;
+            other.GetComponent<EnemyController>().GetDamage(finalDamage);
+            Debug.Log("데미지 계산을 실행합니다");
             Destroy(gameObject);
+            
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0;
+            rb.isKinematic = true; // 비활성화 상태에서는 물리적 영향X
+            ObjectPoolManager.Instance.Return("Arrow", gameObject);
         }
         if (other.CompareTag("Wall"))
         {
             Destroy(gameObject);
+            
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0;
+            rb.isKinematic = true; // 비활성화 상태에서는 물리적 영향X
+            ObjectPoolManager.Instance.Return("Arrow", gameObject);
         }
     }
 }
