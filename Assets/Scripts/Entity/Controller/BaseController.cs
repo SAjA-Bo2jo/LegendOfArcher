@@ -73,7 +73,7 @@ public class BaseController : MonoBehaviour
         _rigidbody.velocity = direction;
     }
 
-    private void Rotate(Vector2 direction)                              // 캐릭터, 무기 방향 처리
+    protected void Rotate(Vector2 direction)                              // 캐릭터, 무기 방향 처리
     {
         float rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         
