@@ -11,9 +11,12 @@ GameObject:
   - component: {fileID: 985611628886428246}
   - component: {fileID: 2433237231536406698}
   - component: {fileID: 2770559471313659914}
+  - component: {fileID: 7954595401031707361}
+  - component: {fileID: 5227514501822563952}
+  - component: {fileID: 5464224814947948851}
   m_Layer: 0
   m_Name: BasicGoblin
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,6 +110,52 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7954595401031707361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072391522761673993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79ac6d51c42fffd4aba7f6dd97ee8f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterRenderer: {fileID: 4759241726147098205}
+  weaponPivot: {fileID: 1139880285270477428}
+  WeaponPrefab: {fileID: 0}
+  moveSpeed: 2
+  detectRange: 15
+  attackRange: 0
+  optimalDistanceRatio: 0
+  distanceTolerance: 0.1
+  canRetreat: 1
+--- !u!114 &5227514501822563952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072391522761673993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ca5df9524ce314e98c273dffd4f2ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5464224814947948851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072391522761673993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a13ca72a0c75f564f9bda694b836cea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolKey: BasicGoblin
 --- !u!1 &8502108601692260934
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +167,7 @@ GameObject:
   - component: {fileID: 1139880285270477428}
   m_Layer: 0
   m_Name: WeaponPivot
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,9 +198,10 @@ GameObject:
   - component: {fileID: 6673437190009897637}
   - component: {fileID: 4759241726147098205}
   - component: {fileID: 6732590694404946034}
+  - component: {fileID: 5572223257438202442}
   m_Layer: 0
   m_Name: MainSprite
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -244,3 +294,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5572223257438202442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8772406981447706854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c7c55978021f8049bee3c950ef28c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contactDamage: 5

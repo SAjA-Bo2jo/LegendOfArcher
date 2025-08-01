@@ -32,21 +32,24 @@ public class StageDatabase : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            InitDatabase();
         }
         else
         {
             Destroy(gameObject);
         }
+        InitDatabase();
     }
 
     // stageDatabase 초기화 메소드. 스테이지를 늘리고 싶으면 여기에 추가하면 될듯
-    private void InitDatabase()
+    public void InitDatabase()
     {
         _stageList = new List<StageData>
         {
             new StageData(1, 1, false, 0),
-            new StageData(2, 2, false, 0)
+            new StageData(2, 2, false, 0),
+            new StageData(3, 3, false, 0),
+            new StageData(4, 4, false, 0),
+            new StageData(5, 0, true, 1)
         };
         
         Debug.Log("stageList에 " + _stageList.Count + "개의 스테이지 데이터가 초기화되었습니다.");
@@ -55,12 +58,6 @@ public class StageDatabase : MonoBehaviour
     // stageManager의 현재 레벨과 비교하여 현재 레벨의 스테이지 정보를 가져오는 메소드
     public StageData GetStageData(int stageLevel)
     {
-        // foreach (var stage in _stageList)
-        // {
-        //     if (stage.stageLevel == stageLevel)
-        //         return stage;
-        // }
-
         return _stageList[stageLevel - 1];
     }
 }

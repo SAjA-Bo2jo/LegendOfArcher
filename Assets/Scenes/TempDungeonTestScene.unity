@@ -308,9 +308,9 @@ MonoBehaviour:
   - key: enemu
     prefab: {fileID: 7072391522761673993, guid: 1668ce8d19ae7e54185a942772b29bda, type: 3}
     size: 10
-  - key: enemy
+  - key: Projectile
     prefab: {fileID: 7072391522761673993, guid: 1668ce8d19ae7e54185a942772b29bda, type: 3}
-    size: 10
+    size: 20
   - key: enemy
     prefab: {fileID: 7072391522761673993, guid: 1668ce8d19ae7e54185a942772b29bda, type: 3}
     size: 10

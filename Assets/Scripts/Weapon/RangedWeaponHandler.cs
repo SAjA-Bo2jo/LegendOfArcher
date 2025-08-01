@@ -1,9 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class RangedWeaponHandler : WeaponHandler
 {
-
     [Header("Ranged Attack Data")]
     [SerializeField] private Transform projectileSpawnPosition;
 

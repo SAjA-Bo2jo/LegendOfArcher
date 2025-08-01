@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class DungeonBuilder : MonoBehaviour
+public partial class DungeonBuilder : MonoBehaviour
 {
-
+    
     // 던전 기반
     [SerializeField] private GameObject dungeonRoot;
     private float dungeonPosX = 0;
@@ -29,7 +30,7 @@ public class DungeonBuilder : MonoBehaviour
     Vector3 playerPos = Vector3.zero;
 
     // 적
-    [SerializeField] private int enemyCount = 5;
+    [SerializeField] private int enemyCount;
     private float enemyPosX = 0;
     private float enemyPosY = 0;
     Vector2 enemyPos = Vector2.zero;
@@ -56,18 +57,24 @@ public class DungeonBuilder : MonoBehaviour
         exitCtrl.SetGateType(GateType.Exit);
         result.exitGate = exitCtrl;
 
+        // build obstacles
+        result.obstacles = SpawnObstacles();
+
         // 적 생성
+        enemyCount = StageManager.Instance.CurrentStageData.enemyCount;
         result.enemies = new List<GameObject>();
         for (int i = 0; i < enemyCount; i++)
         {
             GameObject enemy = ObjectPoolManager.Instance.Get("enemy");            // 적 키값은 enum으로 관리되도록 수정
             enemy.transform.position = new Vector2(enemyPosX, enemyPosY);
             result.enemies.Add(enemy);
+            StageManager.Instance.AddMonsterToList(enemy);
         }
 
         // 플레이어 생성
         playerPos = new Vector3(playerPosX, playerPosY);
         result.player = Instantiate(playerPrefab, playerPos, Quaternion.identity);
+        StageManager.Instance._Player = result.player;
         
         return result;
     }

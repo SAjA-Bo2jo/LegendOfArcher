@@ -47,5 +47,10 @@ MonoBehaviour:
   dungeonRoot: {fileID: 8161726642140908092, guid: 9861ade14ba42884ba45043301608a5a, type: 3}
   entryGate: {fileID: 2693293464429072703, guid: bba2479c328c0994692c1835c16fc802, type: 3}
   exitGate: {fileID: 2693293464429072703, guid: bba2479c328c0994692c1835c16fc802, type: 3}
-  playerPrefab: {fileID: 7072391522761673993, guid: 1668ce8d19ae7e54185a942772b29bda, type: 3}
-  enemyCount: 5
+  playerPrefab: {fileID: 2934652378543946906, guid: c2ca1940d7ca62344b15ac30d1e9ea0f, type: 3}
+  enemyCount: 1
+  obstaclePrefabs:
+  - {fileID: 6702161451005868214, guid: 8d482ff4d0fcaac4498d01c64525432a, type: 3}
+  - {fileID: 1533343156486425455, guid: c329a94a8f23d704d90ac44cc8c1b9ed, type: 3}
+  - {fileID: 5198373612373493544, guid: 8f1664e67b856594b8c89053d85cf553, type: 3}
+  obstacleCount: 1

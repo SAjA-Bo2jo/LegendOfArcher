@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 712162399, guid: b1f3cd9ee079bf049983fc0d60b2c1b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -166,5 +166,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gateType: 0
-  animator: {fileID: 0}
-  collider: {fileID: 0}
+  animator: {fileID: 8101701905323685534}
+  gateCollider: {fileID: 8117125691531205511}
