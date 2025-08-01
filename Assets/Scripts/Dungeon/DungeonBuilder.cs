@@ -58,6 +58,7 @@ public partial class DungeonBuilder : MonoBehaviour
         GateController exitCtrl = exit.GetComponent<GateController>();
         exitCtrl.SetGateType(GateType.Exit);
         result.exitGate = exitCtrl;
+        StageManager.Instance.ExitGate = result.exitGate;
 
         // build obstacles
         result.obstacles = SpawnObstacles();

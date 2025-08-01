@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ec33f2dd317724fa2f36a9e49f61f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 102
+  health: 100
   baseHealth: 100
   healthMultiplier: 100
   maxHealth: 100
@@ -302,8 +302,8 @@ MonoBehaviour:
   speed: 3
   baseSpeed: 5
   speedMultiplier: 100
-  attackDamage: 100
-  baseAttackDamage: 100
+  attackDamage: 2
+  baseAttackDamage: 2
   attackDamageMultiplier: 100
   attackRange: 50
   baseAttackRange: 50

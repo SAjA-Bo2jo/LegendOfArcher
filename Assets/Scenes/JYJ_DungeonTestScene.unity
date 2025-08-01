@@ -171,6 +171,9 @@ MonoBehaviour:
   - key: enemy
     prefab: {fileID: 7072391522761673993, guid: 1668ce8d19ae7e54185a942772b29bda, type: 3}
     size: 0
+  - key: Arrow
+    prefab: {fileID: 2617466681887532506, guid: 15dbfb6e22b71ef4187ab3f932ecf260, type: 3}
+    size: 20
 --- !u!1 &542793381
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,6 +385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonBuilder: {fileID: 5729417262404796022, guid: 74ce8829d32e68342922507c2447a174, type: 3}
   monsterList: []
+  _Player: {fileID: 0}
 --- !u!4 &1765266765
 Transform:
   m_ObjectHideFlags: 0

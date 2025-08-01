@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyController : BaseController
 {
     private Transform target;
+    private EnemyAnimationHandler _animation;
 
     [SerializeField] private float detectRange = 15f;                       // detectRange : 적의 플레이어 감지 거리
 
@@ -14,14 +15,21 @@ public class EnemyController : BaseController
     [SerializeField] private float optimalDistanceRatio = 0.75f;            // optimalDistanceRatio : 적이 접근하는 거리의 비율
     [SerializeField] private float distanceTolerance = 0.5f;                // distanceTolerance : 거리 허용 오차
     [SerializeField] private bool canRetreat = true;                        // canRetreat : 적이 후퇴할 수 있는지 여부
+    [SerializeField] private float healthPoint = 5f;
 
     private float OptimalDistance => attackRange * optimalDistanceRatio;    // OptimalDistance : 계산된 최적거리
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
 
     protected override void Start()
     {
         base.Start();
         
         Init(StageManager.Instance._Player.transform);
+        _animation = GetComponent<EnemyAnimationHandler>();
     }
 
     public void Init(Transform target)                                      // 추적 대상 정하는 메서드
@@ -45,7 +53,7 @@ public class EnemyController : BaseController
         return DistanceToTarget() <= attackRange;
     }
 
-    protected override void HandleInput()                                   // 적 개체 추적 AI
+    protected override void HandleInput()                           // 적 개체 추적 AI
     {
         if (target == null)                                         // 추적 대상(플레이어) 없을 경우
         {
@@ -83,6 +91,23 @@ public class EnemyController : BaseController
                 moveDirection = Vector2.zero ;                      // 경우3. 최적거리 범위 내일 경우
             }
         }
-        else { moveDirection = Vector2.zero ; }                     // 추적 범위 외일 경우 : 정지
+        else 
+        { 
+            moveDirection = Vector2.zero;                           // 추적 범위 외일 경우 : 정지
+        }
+    }
+
+    public void GetDamage(float dmg)
+    {
+        Debug.Log("데미지가 들어갔습니다" + dmg);
+        healthPoint -= dmg;
+        if (healthPoint > 0)
+        {
+            _animation.Damage();
+        }
+        else
+        {
+            _animation.Death();
+        }
     }
 }

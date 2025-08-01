@@ -124,24 +124,25 @@ public class Player : Entity
 
     // ───────── 공격 속도 관련 ─────────
     [SerializeField, Range(0f, 50f)]
-    private float attackSpeed = 25f;                            // 현재 공격 속도 (시작 시 MaxAttackSpeed로 설정)
+    private float attackSpeed = 25f;
 
     [SerializeField, Range(0f, 50f)]
-    private float baseAttackSpeed = 25f;                        // 기준 공격 속도
+    private float baseAttackSpeed = 5f;
 
-    // 중요: Bow 스크립트에서 이 값을 100으로 나눔. 0이 되지 않도록 0.01f 이상으로 설정 권장
-    [SerializeField, Range(0f, 500f)]
-    private float attackSpeedMultiplier = 100f;                  // 공격 속도 배율 (%)
+    // 중요: Bow 스크립트에서 이 값을 (Multiplier/100f)로 사용해야 합니다.
+    // 기본 배율은 100%이므로 100f로 설정합니다.
+    [SerializeField, Range(0.01f, 500f)] // << Range 조정: 100f까지 가능하게 (필요시 더 늘릴 수도)
+    private float attackSpeedMultiplier = 100f; // << 기본값을 100f로 변경!
 
     public float AttackSpeed
     {
         get => attackSpeed;
-        set => attackSpeed = Mathf.Clamp(value, 0, MaxAttackSpeed); // 현재 공격 속도 0~최대 제한
+        set => attackSpeed = Mathf.Clamp(value, 0, MaxAttackSpeed);
     }
 
-    public float BaseAttackSpeed { get; private set; }         // 기준 공격 속도 (내부에서만 set)
-    public float AttackSpeedMultiplier { get; private set; }   // 공격 속도 배율 (%) (내부에서만 set)
-    public float MaxAttackSpeed => BaseAttackSpeed * (AttackSpeedMultiplier / 100f); // 최대 공격 속도
+    public float BaseAttackSpeed { get; private set; }
+    public float AttackSpeedMultiplier { get; private set; }
+    public float MaxAttackSpeed => BaseAttackSpeed * (AttackSpeedMultiplier / 100f);
 
     // ───────── 공격 크기 관련 ─────────
     [SerializeField, Range(0f, 10f)]

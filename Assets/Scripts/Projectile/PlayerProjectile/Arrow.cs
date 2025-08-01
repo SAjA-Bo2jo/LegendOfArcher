@@ -7,14 +7,10 @@ public class Arrow : Projectile
     private float speed;
     private Rigidbody2D rb;
 
-    // Awake()¿¡¼­ Rigidbody2D °¡Á®¿À±â (Projectile Å¬·¡½º¿¡ ÀÌ¹Ì ÀÖ´Ù¸é Áßº¹ ¾È ÇØµµ µÊ)
+    // Awake()ï¿½ï¿½ï¿½ï¿½ Rigidbody2D ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     void Awake()
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
-        if (rb == null)
-        {
-            Debug.LogError("Arrow Prefab¿¡ Rigidbody2D ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù!", this);
-        }
     }
 
     public void Setup(float damage, float size, float critRate, float speed)
@@ -23,38 +19,48 @@ public class Arrow : Projectile
         this.critRate = critRate;
         this.speed = speed;
         transform.localScale = Vector3.one * size;
+
+        // Ç®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Rigidbody2Dï¿½ï¿½ È°ï¿½ï¿½È­ï¿½Õ´Ï´ï¿½.
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+        }
     }
 
-    // LaunchTowards ¸Þ¼­µå´Â ÀÌ¹Ì '¹æÇâ' º¤ÅÍ¸¦ ¹Þ½À´Ï´Ù.
-    public void LaunchTowards(Vector3 direction) // ¸Å°³º¯¼ö ÀÌ¸§À» 'direction'À¸·Î º¯°æÇÏ¿© ÀÇ¹Ì¸¦ ¸íÈ®È÷ ÇÕ´Ï´Ù.
+    // LaunchTowards ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ 'ï¿½ï¿½ï¿½ï¿½' ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Þ½ï¿½ï¿½Ï´ï¿½.
+    public void LaunchTowards(Vector3 direction) // ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ 'direction'ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ç¹Ì¸ï¿½ ï¿½ï¿½È®ï¿½ï¿½ ï¿½Õ´Ï´ï¿½.
     {
-        // targetPosition = targetPos; // ÀÌ ÁÙÀº Á¦°ÅÇÕ´Ï´Ù. targetPos´Â ÀÌÁ¦ directionÀÔ´Ï´Ù.
-        if (rb == null) rb = GetComponent<Rigidbody2D>(); // Awake¿¡¼­ °¡Á®¿ÀÁö ¸øÇßÀ» °æ¿ì ´ëºñÇÑ ¾ÈÀü ÀåÄ¡
-
-        // ÀÌ¹Ì Á¤±ÔÈ­µÈ ¹æÇâ º¤ÅÍ¸¦ »ç¿ëÇÏ¹Ç·Î ´Ù½Ã Á¤±ÔÈ­ÇÒ ÇÊ¿ä´Â ¾øÁö¸¸, ¾ÈÀüÀ» À§ÇØ .normalized¸¦ ºÙ¿©µµ ¹«¹æÇÕ´Ï´Ù.
-        rb.velocity = direction.normalized * speed;
-
-        // È­»ìÀÇ ½Ã°¢ÀûÀÎ È¸ÀüÀ» ÀÌµ¿ ¹æÇâ¿¡ ¸ÂÃä´Ï´Ù.
-        // Bow.cs¿¡¼­ ÀÌ¹Ì »ý¼º ½Ã È¸ÀüÀ» ¸ÂÃçÁáÁö¸¸, ÇÑ ¹ø ´õ È®½ÇÇÏ°Ô ÇØÁÖ´Â °Íµµ ÁÁ½À´Ï´Ù.
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        if (rb == null) rb = GetComponent<Rigidbody2D>(); // Awakeï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+        if (rb != null)
+        {
+            // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ .normalizedï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+            rb.velocity = direction.normalized * speed;
+            // È­ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        // ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½ï¿½ 'Enemy' ï¿½Ç´ï¿½ 'Wall' ï¿½Â±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+        if (other.CompareTag("Enemy") || other.CompareTag("Wall"))
         {
-            var enemy = other.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                bool isCrit = Random.value * 100f < critRate;
-                float finalDamage = isCrit ? damage * 2f : damage;
-            }
-            Destroy(gameObject);
+            bool isCrit = Random.value * 100f < critRate;
+            float finalDamage = isCrit ? damage * 2f : damage;
+            other.GetComponent<EnemyController>().GetDamage(finalDamage);
+            
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0;
+            rb.isKinematic = true; // ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½X
+            ObjectPoolManager.Instance.Return("Arrow", gameObject);
         }
         if (other.CompareTag("Wall"))
         {
-            Destroy(gameObject);
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0;
+            rb.isKinematic = true; // ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½X
+            ObjectPoolManager.Instance.Return("Arrow", gameObject);
         }
     }
 }
