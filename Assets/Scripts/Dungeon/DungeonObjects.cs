@@ -12,10 +12,12 @@ public class DungeonObjects
     public GateController exitGate;
     public List<GameObject> enemies;
     public List<GameObject> obstacles;
+    public List<GameObject> dungeonRootList;
 
     public DungeonObjects()
     {
         enemies = new List<GameObject>();
         obstacles = new List<GameObject>();
+        dungeonRootList = new List<GameObject>();
     }
 }

@@ -30,7 +30,7 @@ public class GateController : MonoBehaviour
             animator.SetTrigger("OpenGate");
             gateCollider.enabled = true;
         }
-        Debug.Log("다음 스테이지로 이동합니다.");
+        //Debug.Log("다음 스테이지로 이동합니다.");
     }
 
     public void SetGateType(GateType type)
@@ -53,13 +53,14 @@ public class GateController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!gateCollider.enabled) return;
-
+        
         // 플레이어 외 오브젝트 충돌 무시
         if (!collision.CompareTag("Player")) return;
-
+        
         Debug.Log("플레이어가 출구에 도달함");
 
         // StageManager 에서 다음 스테이지 이동 메서드 이름 확인 후 수정
-        OnPlayerEnterExitGate?.Invoke();
+        // OnPlayerEnterExitGate?.Invoke();
+        StageManager.Instance.ToNextStage();
     }
 }

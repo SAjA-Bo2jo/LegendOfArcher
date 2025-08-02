@@ -44,7 +44,7 @@ public class Arrow : Projectile
     private void OnTriggerEnter2D(Collider2D other)
     {
         // �浹 ����� 'Enemy' �Ǵ� 'Wall' �±׸� ������ �ִ��� Ȯ��
-        if (other.CompareTag("Enemy") || other.CompareTag("Wall"))
+        if (other.CompareTag("Enemy"))
         {
             bool isCrit = Random.value * 100f < critRate;
             float finalDamage = isCrit ? damage * 2f : damage;
