@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IEnemyBehavior
+public interface IEnemyAttack
 {
     bool CanAttack(EnemyController controller);     // 공격할 수 있는 지 확인
 
