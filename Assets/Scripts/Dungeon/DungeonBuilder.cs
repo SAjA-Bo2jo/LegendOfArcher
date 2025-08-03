@@ -105,6 +105,7 @@ public partial class DungeonBuilder : MonoBehaviour
         for (int i = 0; i < enemyCount; i++)
         {
             GameObject enemy = ObjectPoolManager.Instance.Get("enemy");            // 적 키값은 enum으로 관리되도록 수정
+            enemy.transform.SetParent(StageManager.Instance.enemyParent.transform);
             enemy.transform.position = 
                 new Vector2(enemyPosX + 20 * ((StageManager.Instance.StageLevel - 1) % 5), enemyPosY);
             result.enemies.Add(enemy);

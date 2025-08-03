@@ -44,8 +44,10 @@ public class StageManager : MonoSingleton<StageManager>
     // 던전에 스폰된 몬스터 정보를 담아둘 몬스터 리스트
     [SerializeField] private List<GameObject> monsterList = new List<GameObject>();
     [SerializeField] public GameObject _Player;
+    
     public GameObject dungeonParent;
     public GameObject gateParent;
+    public GameObject enemyParent;
 
     private void Start()
     {
