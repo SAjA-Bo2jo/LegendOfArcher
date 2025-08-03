@@ -9,7 +9,7 @@ public class EnemyCollisionHandler : MonoBehaviour
 
     private void Awake()
     {
-        enemyController = GetComponentInParent<EnemyController>();
+        enemyController = GetComponent<EnemyController>();
     }
 
     private void OnTriggerEnter2D(Collider2D playerCollider)                    // 충돌 감지 메서드

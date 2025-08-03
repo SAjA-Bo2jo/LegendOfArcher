@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class EnemyStats : MonoBehaviour
+public class EnemyStats
 {
     [Header("체력")]
     public float maxHealth = 5f;                                        // maxHealth : 적 개체 최대 체력
