@@ -10,6 +10,10 @@ public class GateController : MonoBehaviour
 
     [SerializeField] private GateType gateType;
     [SerializeField] private Animator animator;
+    public Animator _animator
+    {
+        get { return animator; }
+    }
     [SerializeField] private Collider2D gateCollider;
 
     public Action OnPlayerEnterExitGate;
@@ -31,6 +35,22 @@ public class GateController : MonoBehaviour
             gateCollider.enabled = true;
         }
         //Debug.Log("다음 스테이지로 이동합니다.");
+    }
+
+    public void CloseEntryGate()
+    {
+        if (gateType == GateType.Entry)
+        {
+            animator.SetTrigger("CloseGate");
+        }
+    }
+
+    public void CloseExitGate()
+    {
+        if (gateType == GateType.Exit)
+        {
+            animator.SetTrigger("CloseGate");
+        }
     }
 
     public void SetGateType(GateType type)

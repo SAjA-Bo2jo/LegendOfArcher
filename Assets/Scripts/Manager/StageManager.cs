@@ -8,7 +8,7 @@ public class StageManager : MonoSingleton<StageManager>
     // 스테이지 레벨을 저장하고 스테이지를 클리어할 때 마다 레벨이 증가
     // 스테이지 레벨이 올라갈 수록 난이도를 어렵게 설정할 예정 -> 레벨에 따라 추가 체력, 추가 공격력, 추가 화살 등등?
     // 스테이지 레벨이 5의 배수일 때마다 보스 몬스터 스폰
-    private int stageLevel = 1;
+    [SerializeField] private int stageLevel = 1;
     public int StageLevel
     {
         get { return stageLevel; }
@@ -26,13 +26,6 @@ public class StageManager : MonoSingleton<StageManager>
     
     [SerializeField] private DungeonBuilder dungeonBuilder;
     private DungeonObjects _dungeon;
-    private GateController exitGate;
-
-    public GateController ExitGate
-    {
-        get { return exitGate; }
-        set { exitGate = value; }
-    }
 
     // 출구 게이트의 정보를 담아둘 리스트
     [SerializeField]private List<GateController> exitGateList = new List<GateController>();
@@ -41,9 +34,18 @@ public class StageManager : MonoSingleton<StageManager>
         get { return exitGateList; }
     }
     
+    // 입구 게이트의 정보를 담아둘 리스트
+    [SerializeField] private List<GateController> entryGateList = new List<GateController>();
+    public List<GateController> EntryGateList
+    {
+        get { return entryGateList; }
+    }
+    
     // 던전에 스폰된 몬스터 정보를 담아둘 몬스터 리스트
     [SerializeField] private List<GameObject> monsterList = new List<GameObject>();
     [SerializeField] public GameObject _Player;
+    public GameObject dungeonParent;
+    public GameObject gateParent;
 
     private void Start()
     {
@@ -91,33 +93,49 @@ public class StageManager : MonoSingleton<StageManager>
     
     // 스테이지 안의 몬스터가 0 -> 스테이지 클리어, 다음 스테이지로 가는 게이트가 열림
     // 나중에 Update 안에서 사용할 예정
-    public void StageClear()
+    private void StageClear()
     {
         Debug.Log("스테이지 클리어!");
+        
         // isClear를 true로 바꿈
         isClear = true;
         isClearProcessed = true;
+        
         // 던전의 게이트 오픈
-        // exitGate.OpenExitGate();
-        exitGateList[stageLevel - 1].OpenExitGate();
+        exitGateList[(stageLevel - 1) % 5].OpenExitGate();
     }
 
     public void ToNextStage()
     {
+        // 스테이지 데이터가 적은 관계로 임시로 만든 스테이지 클리어
+        if (stageLevel == 10)
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+            return;
+        }
+        
         Debug.Log("다음 스테이지로 이동합니다");
-        _Player.transform.position = new Vector3((-6.5f + stageLevel * 20f), _Player.transform.position.y,
+        _Player.transform.position = new Vector3((-6.5f + (stageLevel % 5) * 20f), _Player.transform.position.y,
             _Player.transform.position.z);
-        Camera.main.transform.position = new Vector3((stageLevel * 20f), Camera.main.transform.position.y,
+        Camera.main.transform.position = new Vector3(((stageLevel % 5) * 20f), Camera.main.transform.position.y,
             Camera.main.transform.position.z);
+        
+        // 플레이어가 다음 스테이지로 넘어가면 이전 스테이지의 출구 게이트를 닫는 애니메이션 출력
+        exitGateList[(stageLevel - 1) % 5].CloseExitGate();
+        
+        // 다음 스테이지의 입구 게이트 닫는 애니메이션 출력
+        entryGateList[(stageLevel % 5)]._animator.Play("IdleOpen");
+        entryGateList[(stageLevel % 5)].CloseEntryGate();
         
         // 스테이지 레벨 +1
         stageLevel++;
+        
         // 다음 스테이지의 정보를 _currentStageData로 옮겨야 함
         LoadCurrentStageData();
         
         // 다음 스테이지의 몬스터를 스폰
         dungeonBuilder.SpawnMonsters();
-
+        
         isClear = false;
         isClearProcessed = false;
     }

@@ -42,6 +42,7 @@ public class ObjectPoolManager : MonoBehaviour
             for (int i = 0; i < entry.size; i++)
             {
                 GameObject obj = Instantiate(entry.prefab);
+                obj.transform.SetParent(this.transform);
                 obj.SetActive(false);
                 queue.Enqueue(obj);
             }
@@ -54,7 +55,7 @@ public class ObjectPoolManager : MonoBehaviour
     // 객체 활성화 메서드 - ObjectPoolManager.Instance.Get(키값 이름);
     public GameObject Get(string key)
     {
-        // key 호출이 잘못됬을 경우 오류 처리
+        // key 호출이 잘못된 경우 오류 처리
         if (!poolDict.ContainsKey(key))
         {
             Debug.LogError($"[ObjectPool] 키 '{key}'에 해당하는 오브젝트가 없습니다.");

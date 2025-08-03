@@ -49,7 +49,13 @@ public class StageDatabase : MonoBehaviour
             new StageData(2, 2, false, 0),
             new StageData(3, 3, false, 0),
             new StageData(4, 4, false, 0),
-            new StageData(5, 0, true, 1)
+            new StageData(5, 5, false, 0),
+            
+            new StageData(6, 1, false, 0),
+            new StageData(7, 2, false, 0),
+            new StageData(8, 3, false, 0),
+            new StageData(9, 4, false, 0),
+            new StageData(10, 5, false, 0),
         };
         
         Debug.Log("stageList에 " + _stageList.Count + "개의 스테이지 데이터가 초기화되었습니다.");
