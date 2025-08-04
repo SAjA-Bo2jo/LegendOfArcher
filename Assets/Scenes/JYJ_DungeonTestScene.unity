@@ -12100,6 +12100,7 @@ MonoBehaviour:
   - {fileID: 3341465619746869620, guid: bb77263ebf8a33c4885ad58134393908, type: 3}
   - {fileID: 8686397491478364525, guid: a11d6fbd4d48edb479e7b65f9c5425e8, type: 3}
   existingAbilityUpgradeChance: 0.6
+  combineAbilityChance: 0.3
 --- !u!4 &1845604628
 Transform:
   m_ObjectHideFlags: 0
@@ -14133,6 +14134,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116461337}
   m_CullTransparentMesh: 1
+--- !u!1001 &3024275443278891286
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6656189543097028530, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+      propertyPath: m_Name
+      value: GatlingBow
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 268.5093
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 198.43231
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.1501331
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -14147,3 +14205,4 @@ SceneRoots:
   - {fileID: 650801477}
   - {fileID: 213979149}
   - {fileID: 1845604628}
+  - {fileID: 3024275443278891286}

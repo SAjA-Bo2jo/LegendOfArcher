@@ -108,39 +108,13 @@ public class Player : MonoBehaviour
     /// 지수함수를 적용하여 레벨업에 필요한 경험치 테이블을 생성합니다.
     private void GenerateExpTable()
     {
-        // MAX_PLAYER_LEVEL까지의 경험치를 저장 (Lv1->2 부터 Lv39->40 까지)
-        // 이 배열은 '다음 레벨로 가기 위해 필요한 총 경험치'가 아니라
-        // '현재 레벨에서 다음 레벨로 가기 위해 추가로 필요한 경험치'를 저장합니다.
-        // 예를 들어, expToNextLevel[0]은 레벨 1에서 레벨 2로 가기 위한 경험치입니다.
-        // 따라서 최대 레벨(MAX_PLAYER_LEVEL)까지 가려면 (MAX_PLAYER_LEVEL - 1)개의 구간이 필요합니다.
         expToNextLevel = new float[MAX_PLAYER_LEVEL - 1];
 
-        // for 루프는 0부터 'MAX_PLAYER_LEVEL - 2'까지 반복됩니다.
-        // 예를 들어, MAX_PLAYER_LEVEL이 40이면, i는 0부터 38까지 반복됩니다.
         for (int i = 0; i < MAX_PLAYER_LEVEL - 1; i++)
         {
-            // Level (i+1)에서 Level (i+2)로 가는 경험치 계산
-            // 'i'는 배열의 인덱스이며, 0부터 시작합니다.
-            // 현재 플레이어 레벨은 'i + 1'이 됩니다. (예: i=0일 때 레벨 1)
-
-            // 경험치 공식: baseExp * (coefficient ^ (현재레벨 - 1))
-            // 'baseExperienceForLevelUp'은 Lv1에서 Lv2로 갈 때 필요한 기본 경험치량입니다 (여기서는 100).
-            // 'expCoefficient'는 경험치 증가율 계수입니다 (여기서는 1.2).
-            // 'Mathf.Pow(expCoefficient, i)'는 'expCoefficient'를 'i'번 곱한 값입니다.
-            // 예를 들어:
-            // - i = 0 (Lv.1 -> Lv.2): baseExperienceForLevelUp * (expCoefficient ^ 0) = baseExperienceForLevelUp * 1
-            //   => 즉, 레벨 1에서 2로 갈 때는 'baseExperienceForLevelUp' 값 그대로 필요합니다.
-            // - i = 1 (Lv.2 -> Lv.3): baseExperienceForLevelUp * (expCoefficient ^ 1) = baseExperienceForLevelUp * expCoefficient
-            // - i = 2 (Lv.3 -> Lv.4): baseExperienceForLevelUp * (expCoefficient ^ 2) = baseExperienceForLevelUp * expCoefficient * expCoefficient
-            // ... 이런 식으로 레벨이 올라갈수록 다음 레벨에 필요한 경험치가 지수함수적으로 증가합니다.
             expToNextLevel[i] = baseExperienceForLevelUp * Mathf.Pow(expCoefficient, i);
-
-            // 디버그 로그를 통해 각 레벨 구간에 필요한 경험치를 콘솔에 출력합니다.
-            // {i + 1}은 현재 레벨, {i + 2}는 다음 레벨을 나타냅니다.
-            // :F2는 소수점 둘째 자리까지 표시하라는 포맷팅입니다.
             Debug.Log($"Lv.{i + 1} -> Lv.{i + 2} 필요 경험치: {expToNextLevel[i]:F2}");
         }
-        // 모든 경험치 테이블 생성이 완료되었음을 알리는 로그입니다.
         Debug.Log($"경험치 테이블 생성 완료 (총 {expToNextLevel.Length} 레벨 구간).");
     }
 
@@ -302,6 +276,7 @@ public class Player : MonoBehaviour
         Debug.Log($"경험치 획득: {expAmount}. 현재 경험치: {experience:F2} / {expToNextLevel[level - 1]:F2}");
 
         // 현재 레벨이 최대 레벨 미만이고, 다음 레벨업에 필요한 경험치를 충족했는지 확인
+        // 이 부분은 그대로 두어서 레벨업 조건이 충족되면 LevelUp을 호출하게 합니다.
         if (level < MAX_PLAYER_LEVEL && experience >= expToNextLevel[level - 1])
         {
             LevelUp();
@@ -313,10 +288,15 @@ public class Player : MonoBehaviour
     /// </summary>
     private void LevelUp()
     {
-        level++;
-        experience = 0; // 레벨업 시 현재 경험치 초기화
+        // 현재 레벨업에 필요한 경험치량을 가져옵니다.
+        float requiredExpForCurrentLevel = expToNextLevel[level - 1];
 
-        Debug.Log($"레벨업! 현재 레벨: {level}");
+        // 초과 경험치를 계산하고 다음 레벨로 이월합니다.
+        experience -= requiredExpForCurrentLevel; // 필요 경험치를 빼고 남은 경험치가 다음 레벨로 이월됩니다.
+
+        level++; // 레벨 증가
+
+        Debug.Log($"레벨업! 현재 레벨: {level}. 이월된 경험치: {experience:F2}");
 
         RecalculateStats(); // 증가된 스탯 및 능력 효과 재적용
 
@@ -329,6 +309,19 @@ public class Player : MonoBehaviour
         else
         {
             Debug.LogWarning("AbilitySelectionManager를 씬에서 찾을 수 없습니다. 어빌리티 선택창을 표시할 수 없습니다.");
+        }
+
+        // 레벨업 후에도 여전히 다음 레벨업 조건을 충족하는지 다시 확인합니다.
+        // 이는 한 번에 여러 레벨이 오를 수 있는 경우 (예: 매우 많은 경험치를 한 번에 획득)를 처리하기 위함입니다.
+        if (level < MAX_PLAYER_LEVEL && experience >= expToNextLevel[level - 1])
+        {
+            LevelUp(); // 중첩 레벨업을 위해 재귀적으로 호출 (최대 레벨까지 계속)
+        }
+        else if (level >= MAX_PLAYER_LEVEL)
+        {
+            // 최대 레벨에 도달하면 경험치를 0으로 설정합니다. (더 이상 레벨업 불가)
+            experience = 0;
+            Debug.Log("최대 레벨에 도달하여 더 이상 레벨업할 수 없습니다.");
         }
     }
 
@@ -362,9 +355,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 플레이어의 체력을 회복시킵니다.
-    /// </summary>
     /// <param name="healAmount">회복할 체력 양.</param>
     public void Heal(float healAmount)
     {
@@ -372,9 +362,7 @@ public class Player : MonoBehaviour
         Debug.Log($"체력 회복: {healAmount:F2}. 현재 체력: {Health:F2}");
     }
 
-    /// <summary>
-    /// 플레이어 사망 처리 로직 (필요시 구현).
-    /// </summary>
+    // 플레이어 사망 처리 로직
     private void Death()
     {
         if (animationHandler != null)
