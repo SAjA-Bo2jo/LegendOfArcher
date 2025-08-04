@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 985611628886428246}
   - component: {fileID: 2433237231536406698}
   - component: {fileID: 2770559471313659914}
-  - component: {fileID: 6812590161000072349}
+  - component: {fileID: 1690144817781646292}
   - component: {fileID: 2414778369518471636}
   - component: {fileID: 1804607689810058221}
   - component: {fileID: 3362237931749261448}
@@ -295,7 +295,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &6812590161000072349
+--- !u!114 &1690144817781646292
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -308,8 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 4759241726147098205}
-  weaponPivot: {fileID: 1139880285270477428}
-  WeaponPrefab: {fileID: 0}
+  weaponPivot: {fileID: 0}
   moveSpeed: 5
   stats:
     maxHealth: 100
@@ -317,13 +316,14 @@ MonoBehaviour:
     attackDamage: 25
     contactDamage: 10
     attackCooldown: 3
-    moveSpeed: 1
-    detectRange: 25
-    attackRange: 8
+    moveSpeed: 2
+    detectRange: 15
+    attackRange: 1
     optimalDistanceRatio: 0.75
     distanceTolerance: 0.5
-    canRetreat: 0
-  behaviorType: 2
+    canRetreat: 1
+  behaviorType: 0
+  arrowPrefab: {fileID: 0}
 --- !u!114 &2414778369518471636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +488,7 @@ Animator:
   m_GameObject: {fileID: 8772406981447706854}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 365bc5dcaedfbe64ca0c5e8c347ba4d1, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7ffc787e8d426a845b65119c7f70916a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
