@@ -39,7 +39,7 @@ public partial class DungeonBuilder : MonoBehaviour
 
     public DungeonObjects Build()
     {
-        Debug.Log("¢º [DungeonBuilder] Build called");
+        // Debug.Log("¢º [DungeonBuilder] Build called");
 
         result = new DungeonObjects();
 
@@ -67,7 +67,7 @@ public partial class DungeonBuilder : MonoBehaviour
 
     private void MakeDungeonMaps()
     {
-        Debug.Log("¢º [DungeonBuilder] MakeDungeonMaps called");
+        // Debug.Log("¢º [DungeonBuilder] MakeDungeonMaps called");
 
         for (int i = 0; i < 5; i++)
         {
@@ -91,7 +91,7 @@ public partial class DungeonBuilder : MonoBehaviour
 
     private void MakeEntryAndExitGates()
     {
-        Debug.Log("¢º [DungeonBuilder] MakeEntryAndExitGates called");
+        // Debug.Log("¢º [DungeonBuilder] MakeEntryAndExitGates called");
 
         for (int i = 0; i < 5; i++)
         {
@@ -121,7 +121,7 @@ public partial class DungeonBuilder : MonoBehaviour
 
     public void SpawnMonsters()
     {
-        Debug.Log("¢º [DungeonBuilder] SpawnMonsters called");
+        // Debug.Log("¢º [DungeonBuilder] SpawnMonsters called");
 
         baseGoblinCount = StageManager.Instance.CurrentStageData.baseGoblinCount;
         archerGoblinCount = StageManager.Instance.CurrentStageData.archerGoblincount;
@@ -142,7 +142,7 @@ public partial class DungeonBuilder : MonoBehaviour
 
     private void SpawnSingleTypeOfEnemies(int count, string key)
     {
-        Debug.Log("¢º [DungeonBuilder] SpawnSingleTypeOfEnemies called");
+        // Debug.Log("¢º [DungeonBuilder] SpawnSingleTypeOfEnemies called");
 
         List<Vector3> positions = new();
         positions = SetObjectsPosition(count);
@@ -157,11 +157,11 @@ public partial class DungeonBuilder : MonoBehaviour
             enemy.transform.SetParent(StageManager.Instance.enemyParent.transform);
             
             enemy.transform.position = positions[i];
-            Debug.Log($"Enemy {key} spawn location{i}: {positions[i]}");
+            // Debug.Log($"Enemy {key} spawn location{i}: {positions[i]}");
 
             result.enemies.Add(enemy);
             StageManager.Instance.AddMonsterToList(enemy);
-            Debug.Log($" Enemy {key} added in stage monster list");
+            // Debug.Log($" Enemy {key} added in stage monster list");
         }
     }
 
