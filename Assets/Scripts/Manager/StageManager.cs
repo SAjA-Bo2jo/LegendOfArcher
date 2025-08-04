@@ -140,7 +140,7 @@ public class StageManager : MonoSingleton<StageManager>
         LoadCurrentStageData();
         
         // 다음 스테이지의 장애물들을 스폰
-        dungeonBuilder.result.obstacles = dungeonBuilder.SpawnObstacles();
+        dungeonBuilder.SpawnObstacles();
         
         // 다음 스테이지의 몬스터를 스폰
         dungeonBuilder.SpawnMonsters();
