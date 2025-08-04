@@ -10,6 +10,11 @@ public class EnemyPoolObject : MonoBehaviour
 
     public void ReturnToPool()
     {
+        EnemyController enemyCtrl = GetComponent<EnemyController>();
+
+        if (enemyCtrl != null)
+            enemyCtrl.OnReturnToPool(); // obj reset
+
         if (ObjectPoolManager.Instance != null)
         {
             ObjectPoolManager.Instance.Return(poolKey, gameObject);

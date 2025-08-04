@@ -50,11 +50,14 @@ public class ObjectPoolManager : MonoBehaviour
             // 풀 키값에 큐 저장
             poolDict[entry.key] = queue;
         }
+
     }
 
     // 객체 활성화 메서드 - ObjectPoolManager.Instance.Get(키값 이름);
     public GameObject Get(string key)
     {
+        
+        
         // key 호출이 잘못된 경우 오류 처리
         if (!poolDict.ContainsKey(key))
         {
@@ -76,20 +79,30 @@ public class ObjectPoolManager : MonoBehaviour
             }
             GameObject prefab = poolEntry.prefab;
             GameObject newObj = Instantiate(prefab);
+            
             newObj.SetActive(true);
+            Debug.Log($"new {newObj} created and set actived");
+            
             return newObj;
         }
 
         // 풀에서 객체 소환
         GameObject obj = poolDict[key].Dequeue();
         obj.SetActive(true);
+        Debug.Log($"{obj} set actived");
         return obj;
     }
 
     // 객체 비활성화 메서드 - ObjectPoolManager.Instance.Return(키값, this.gameObject);
     public void Return(string key, GameObject obj)
     {
+        // if have EnemyController, do reset
+        EnemyController enemyCtrl = obj.GetComponent<EnemyController>();
+        if (enemyCtrl != null)
+            enemyCtrl.OnReturnToPool();
+        
         obj.SetActive(false);
+        Debug.Log($"{obj} set deactived");
         poolDict[key].Enqueue(obj);
     }
 }
