@@ -50,7 +50,7 @@ public class IncreaseMaxHealth : Ability
         // 모든 활성화된 능력의 ApplyEffect가 호출됩니다.
         // 따라서, 현재 레벨에 해당하는 총 증가량을 Health에 더해주면 됩니다.
         // 예를 들어, Lv1이면 +10, Lv2이면 +20 (총 누적 증가량)
-        player.Health += healthIncreasePerLevel * CurrentLevel;
+        player.MaxHealth += healthIncreasePerLevel * CurrentLevel;
 
         UpdateDescription(); // 효과 적용 후 설명 업데이트
         Debug.Log($"[{AbilityName}] Lv.{CurrentLevel} 효과 적용: 플레이어 최대 체력 {healthIncreasePerLevel * CurrentLevel} 증가됨. (총 {player.Health})");

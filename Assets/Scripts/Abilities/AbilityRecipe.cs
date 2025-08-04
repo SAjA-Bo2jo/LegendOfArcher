@@ -1,29 +1,39 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-// Unity 에디터에서 에셋을 생성할 수 있도록 메뉴 아이템 추가
-[CreateAssetMenu(fileName = "NewAbilityRecipe", menuName = "Ability System/Ability Recipe")]
-public class AbilityRecipe : ScriptableObject
+// 이제 MonoBehaviour를 상속받아 컴포넌트가 됩니다.
+// 이 스크립트를 가진 GameObject를 Player의 abilityRecipes에 할당합니다.
+public class AbilityRecipe : MonoBehaviour
 {
-    // 합성 재료로 필요한 능력의 정보
-    [System.Serializable]
-    public class RequiredAbility
-    {
-        // 필요한 능력의 프리팹 (이 프리팹 자체가 해당 능력의 고유 식별자 역할을 함)
-        public GameObject AbilityPrefab;
-        // 필요한 최소 레벨
-        public int RequiredLevel;
-    }
-
-    public string RecipeName = "새로운 합성 능력";
-    [TextArea(3, 5)] // 여러 줄 입력 가능하도록 에디터 UI 개선
-    public string Description = "두 능력을 합성하여 더 강력한 능력을 만듭니다.";
-
-    [Header("합성에 필요한 능력")]
-    // 합성 재료 능력 목록
-    public List<RequiredAbility> RequiredAbilities;
-
-    [Header("합성 결과 능력")]
-    // 합성으로 생성될 능력의 프리팹
     public GameObject CombinedAbilityPrefab;
+    public List<AbilityRequirement> RequiredAbilities;
+
+    public bool CanCombine(Player player)
+    {
+        if (player == null || RequiredAbilities == null) return false;
+
+        foreach (var req in RequiredAbilities)
+        {
+            // 필수 어빌리티를 보유하고 있는지 확인
+            if (!player.activeAbilities.ContainsKey(req.AbilityPrefab))
+            {
+                return false;
+            }
+
+            // 필수 어빌리티가 필요한 레벨 이상인지 확인
+            if (player.activeAbilities[req.AbilityPrefab].CurrentLevel < req.RequiredLevel)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+// AbilityRequirement는 이제 필요한 레벨 정보를 포함합니다.
+[System.Serializable]
+public class AbilityRequirement
+{
+    public GameObject AbilityPrefab;
+    public int RequiredLevel; // <-- 필요한 어빌리티의 최소 레벨
 }

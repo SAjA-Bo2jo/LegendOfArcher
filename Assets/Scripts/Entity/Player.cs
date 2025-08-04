@@ -4,11 +4,14 @@ using System.Linq;
 
 public class Player : MonoBehaviour
 {
+
+
     // === 플레이어 스탯 ===
     [Header("Player Stats")]
     public float MaxHealth = 100f; // 플레이어의 '최대 체력'을 의미 (어빌리티에 의해 증가 가능)
     public float AttackDamage = 10f;
-    public float Defense = 0f; // <-- 방어력 스탯 추가
+    public float Defense = 0f; // 방어력 스탯
+    public float MoveSpeed = 5f; // 이동 속도 스탯
     public float AttackSpeed = 1f; // 기본 초당 공격 횟수
     public float MaxAttackSpeed { get; private set; } // 최종 공격 속도 (AttackSpeed와 어빌리티 보너스 반영)
     public float AttackRange = 5f;
@@ -24,6 +27,13 @@ public class Player : MonoBehaviour
     // === 능력 관리 ===
     public Dictionary<GameObject, Ability> activeAbilities = new Dictionary<GameObject, Ability>();
 
+    // === 합성 능력 관리 ===
+    [Header("Ability Recipes")]
+    // 이 목록에 합성 가능한 모든 어빌리티 레시피를 할당합니다.
+    // 인스펙터에서 편집 가능하도록 [SerializeField]를 사용합니다.
+    [SerializeField]
+    public List<AbilityRecipe> abilityRecipes; // <-- 레시피 목록 추가
+
     // === 기타 참조 ===
     private PlayerController playerController;
     private AnimationHandler animationHandler;
@@ -32,15 +42,6 @@ public class Player : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         animationHandler = GetComponent<AnimationHandler>();
-
-        if (playerController == null)
-        {
-            Debug.LogError("Player: PlayerController 컴포넌트를 찾을 수 없습니다.");
-        }
-        if (animationHandler == null)
-        {
-            Debug.LogError("Player: AnimationHandler 컴포넌트를 찾을 수 없습니다.");
-        }
     }
 
     void Start()
@@ -103,9 +104,10 @@ public class Player : MonoBehaviour
     public void RecalculateStats()
     {
         // === 기본 스탯 초기화 ===
-        MaxHealth = 100f; // 기본 최대 체력
+        MaxHealth = 100f;
         AttackDamage = 10f;
-        Defense = 0f; // <-- 기본 방어력 초기화
+        Defense = 0f;
+        MoveSpeed = 5f;
         AttackSpeed = 1f;
         AttackRange = 5f;
         AttackSize = 1f;
@@ -118,7 +120,7 @@ public class Player : MonoBehaviour
             Ability ability = entry.Value;
             if (ability != null)
             {
-                ability.ApplyEffect(); // 각 능력의 ApplyEffect 호출하여 플레이어 스탯을 수정
+                ability.ApplyEffect();
             }
         }
 
@@ -128,14 +130,12 @@ public class Player : MonoBehaviour
         // 최대 체력이 변경되었을 때 현재 체력이 새로운 최대 체력을 초과하지 않도록 조정
         Health = Mathf.Min(Health, MaxHealth);
 
-        Debug.Log($"Player Stats Recalculated: MaxHealth={MaxHealth}, CurrentHealth={Health}, Damage={AttackDamage}, Defense={Defense}, Speed={MaxAttackSpeed}, Range={AttackRange}");
+        Debug.Log($"Player Stats Recalculated: MaxHealth={MaxHealth}, CurrentHealth={Health}, Damage={AttackDamage}, Defense={Defense}, MoveSpeed={MoveSpeed}, Speed={MaxAttackSpeed}, Range={AttackRange}");
     }
 
     /// <summary>
     /// 플레이어가 데미지를 받도록 합니다.
     /// </summary>
-    /// <param name="damageAmount">받을 데미지량</param>
-    /// <param name="damageSource">데미지를 준 오브젝트 (선택 사항)</param>
     public void TakeDamage(float damageAmount, GameObject damageSource = null)
     {
         if (IsInvincible() || damageAmount <= 0)
@@ -144,9 +144,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        // 데미지 계산 로직에 방어력 적용
-        float finalDamage = damageAmount / (damageAmount + Defense); // <-- 방어력 적용
-
+        float finalDamage = damageAmount / (1f + Defense);
         Health -= finalDamage;
         Health = Mathf.Max(Health, 0f);
 
@@ -164,7 +162,6 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 플레이어의 체력을 회복시킵니다.
     /// </summary>
-    /// <param name="amount">회복량</param>
     public void Heal(float amount)
     {
         if (amount <= 0) return;
@@ -223,5 +220,40 @@ public class Player : MonoBehaviour
         Debug.Log($"플레이어가 사망했습니다! (킬러: {killer?.name})");
         animationHandler?.Death();
         gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 현재 플레이어가 보유한 어빌리티로 합성할 수 있는 어빌리티 레시피를 찾습니다.
+    /// </summary>
+    /// <returns>합성 가능한 최종 어빌리티 프리팹 목록.</returns>
+    public List<GameObject> GetCombinableAbilities()
+    {
+        List<GameObject> combinablePrefabs = new List<GameObject>();
+        if (abilityRecipes == null) return combinablePrefabs;
+
+        foreach (var recipe in abilityRecipes)
+        {
+            if (recipe.CanCombine(this))
+            {
+                combinablePrefabs.Add(recipe.CombinedAbilityPrefab);
+            }
+        }
+        return combinablePrefabs;
+    }
+
+    /// <summary>
+    /// 플레이어에게서 특정 어빌리티를 제거합니다.
+    /// </summary>
+    /// <param name="abilityPrefab">제거할 어빌리티의 프리팹.</param>
+    public void RemoveAbility(GameObject abilityPrefab)
+    {
+        if (activeAbilities.ContainsKey(abilityPrefab))
+        {
+            Ability abilityInstance = activeAbilities[abilityPrefab];
+            abilityInstance.OnRemove(); // 능력 제거 전 정리 작업 호출
+            Destroy(abilityInstance.gameObject); // 씬에서 오브젝트 제거
+            activeAbilities.Remove(abilityPrefab); // 딕셔너리에서 제거
+            Debug.Log($"[{abilityPrefab.name}] 어빌리티가 제거되었습니다.");
+        }
     }
 }
