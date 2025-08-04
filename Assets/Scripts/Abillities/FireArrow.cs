@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FireArrowAbility : Abillity
+public class FireArrow : Abillity
 {
     // 레벨별 요구 공격 횟수 (예: 3, 2, 2, 1, 1)
     [SerializeField] private int[] attackCountForFireArrowPerLevel = { 3, 2, 2, 1, 1 };

@@ -241,9 +241,9 @@ public class Player : MonoBehaviour
         foreach (var entry in activeAbilities)
         {
             Abillity ability = entry.Value;
-            if (ability is FireArrowAbility fireArrowAbility)
+            if (ability is FireArrow fireArrow)
             {
-                if (fireArrowAbility.TryActivateFireArrow(regularArrowGO, regularArrowScript))
+                if (fireArrow.TryActivateFireArrow(regularArrowGO, regularArrowScript))
                 {
                     return true;
                 }

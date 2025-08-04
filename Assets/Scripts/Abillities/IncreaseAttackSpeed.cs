@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AttackSpeedBoostAbility : Abillity
+public class IncreaseAttackSpeed : Abillity
 {
     // 레벨별 공격 속도 증가량 (예: 20%, 40%, 60%, 80%, 100% (총합))
     [SerializeField] private float[] attackSpeedIncreasePercentages = { 20f, 40f, 60f, 80f, 100f };
