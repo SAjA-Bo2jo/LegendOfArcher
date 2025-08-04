@@ -27,6 +27,8 @@ public class EnemyController : BaseController
     private EnemyAnimationHandler _animation;
     private IEnemyAttack EnemyAttack;
 
+    private int originalLayer;
+
     bool isDead = false;
     public bool IsDead => isDead;
     public GameObject ArrowPrefab => arrowPrefab;
@@ -37,6 +39,8 @@ public class EnemyController : BaseController
     protected override void Awake()
     {
         base.Awake();
+
+        originalLayer = gameObject.layer;
 
         moveSpeed = stats.moveSpeed;
 
@@ -60,6 +64,12 @@ public class EnemyController : BaseController
     {
         base.Start();
 
+        if (_animation == null)
+            _animation = GetComponent<EnemyAnimationHandler>();
+    }
+
+    protected void OnEnable()
+    {
         // stats�� null�� �ƴ� ���� �ʱ�ȭ�ϵ��� null üũ �߰�
         if (stats != null)
         {
@@ -204,5 +214,27 @@ public class EnemyController : BaseController
         {
             resourceController.ChangeHealth(-damage);
         }
+    }
+
+    public void OnReturnToPool()
+    {
+        Animator animator = GetComponentInChildren<Animator>();
+        
+        if (animator == null)
+            Debug.LogWarning("Enemy's animator is NULL!");
+
+        animator.Rebind();           // animator reset
+        animator.Update(0f);         // immediately
+                
+        stats.healthPoint = stats.maxHealth;    // reset health
+        isDead = false;                 // reset dead flag
+
+        gameObject.layer = originalLayer;  // reset layer
+
+        Collider2D collider = GetComponent<Collider2D>();
+        // reset collider if it turned off
+        if (collider != null)
+            collider.enabled = true;
+
     }
 }

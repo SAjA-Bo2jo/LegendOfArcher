@@ -23,7 +23,7 @@ public partial class DungeonBuilder : MonoBehaviour
     private float exitGatePosY = 4f;
     Vector3 exitGatePos = Vector3.zero;
 
-    // 플레이어 - 추후 위치 수정
+    // 플레이어
     [SerializeField] private GameObject playerPrefab;
     private float playerPosX = -6.5f;
     private float playerPosY = 3f;
@@ -33,15 +33,16 @@ public partial class DungeonBuilder : MonoBehaviour
     [SerializeField] private int baseGoblinCount;
     [SerializeField] private int archerGoblinCount;
     [SerializeField] private int bossGoblinCount;
-    private float enemyPosX = 0;
-    private float enemyPosY = 0;
     Vector2 enemyPos = Vector2.zero;
 
     public DungeonObjects result;
 
     public DungeonObjects Build()
     {
+        Debug.Log("▶ [DungeonBuilder] Build called");
+
         result = new DungeonObjects();
+
         allOccupiedPositions = new List<Vector3>();
 
         // 던전 생성
@@ -51,7 +52,7 @@ public partial class DungeonBuilder : MonoBehaviour
         MakeEntryAndExitGates();
 
         // build obstacles
-        result.obstacles = SpawnObstacles();
+        SpawnObstacles();
 
         // 적 생성
         SpawnMonsters();
@@ -66,6 +67,8 @@ public partial class DungeonBuilder : MonoBehaviour
 
     private void MakeDungeonMaps()
     {
+        Debug.Log("▶ [DungeonBuilder] MakeDungeonMaps called");
+
         for (int i = 0; i < 5; i++)
         {
             dungeonPos = new Vector3(dungeonPosX + (i * 20), dungeonPosY);
@@ -74,13 +77,13 @@ public partial class DungeonBuilder : MonoBehaviour
             if (i == 4)
             {
                 result.dungeonRoot = Instantiate(dungeonRootBoss, dungeonPos, Quaternion.identity);
-                SpawnFixedObstacles();  // spawn fixed obstacles in boss stage
+                result.obstacles = SpawnFixedObstacles(i);  // spawn fixed obstacles in boss stage
             }
             else
             {
                 result.dungeonRoot = Instantiate(dungeonRoot, dungeonPos, Quaternion.identity);
             }
-            
+
             //던전을 빈 오브젝트의 자식으로 만드는 메소드
             result.dungeonRoot.transform.SetParent(StageManager.Instance.dungeonParent.transform);
         }
@@ -88,6 +91,8 @@ public partial class DungeonBuilder : MonoBehaviour
 
     private void MakeEntryAndExitGates()
     {
+        Debug.Log("▶ [DungeonBuilder] MakeEntryAndExitGates called");
+
         for (int i = 0; i < 5; i++)
         {
             // 게이트 생성 - 입구
@@ -95,6 +100,7 @@ public partial class DungeonBuilder : MonoBehaviour
             GameObject entry = Instantiate(entryGate, entryGatePos, Quaternion.identity);
             GateController entryCtrl = entry.GetComponent<GateController>();
             entryCtrl.SetGateType(GateType.Entry);
+
             // 게이트를 하나의 빈 오브젝트의 자식으로 만드는 메소드
             entryCtrl.transform.SetParent(StageManager.Instance.gateParent.transform);
             result.entryGate = entryCtrl;
@@ -105,6 +111,7 @@ public partial class DungeonBuilder : MonoBehaviour
             GameObject exit = Instantiate(exitGate, exitGatePos, Quaternion.identity);
             GateController exitCtrl = exit.GetComponent<GateController>();
             exitCtrl.SetGateType(GateType.Exit);
+            
             // 게이트를 하나의 빈 오브젝트의 자식으로 만드는 메소드
             exitCtrl.transform.SetParent(StageManager.Instance.gateParent.transform);
             result.exitGate = exitCtrl;
@@ -114,6 +121,8 @@ public partial class DungeonBuilder : MonoBehaviour
 
     public void SpawnMonsters()
     {
+        Debug.Log("▶ [DungeonBuilder] SpawnMonsters called");
+
         baseGoblinCount = StageManager.Instance.CurrentStageData.baseGoblinCount;
         archerGoblinCount = StageManager.Instance.CurrentStageData.archerGoblincount;
         bossGoblinCount = StageManager.Instance.CurrentStageData.bossGoblinCount;
@@ -122,38 +131,38 @@ public partial class DungeonBuilder : MonoBehaviour
         result.enemies = new List<GameObject>();
 
         // 기본 고블린 생성
-        for (int i = 0; i < baseGoblinCount; i++)
-        {
-            GameObject enemy = ObjectPoolManager.Instance.Get("enemy");            // 적 키값은 enum으로 관리되도록 수정
-            enemy.transform.SetParent(StageManager.Instance.enemyParent.transform);
-            
-            enemy.transform.position =
-                new Vector2(enemyPosX + 20 * ((StageManager.Instance.StageLevel - 1) % 5), enemyPosY);
-            
-            result.enemies.Add(enemy);
-            StageManager.Instance.AddMonsterToList(enemy);
-        }
+        SpawnSingleTypeOfEnemies(baseGoblinCount, "enemy");
 
         // 궁수 고블린 생성
-        for (int i = 0; i < archerGoblinCount; i++)
-        {
-            GameObject enemy = ObjectPoolManager.Instance.Get("Archer");
-            enemy.transform.SetParent(StageManager.Instance.enemyParent.transform);
-            enemy.transform.position =
-                new Vector2(enemyPosX + 20 * ((StageManager.Instance.StageLevel - 1) % 5), enemyPosY);
-            result.enemies.Add(enemy);
-            StageManager.Instance.AddMonsterToList(enemy);
-        }
+        SpawnSingleTypeOfEnemies(archerGoblinCount, "Archer");
 
         // 보스 고블린 생성
-        for (int i = 0; i < bossGoblinCount; i++)
+        SpawnSingleTypeOfEnemies(bossGoblinCount, "Boss");
+    }
+
+    private void SpawnSingleTypeOfEnemies(int count, string key)
+    {
+        Debug.Log("▶ [DungeonBuilder] SpawnSingleTypeOfEnemies called");
+
+        List<Vector3> positions = new();
+        positions = SetObjectsPosition(count);
+
+        for (int i = 0; i < count; i++)
         {
-            GameObject enemy = ObjectPoolManager.Instance.Get("Boss");
+            GameObject enemy = ObjectPoolManager.Instance.Get(key);
+
+            if (enemy == null)
+                Debug.LogWarning($"There is no {key} enemy in objects pool.");
+                        
             enemy.transform.SetParent(StageManager.Instance.enemyParent.transform);
-            enemy.transform.position =
-                new Vector2(enemyPosX + 20 * ((StageManager.Instance.StageLevel - 1) % 5), enemyPosY);
+            
+            enemy.transform.position = positions[i];
+            Debug.Log($"Enemy {key} spawn location{i}: {positions[i]}");
+
             result.enemies.Add(enemy);
             StageManager.Instance.AddMonsterToList(enemy);
+            Debug.Log($" Enemy {key} added in stage monster list");
         }
     }
+
 }
