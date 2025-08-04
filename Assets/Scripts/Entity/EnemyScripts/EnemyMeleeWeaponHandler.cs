@@ -44,7 +44,7 @@ public class EnemyMeleeWeaponAttack : MonoBehaviour
 
                     if (baseController != null)
                     {
-                        baseController.ApplyKnockback(controller.transform, 8f, 0.6f)
+                        baseController.ApplyKnockback(controller.transform, 8f, 0.6f);
                     }
                 }
             }

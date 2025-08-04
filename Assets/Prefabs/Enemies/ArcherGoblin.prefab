@@ -125,7 +125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 4759241726147098205}
   weaponPivot: {fileID: 3958370077564874157, guid: 934ff15c845877840ba9e9420f1bd481, type: 3}
-  WeaponPrefab: {fileID: 0}
   moveSpeed: 5
   stats:
     maxHealth: 8
@@ -140,6 +139,7 @@ MonoBehaviour:
     distanceTolerance: 0.5
     canRetreat: 1
   behaviorType: 1
+  arrowPrefab: {fileID: 2617466681887532506, guid: cb72814c367ebf140b20b7e4057f8c83, type: 3}
 --- !u!114 &2414778369518471636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,7 +409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5339957791162347107, guid: 934ff15c845877840ba9e9420f1bd481, type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5339957791162347107, guid: 934ff15c845877840ba9e9420f1bd481, type: 3}
       propertyPath: m_SortingOrder
