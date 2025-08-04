@@ -20,12 +20,16 @@ public class EnemyController : BaseController
     [Header("유닛 타입")]
     [SerializeField] private EnemyBehaviorType behaviorType;    // 해당 유닛 타입 인스펙터 입력
 
+    [Header("원거리 공격")]
+    [SerializeField] private GameObject arrowPrefab;
+
     private Transform target;
     private EnemyAnimationHandler _animation;
     private IEnemyAttack EnemyAttack;
 
     bool isDead = false;
     public bool IsDead => isDead;
+    public GameObject ArrowPrefab => arrowPrefab;
 
 
 
@@ -75,7 +79,7 @@ public class EnemyController : BaseController
         return Vector2.Distance(transform.position, target.position);
     }
 
-    protected Vector2 DirectionToTarget()                                   // DirectionToTarget 메서드 : 적 -> 플레이어 단위벡터 구함
+    public Vector2 DirectionToTarget()                                   // DirectionToTarget 메서드 : 적 -> 플레이어 단위벡터 구함
     {
         return (target.position - transform.position).normalized;
     }
@@ -111,20 +115,9 @@ public class EnemyController : BaseController
             {
                 moveDirection = direction;                                  // 플레이어 방향으로 이동
             }
-            else if (distance < optimalDist - stats.distanceTolerance)      // 경우 2. 플레이어가 너무 가까이 있을 경우
-            {
-                if (stats.canRetreat)                                     
-                {
-                    moveDirection -= direction;                             // 후퇴 가능 개체는 후퇴
-                }
-                else
-                {
-                    moveDirection = Vector2.zero;                           // 후퇴 불가능 시 정지
-                }
-            }
             else
             {
-                moveDirection = Vector2.zero ;                              // 경우3. 최적거리 범위 내일 경우
+                moveDirection = Vector2.zero ;                              // 경우 2. 최적거리 범위 내일 경우
             }
         }
         else 
@@ -153,13 +146,13 @@ public class EnemyController : BaseController
         }
         else
         {
-            _animation.Death();
+            _animation.Damage();
         }
     }
 
     private void HandleDeath()                                              // HandleDeath 메서드 : 적 개체 사망 처리
     {
-        _animation.Damage();                                                // 애니메이션 실행
+        _animation.Death();                                                // 애니메이션 실행
 
         StartCoroutine(DeathCoroutine());
     }
