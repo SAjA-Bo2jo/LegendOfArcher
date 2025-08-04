@@ -12,10 +12,7 @@ public class EnemyAnimationHandler : MonoBehaviour
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
 
-    private EnemyPoolObject poolObject;
-
     private bool isDead = false;
-    public bool IsDead => isDead;                                               // 외부에서 죽었는지 확인용
 
     protected virtual void Awake()
     {
@@ -58,25 +55,5 @@ public class EnemyAnimationHandler : MonoBehaviour
 
         isDead = true;
         animator.SetTrigger(Die);                                               // Die 트리거 켜서 Death 애니메이션 재생함
-
-        StartCoroutine(DeathCoroutine());                                       // 코루틴 활용 -> 0.4초 지연 후 대상 삭제
-    }
-
-    private IEnumerator DeathCoroutine()                                        // Death 애니메이션 재생 완료 후 오브젝트 삭제
-    {
-        yield return new WaitForSeconds(0.4f);
-        
-        StageManager.Instance.RemoveMonsterFromList(gameObject);
-
-        if (poolObject != null)
-        {
-            poolObject.ReturnToPool();                                          // Pool로 죽은 개체 돌려보냄
-        }
-        else
-        {
-            Debug.Log($"{gameObject.name}: EnemyPoolObject 없음 Destroy로 대체");
-            Destroy(gameObject);
-        }
-        
     }
 }
