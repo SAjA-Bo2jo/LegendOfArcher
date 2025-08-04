@@ -6,7 +6,6 @@ using UnityEngine;
 
 public partial class DungeonBuilder : MonoBehaviour
 {
-    
     // 던전 기반
     [SerializeField] private GameObject dungeonRoot;
     private float dungeonPosX = 0;
@@ -25,63 +24,92 @@ public partial class DungeonBuilder : MonoBehaviour
 
     // 플레이어 - 추후 위치 수정
     [SerializeField] private GameObject playerPrefab;
-    private float playerPosX = 0;
-    private float playerPosY = 0;
-    Vector3 playerPos = Vector3.zero;
-
-    /*
+    private float playerPosX = -6.5f;
+    private float playerPosY = 3f;
+    private Vector3 playerPos;
+    
     // 적 
     [SerializeField] private int enemyCount;
     private float enemyPosX = 0;
     private float enemyPosY = 0;
     Vector2 enemyPos = Vector2.zero; 
-    */
+
+    private DungeonObjects result;
 
     public DungeonObjects Build()
     {
-        DungeonObjects result = new DungeonObjects();
+        result = new DungeonObjects();
         
         // 던전 생성
-        dungeonPos = new Vector3(dungeonPosX, dungeonPosY);
-        result.dungeonRoot = Instantiate(dungeonRoot, dungeonPos, Quaternion.identity);
+        MakeDungeonMaps();
         
-        // 게이트 생성 - 입구
-        entryGatePos = new Vector3(entryGatePosX, entryGatePosY);
-        GameObject entry = Instantiate(entryGate, entryGatePos, Quaternion.identity);
-        GateController entryCtrl = entry.GetComponent<GateController>();
-        entryCtrl.SetGateType(GateType.Entry);
-        result.entryGate = entryCtrl;
-
-        // 게이트 생성 - 출구
-        exitGatePos = new Vector3(exitGatePosX, exitGatePosY);
-        GameObject exit = Instantiate(exitGate, exitGatePos, Quaternion.identity);
-        GateController exitCtrl = exit.GetComponent<GateController>();
-        exitCtrl.SetGateType(GateType.Exit);
-        result.exitGate = exitCtrl;
-        StageManager.Instance.ExitGate = result.exitGate;
+        // 게이트 생성 - 입구, 게이트 생성 - 출구
+        MakeEntryAndExitGates();
 
         // build obstacles
         result.obstacles = SpawnObstacles();
-
+        
         // 적 생성
-        /*
-       enemyCount = StageManager.Instance.CurrentStageData.enemyCount;
-       result.enemies = SpawnEnemies();
-       result.enemies = new List<GameObject>();
-       for (int i = 0; i < enemyCount; i++)
-       {
-           GameObject enemy = ObjectPoolManager.Instance.Get("enemy");            // 적 키값은 enum으로 관리되도록 수정
-           enemy.transform.position = new Vector2(enemyPosX, enemyPosY);
-           result.enemies.Add(enemy);
-           StageManager.Instance.AddMonsterToList(enemy);
-       }
-       */
+        SpawnMonsters();
 
         // 플레이어 생성
-        playerPos = new Vector3(playerPosX, playerPosY);
+        playerPos = new Vector3(playerPosX, playerPosY, 0);
         result.player = Instantiate(playerPrefab, playerPos, Quaternion.identity);
         StageManager.Instance._Player = result.player;
         
         return result;
+    }
+
+    private void MakeDungeonMaps()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            dungeonPos = new Vector3(dungeonPosX + (i * 20), dungeonPosY);
+            result.dungeonRoot = Instantiate(dungeonRoot, dungeonPos, Quaternion.identity);
+            // 던전을 빈 오브젝트의 자식으로 만드는 메소드
+            result.dungeonRoot.transform.SetParent(StageManager.Instance.dungeonParent.transform);
+        }
+    }
+
+    private void MakeEntryAndExitGates()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            // 게이트 생성 - 입구
+            entryGatePos = new Vector3(entryGatePosX + (i * 20), entryGatePosY);
+            GameObject entry = Instantiate(entryGate, entryGatePos, Quaternion.identity);
+            GateController entryCtrl = entry.GetComponent<GateController>();
+            entryCtrl.SetGateType(GateType.Entry);
+            // 게이트를 하나의 빈 오브젝트의 자식으로 만드는 메소드
+            entryCtrl.transform.SetParent(StageManager.Instance.gateParent.transform);
+            result.entryGate = entryCtrl;
+            StageManager.Instance.EntryGateList.Add(result.entryGate);
+            
+            // 게이트 생성 - 출구
+            exitGatePos = new Vector3(exitGatePosX + (i * 20), exitGatePosY);
+            GameObject exit = Instantiate(exitGate, exitGatePos, Quaternion.identity);
+            GateController exitCtrl = exit.GetComponent<GateController>();
+            exitCtrl.SetGateType(GateType.Exit);
+            // 게이트를 하나의 빈 오브젝트의 자식으로 만드는 메소드
+            exitCtrl.transform.SetParent(StageManager.Instance.gateParent.transform);
+            result.exitGate = exitCtrl;
+            StageManager.Instance.ExitGateList.Add(result.exitGate);
+        }
+    }
+
+    public void SpawnMonsters()
+    {
+        enemyCount = StageManager.Instance.CurrentStageData.enemyCount;
+        // result.enemies = SpawnEnemies();
+        result.enemies = new List<GameObject>();
+        for (int i = 0; i < enemyCount; i++)
+        {
+            GameObject enemy = ObjectPoolManager.Instance.Get("enemy");            // 적 키값은 enum으로 관리되도록 수정
+            enemy.transform.SetParent(StageManager.Instance.enemyParent.transform);
+            enemy.transform.position = 
+                new Vector2(enemyPosX + 20 * ((StageManager.Instance.StageLevel - 1) % 5), enemyPosY);
+            result.enemies.Add(enemy);
+            StageManager.Instance.AddMonsterToList(enemy);
+        }
     }
 }
