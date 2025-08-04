@@ -146,7 +146,6 @@ public class EnemyController : BaseController
     // �� ��ü ��� ó�� ���� �޼���
     public void GetDamage(float dmg)                           // GetDamage �޼��� : �� ��ü �ǰ� + ��� ���� ó��
     {
-        Debug.Log("�������� �����ϴ�: " + dmg);
 
         isDead = stats.TakeDamage(dmg);
 

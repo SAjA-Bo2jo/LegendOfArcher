@@ -33,7 +33,7 @@ public class RangedEnemyAttack : IEnemyAttack
             EnemyArrow arrowScript = arrow.GetComponent<EnemyArrow>();
             if (arrowScript != null)
             {
-                arrowScript.Initialize(controller.Stats.attackDamage, controller.DirectionToTarget());
+                //arrowScript.Initialize(controller.Stats.attackDamage, controller.DirectionToTarget());
             }
         }
         else
