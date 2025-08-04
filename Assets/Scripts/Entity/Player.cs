@@ -1,333 +1,172 @@
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq; // LINQ 사용을 위해 추가
 
-public class Player : Entity
+public class Player : MonoBehaviour
 {
-    // ───────── 체력 관련 ─────────
-    [SerializeField, Range(0f, 500f)]
-    private float health = 100;                              // 현재 체력 (게임 중 변하는 값, 시작 시 MaxHealth로 설정)
+    // --- 기존 스탯 및 필드 (예시) ---
+    public float AttackDamage { get; set; } = 10f;
+    public float AttackSize { get; set; } = 1f;
+    public float CriticalRate { get; set; } = 10f; // 확률 %
+    public float ProjectileSpeed { get; set; } = 10f;
+    public float AttackRange { get; set; } = 5f;
 
-    [SerializeField, Range(0f, 500f)]
-    private float baseHealth = 100f;                   // 기준 체력 (배율 계산의 기준값)
-
-    [SerializeField, Range(0f, 500f)]
-    private float healthMultiplier = 100f;             // 체력 배율 (%) - 기본 100%
-
-    [SerializeField] private float maxHealth = 100;
-
-    [SerializeField, Range(0f, 100f)]
-    private float healthRegen = 0f;                    // 초당 체력 재생량
-
-    [SerializeField, Range(0f, 500f)]
-    private float healingMultiplier = 100f;            // 체력 회복량 증폭 배율 (%)
-
-    // 프로퍼티 (외부 접근 가능, set 가능)
-    public float Health
-    {
-        get => health;
-        set
-        {
-            // 현재 체력은 0 이상 MaxHealth 이하로 제한
-            health = Mathf.Clamp(value, 0, MaxHealth);
-            if (health <= 0)
-            {
-                Die(); // 체력 0이 되면 사망 처리
-            }
-        }
-    }
-    public float BaseHealth { get; private set; }              // 기준 체력 (내부에서만 set)
-    public float HealthMultiplier { get; private set; }        // 체력 배율 (%) (내부에서만 set)
-
-    // MaxHealth는 baseHealth * healthMultiplier / 100 으로 계산되므로 set을 안주고 get만 제공
-    public float MaxHealth => BaseHealth * (HealthMultiplier / 100f);
-
-    public float HealthRegen { get; private set; }             // 초당 체력 재생량 (내부에서만 set)
-    public float HealingMultiplier { get; private set; }       // 회복량 증폭 배율 (%) (내부에서만 set)
-
-    // ───────── 방어력 관련 ─────────
-    [SerializeField, Range(0f, 1000f)]
-    private float defense = 100f;                              // 현재 방어력 (시작 시 MaxDefense로 설정)
-
-    [SerializeField, Range(0f, 1000f)]
-    private float baseDefense = 100f;                          // 기준 방어력
-
-    [SerializeField, Range(0f, 500f)]
-    private float defenseMultiplier = 100f;                    // 방어력 배율 (%)
-
-    public float Defense
-    {
-        get => defense;
-        set => defense = Mathf.Clamp(value, 0, MaxDefense); // 현재 방어력은 0~최대 사이로 제한
-    }
-
-    public float BaseDefense { get; private set; }             // 기준 방어력 (내부에서만 set)
-    public float DefenseMultiplier { get; private set; }       // 방어력 배율 (%) (내부에서만 set)
-    public float MaxDefense => BaseDefense * (DefenseMultiplier / 100f); // 최대 방어력 계산식
-
-    // ───────── 이동 속도 관련 ─────────
-    [SerializeField, Range(0f, 20f)]
-    private float speed = 5f;                                  // 현재 이동속도 (시작 시 MaxSpeed로 설정)
-
-    [SerializeField, Range(0f, 20f)]
-    private float baseSpeed = 5f;                              // 기준 이동속도
-
-    [SerializeField, Range(0f, 500f)]
-    private float speedMultiplier = 100f;                      // 이동속도 배율 (%)
-
-    public float Speed
-    {
-        get => speed;
-        set => speed = Mathf.Clamp(value, 0, MaxSpeed);      // 현재 이동속도 0~최대 이동속도 제한
-    }
-    public float BaseSpeed { get; private set; }               // 기준 이동속도 (내부에서만 set)
-    public float SpeedMultiplier { get; private set; }         // 이동속도 배율 (%) (내부에서만 set)
-    public float MaxSpeed => BaseSpeed * (SpeedMultiplier / 100f); // 최대 이동속도 계산식
-
-    // ───────── 공격력 관련 ─────────
-    [Header("공격 관련")]
-
-    [SerializeField, Range(0f, 1000f)]
-    private float attackDamage = 100f;                         // 현재 공격력 (시작 시 MaxAttackDamage로 설정)
-
-    [SerializeField, Range(0f, 1000f)]
-    private float baseAttackDamage = 100f;                     // 기준 공격력
-
-    [SerializeField, Range(0f, 500f)]
-    private float attackDamageMultiplier = 100f;               // 공격력 배율 (%)
-
-    public float AttackDamage
-    {
-        get => attackDamage;
-        set => attackDamage = Mathf.Clamp(value, 0, MaxAttackDamage); // 현재 공격력 0~최대 제한
-    }
-    public float BaseAttackDamage { get; private set; }        // 기준 공격력 (내부에서만 set)
-    public float AttackDamageMultiplier { get; private set; }  // 공격력 배율 (%) (내부에서만 set)
-    public float MaxAttackDamage => BaseAttackDamage * (AttackDamageMultiplier / 100f); // 최대 공격력
-
-    // ───────── 공격 사거리 관련 ─────────
-    [SerializeField, Range(0f, 50f)]
-    private float attackRange = 10f;                           // 현재 공격 사거리 (시작 시 MaxAttackRange로 설정)
-
-    [SerializeField, Range(0f, 50f)]
-    private float baseAttackRange = 10f;                       // 기준 공격 사거리
-
-    [SerializeField, Range(0f, 500f)]
-    private float attackRangeMultiplier = 100f;                // 사거리 배율 (%)
-
-    public float AttackRange
-    {
-        get => attackRange;
-        set => attackRange = Mathf.Clamp(value, 0, MaxAttackRange); // 현재 사거리 0~최대 제한
-    }
-    public float BaseAttackRange { get; private set; }         // 기준 공격 사거리 (내부에서만 set)
-    public float AttackRangeMultiplier { get; private set; }   // 사거리 배율 (%) (내부에서만 set)
-    public float MaxAttackRange => BaseAttackRange * (AttackRangeMultiplier / 100f); // 최대 공격 사거리
-
-    // ───────── 공격 속도 관련 ─────────
-    [SerializeField, Range(0f, 50f)]
-    private float attackSpeed = 25f;
-
-    [SerializeField, Range(0f, 50f)]
-    private float baseAttackSpeed = 5f;
-
-    // 중요: Bow 스크립트에서 이 값을 (Multiplier/100f)로 사용해야 합니다.
-    // 기본 배율은 100%이므로 100f로 설정합니다.
-    [SerializeField, Range(0.01f, 500f)] // << Range 조정: 100f까지 가능하게 (필요시 더 늘릴 수도)
-    private float attackSpeedMultiplier = 100f; // << 기본값을 100f로 변경!
-
-    public float AttackSpeed
-    {
-        get => attackSpeed;
-        set => attackSpeed = Mathf.Clamp(value, 0, MaxAttackSpeed);
-    }
-
-    public float BaseAttackSpeed { get; private set; }
-    public float AttackSpeedMultiplier { get; private set; }
+    // 기본 공격 속도 (단위: 초당 공격 횟수)
+    public float BaseAttackSpeed = 1.0f;
+    // 공격 속도 배율 (예: 100 = 100%, 120 = 120%)
+    public float AttackSpeedMultiplier { get; set; } = 100f;
+    // 최종 계산된 공격 속도
     public float MaxAttackSpeed => BaseAttackSpeed * (AttackSpeedMultiplier / 100f);
 
-    // ───────── 공격 크기 관련 ─────────
-    [SerializeField, Range(0f, 10f)]
-    private float attackSize = 1f;                             // 현재 공격 크기 (시작 시 MaxAttackSize로 설정)
+    // --- 능력 관리 필드 ---
+    // 획득한 능력들을 저장할 딕셔너리: <능력 프리팹 (Key), 해당 능력 인스턴스 (Value)>
+    // 이를 통해 같은 능력을 얻었는지 쉽게 확인하고, 인스턴스에 접근할 수 있습니다.
+    public Dictionary<GameObject, Abillity> activeAbilities = new Dictionary<GameObject, Abillity>();
 
-    [SerializeField, Range(0f, 10f)]
-    private float baseAttackSize = 1f;                         // 기준 공격 크기
+    [Header("능력 합성 레시피")]
+    // 합성 레시피 목록 (Unity 에디터에서 AbilityRecipe ScriptableObject 에셋들을 할당)
+    public List<AbilityRecipe> abilityRecipes;
 
-    [SerializeField, Range(0f, 500f)]
-    private float attackSizeMultiplier = 100f;                 // 공격 크기 배율 (%)
+    // --- 기타 플레이어 관련 필드 (예: 체력, 이동 속도 등) ---
+    public float Speed = 5f; // PlayerController에서 참조하는 이동 속도
 
-    public float AttackSize
+    void Awake()
     {
-        get => attackSize;
-        set => attackSize = Mathf.Clamp(value, 0, MaxAttackSize); // 현재 공격 크기 0~최대 제한
-    }
-    public float BaseAttackSize { get; private set; }          // 기준 공격 크기 (내부에서만 set)
-    public float AttackSizeMultiplier { get; private set; }    // 공격 크기 배율 (%) (내부에서만 set)
-    public float MaxAttackSize => BaseAttackSize * (AttackSizeMultiplier / 100f); // 최대 공격 크기
+        // 시작 시 초기 스탯 설정 (필요시)
+        AttackSpeedMultiplier = 100f; // 기본값으로 초기화
 
-    // ───────── 투사체 수 관련 (배율 없음) ─────────
-    [SerializeField, Range(0f, 100f)]
-    private float numberOfAttack = 1f;                         // 현재 투사체 수 (시작 시 BaseNumberOfAttack으로 설정)
-
-    [SerializeField, Range(0f, 100f)]
-    private float baseNumberOfAttack = 1f;                     // 기준 투사체 수
-
-    public float NumberOfAttack
-    {
-        get => numberOfAttack;
-        set => numberOfAttack = Mathf.Max(0, value);           // 0 이상 제한 (최대는 없음)
-    }
-    public float BaseNumberOfAttack { get; private set; }      // 기준 투사체 수 (내부에서만 set)
-
-    // ───────── 동시 발사 수 관련 (배율 없음) ─────────
-    [SerializeField, Range(0f, 10f)]
-    private float multipleShot = 1f;                           // 현재 동시 발사 수 (시작 시 BaseMultipleShot으로 설정)
-
-    [SerializeField, Range(0f, 10f)]
-    private float baseMultipleShot = 1f;                       // 기준 동시 발사 수
-
-    public float MultipleShot
-    {
-        get => multipleShot;
-        set => multipleShot = Mathf.Max(0, value);             // 0 이상 제한 (최대는 없음)
-    }
-    public float BaseMultipleShot { get; private set; }        // 기준 동시 발사 수 (내부에서만 set)
-
-    // ───────── 치명타 확률 및 배율 관련 ─────────
-    [SerializeField, Range(0f, 100f)]
-    private float criticalRate = 0f;                           // 현재 치명타 확률 (%) (시작 시 BaseCriticalRate로 설정)
-
-    [SerializeField, Range(0f, 100f)]
-    private float baseCriticalRate = 0f;                       // 기준 치명타 확률 (%)
-
-    [SerializeField, Range(0f, 500f)]
-    private float criticalDamageMultiplier = 100f;             // 치명타 데미지 배율 (%)
-
-    public float CriticalRate
-    {
-        get => criticalRate;
-        set => criticalRate = Mathf.Clamp(value, 0, 100);      // 0~100% 제한
-    }
-    public float BaseCriticalRate { get; private set; }        // 기준 치명타 확률 (내부에서만 set)
-    public float CriticalDamageMultiplier { get; private set; } // 치명타 데미지 배율 (%) (내부에서만 set)
-
-    // ───────── 명중률 관련 ─────────
-    [SerializeField, Range(0f, 100f)]
-    private float accuracyRate = 100f;                         // 현재 명중률 (%) (시작 시 BaseAccuracyRate로 설정)
-
-    [SerializeField, Range(0f, 100f)]
-    private float baseAccuracyRate = 100f;                     // 기준 명중률 (%)
-
-    public float AccuracyRate
-    {
-        get => accuracyRate;
-        set => accuracyRate = Mathf.Clamp(value, 0, 100);      // 0~100% 제한
-    }
-    public float BaseAccuracyRate { get; private set; }        // 기준 명중률 (내부에서만 set)
-
-    // ───────── 회피율 관련 ─────────
-    [SerializeField, Range(0f, 100f)]
-    private float evasionRate = 0f;                            // 현재 회피율 (%) (시작 시 BaseEvasionRate로 설정)
-
-    [SerializeField, Range(0f, 100f)]
-    private float baseEvasionRate = 0f;                        // 기준 회피율 (%)
-
-    public float EvasionRate
-    {
-        get => evasionRate;
-        set => evasionRate = Mathf.Clamp(value, 0, 100);       // 0~100% 제한
-    }
-    public float BaseEvasionRate { get; private set; }         // 기준 회피율 (내부에서만 set)
-
-    // ───────── 초기화 메서드 ─────────
-    // Start() 이전에 호출되어 다른 스크립트가 Awake()에서 Player의 능력치에 접근할 수 있도록 합니다.
-    private void Awake()
-    {
-        InitializeStats();
+        // Debug.Log("Player Awake");
+        // if (abilityRecipes == null || abilityRecipes.Count == 0)
+        // {
+        //     Debug.LogWarning("Player: Ability Recipes가 할당되지 않았습니다. 합성 기능이 작동하지 않을 수 있습니다.");
+        // }
     }
 
-    public void InitializeStats()
+    // 레벨업 시 호출될 능력 획득 메서드
+    public void AcquireAbility(GameObject abilityPrefab) // 선택된 능력의 프리팹
     {
-        // 1. 인스펙터 필드 값들을 'Base' 프로퍼티에 할당합니다.
-        //    이렇게 하면 인스펙터에서 설정된 값이 게임 시작 시 프로퍼티에 복사됩니다.
-        BaseHealth = baseHealth;
-        HealthMultiplier = healthMultiplier;
-
-        HealthRegen = healthRegen;
-        HealingMultiplier = healingMultiplier;
-
-        BaseDefense = baseDefense;
-        DefenseMultiplier = defenseMultiplier;
-
-        BaseSpeed = baseSpeed;
-        SpeedMultiplier = speedMultiplier;
-
-        BaseAttackDamage = baseAttackDamage;
-        AttackDamageMultiplier = attackDamageMultiplier;
-
-        BaseAttackRange = baseAttackRange;
-        AttackRangeMultiplier = attackRangeMultiplier;
-
-        BaseAttackSpeed = baseAttackSpeed;
-        AttackSpeedMultiplier = attackSpeedMultiplier;
-
-        BaseAttackSize = baseAttackSize;
-        AttackSizeMultiplier = attackSizeMultiplier;
-
-        BaseNumberOfAttack = baseNumberOfAttack;
-
-        BaseMultipleShot = baseMultipleShot;
-
-        BaseCriticalRate = baseCriticalRate;
-        CriticalDamageMultiplier = criticalDamageMultiplier;
-
-        BaseAccuracyRate = baseAccuracyRate;
-
-        BaseEvasionRate = baseEvasionRate;
-
-        // 2. 'Base' 및 'Multiplier' 프로퍼티를 사용하여 현재(실제 사용될) 능력치 값을 계산하여 할당합니다.
-        //    이렇게 하면 게임 시작 시 모든 능력치가 올바르게 계산된 값으로 설정됩니다.
-        //    (특히 Bow 스크립트에서 사용되는 AttackSpeed, AttackDamage 등이 정확해집니다.)
-        health = MaxHealth; // 시작 시 체력을 최대 체력으로 설정
-        defense = MaxDefense;
-        speed = MaxSpeed;
-        attackDamage = MaxAttackDamage;
-        attackRange = MaxAttackRange;
-        attackSpeed = MaxAttackSpeed;
-        attackSize = MaxAttackSize;
-        numberOfAttack = BaseNumberOfAttack; // 투사체 수는 배율이 없으므로 Base 값을 그대로 사용
-        multipleShot = BaseMultipleShot;     // 동시 발사 수도 배율이 없으므로 Base 값을 그대로 사용
-        criticalRate = BaseCriticalRate;     // 치명타 확률도 배율이 없으므로 Base 값을 그대로 사용
-        accuracyRate = BaseAccuracyRate;     // 명중률도 배율이 없으므로 Base 값을 그대로 사용
-        evasionRate = BaseEvasionRate;       // 회피율도 배율이 없으므로 Base 값을 그대로 사용
-
-        Debug.Log("Player stats initialized!");
-        Debug.Log($"MaxHealth: {MaxHealth}, AttackSpeed: {AttackSpeed}, AttackDamage: {AttackDamage}");
-    }
-
-    private void Start()
-    {
-        // Awake()에서 초기화했으므로 Start()에서는 추가 초기화가 필요 없거나,
-        // 다른 스크립트의 Start()와 상호작용하는 코드를 여기에 배치할 수 있습니다.
-    }
-
-    // ───────── 체력 1초당 재생 처리 (예시용) ─────────
-    private void Update()
-    {
-        RegenerateHealth();
-    }
-    private void RegenerateHealth()
-    {
-        if (Health < MaxHealth)
+        Abillity existingAbility = null;
+        // 이미 이 능력을 가지고 있는지 확인
+        if (activeAbilities.TryGetValue(abilityPrefab, out existingAbility))
         {
-            // 재생량에 증폭 배율을 곱해줌
-            float regenAmount = HealthRegen * (HealingMultiplier / 100f) * Time.deltaTime;
-            Health += regenAmount;
+            // 이미 능력을 가지고 있고, 최대 레벨이 아니라면 레벨업 시도
+            if (existingAbility.CurrentLevel < existingAbility.MaxLevel)
+            {
+                existingAbility.OnAcquire(this); // 플레이어 인스턴스를 전달하여 레벨업 및 효과 적용
+                Debug.Log($"[{existingAbility.AbilityName}] 능력이 레벨업! (Lv.{existingAbility.CurrentLevel})");
+            }
+            else
+            {
+                Debug.Log($"[{existingAbility.AbilityName}] 능력은 이미 최대 레벨입니다. (Lv.{existingAbility.MaxLevel}). 다른 보상을 제공할 수 있습니다.");
+                // TODO: 최대 레벨 능력 선택 시 다른 보상 (예: 골드, 재선택 기회 등) 제공 로직
+            }
+        }
+        else
+        {
+            // 새로운 능력 획득 (프리팹을 인스턴스화하여 게임 오브젝트로 만들고 컴포넌트 가져오기)
+            GameObject abilityGO = Instantiate(abilityPrefab, transform); // 플레이어의 자식으로 추가 (관리 용이)
+            Abillity newAbility = abilityGO.GetComponent<Abillity>();
+
+            if (newAbility != null)
+            {
+                newAbility.InitializeAbility(abilityPrefab); // 능력 초기화 시 프리팹 정보 전달
+                newAbility.OnAcquire(this); // 플레이어 인스턴스를 전달하여 초기 획득 및 효과 적용
+                activeAbilities.Add(abilityPrefab, newAbility); // 딕셔너리에 추가
+                Debug.Log($"[{newAbility.AbilityName}] 새로운 능력 획득! (Lv.{newAbility.CurrentLevel})");
+            }
+            else
+            {
+                Debug.LogError($"선택된 프리팹 {abilityPrefab.name}에 Abillity 컴포넌트가 없습니다!");
+                Destroy(abilityGO); // 잘못된 프리팹이면 생성된 오브젝트 삭제
+            }
+        }
+
+        // 능력 획득 후 합성 가능한 능력이 있는지 확인 (이 메서드는 능력 선택 UI에서 호출될 수 있음)
+        // CheckForCombinations(); // 이 로직은 능력 선택 UI가 열리기 전에 호출하는 것이 더 적절할 수 있습니다.
+    }
+
+    /// <summary>
+    /// 활성화된 능력들 중 특정 능력을 제거합니다. (주로 합성 시 원료 능력 제거에 사용)
+    /// </summary>
+    /// <param name="abilityPrefab">제거할 능력의 프리팹</param>
+    public void RemoveAbility(GameObject abilityPrefab)
+    {
+        if (activeAbilities.TryGetValue(abilityPrefab, out Abillity abilityToRemove))
+        {
+            Debug.Log($"[{abilityToRemove.AbilityName}] 능력을 제거합니다.");
+            abilityToRemove.OnRemove(); // 능력 제거 효과 호출 (예: 스탯 복원)
+            Destroy(abilityToRemove.gameObject); // 게임 오브젝트 파괴
+            activeAbilities.Remove(abilityPrefab); // 딕셔너리에서 제거
+        }
+        else
+        {
+            Debug.LogWarning($"제거하려는 능력 프리팹 {abilityPrefab.name}을(를) 활성화된 목록에서 찾을 수 없습니다.");
         }
     }
 
-    // ───────── 사망 처리 (예시) ─────────
-    private void Die()
+    /// <summary>
+    /// 현재 활성화된 능력들과 레벨을 기반으로 합성 가능한 레시피를 찾습니다.
+    /// </summary>
+    /// <returns>합성 가능한 능력의 프리팹 목록</returns>
+    public List<GameObject> GetCombinableAbilities()
     {
-        Debug.Log("플레이어가 사망했습니다.");
-        // 사망 관련 처리(애니메이션, 상태 변경 등)를 여기에 작성하세요.
+        List<GameObject> combinableList = new List<GameObject>();
+
+        if (abilityRecipes == null || abilityRecipes.Count == 0) return combinableList;
+
+        foreach (AbilityRecipe recipe in abilityRecipes)
+        {
+            // 이미 이 합성 능력을 가지고 있다면 스킵
+            if (activeAbilities.ContainsKey(recipe.CombinedAbilityPrefab)) continue;
+
+            bool canCombine = true;
+            foreach (AbilityRecipe.RequiredAbility req in recipe.RequiredAbilities)
+            {
+                // 필요한 능력의 프리팹이 활성화된 능력 목록에 없거나, 요구 레벨에 미치지 못하면 합성 불가
+                if (!activeAbilities.ContainsKey(req.AbilityPrefab) ||
+                    activeAbilities[req.AbilityPrefab].CurrentLevel < req.RequiredLevel)
+                {
+                    canCombine = false;
+                    break;
+                }
+            }
+
+            if (canCombine)
+            {
+                combinableList.Add(recipe.CombinedAbilityPrefab);
+            }
+        }
+        return combinableList;
+    }
+
+    // --- PlayerController에서 Bow와 연동을 위한 함수들 (Bow에서만 사용) ---
+    // 플레이어의 바라보는 방향과 이동 상태는 PlayerController에서 직접 가져오므로,
+    // 이 Player 클래스에서는 별도로 정의하지 않습니다.
+
+    // FireArrowAbility와 같은 조건부 발동 능력을 Bow가 활용할 수 있도록
+    // 활성화된 능력 목록을 외부에 노출 (public 프로퍼티)
+    // 혹은 private으로 유지하고, Bow에서 Player의 특정 메서드를 호출하도록 할 수도 있습니다.
+    public IReadOnlyDictionary<GameObject, Abillity> GetActiveAbilities()
+    {
+        return activeAbilities;
+    }
+
+    // Bow가 화살을 발사하기 직전에 이 함수를 호출하여 특수 화살 발동을 시도
+    public bool TryActivateSpecialArrowAbility(GameObject regularArrowGO, Arrow regularArrowScript)
+    {
+        foreach (var entry in activeAbilities)
+        {
+            Abillity ability = entry.Value;
+            if (ability is FireArrowAbility fireArrowAbility)
+            {
+                // FireArrowAbility가 불화살을 발사하면 true 반환
+                if (fireArrowAbility.TryActivateFireArrow(regularArrowGO, regularArrowScript))
+                {
+                    return true;
+                }
+            }
+            // 다른 특수 화살 능력이 있다면 여기에 추가
+        }
+        return false; // 특수 화살 발사 실패
     }
 }
