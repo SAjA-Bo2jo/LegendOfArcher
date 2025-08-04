@@ -14,7 +14,7 @@ public class Bow : Abillity
     public const string FIRE_ARROW_POOL_KEY = "FireArrow";
 
     [Header("활 공격 설정")]
-    private bool isAttacking = false;
+    private bool isAttack = false;
 
     private GameObject loadedArrowGO;
     private Arrow loadedArrowScript;
@@ -26,9 +26,17 @@ public class Bow : Abillity
 
     protected void Start()
     {
+        // 부모 오브젝트에서 Player와 PlayerController 컴포넌트를 가져옵니다.
         player = GetComponentInParent<Player>();
-        animationHandler = GetComponent<AnimationHandler>();
         playerController = GetComponentInParent<PlayerController>();
+
+        // 활 오브젝트에서 AnimationHandler 컴포넌트를 가져와 할당합니다.
+        // 이전에 부모(Player)에서 가져오던 것을 변경합니다.
+        animationHandler = GetComponent<AnimationHandler>();
+        if (animationHandler == null)
+        {
+            Debug.LogError("Bow 스크립트에 AnimationHandler 컴포넌트가 없습니다! Bow 오브젝트에 있는지 확인하세요.");
+        }
 
         // 스크린샷에서 확인된 Animator 컴포넌트를 가져옵니다.
         animator = GetComponent<Animator>();
@@ -83,8 +91,9 @@ public class Bow : Abillity
             if (animator != null)
             {
                 // 공격 애니메이션을 멈춥니다.
-                animator.SetBool("isAttacking", false);
+                animator.SetBool("IsAttack", false);
             }
+            StopAttack(); // 타겟이 없으면 공격 사이클도 중지
         }
         else
         {
@@ -120,142 +129,169 @@ public class Bow : Abillity
 
     protected void TryAttack()
     {
-        if (isAttacking) return;
-        if (playerController != null && playerController.IsMoving) return;
+        if (isAttack) return; // 이미 공격 중이면 스킵
 
-        // 타겟이 없으면 공격 시도 자체를 하지 않습니다.
-        if (target == null) return;
+        if (playerController != null && playerController.IsMoving)
+        {
+            Debug.Log("Bow: 플레이어가 움직이고 있어 공격을 시도하지 않습니다.");
+            return;
+        }
+
+        if (target == null)
+        {
+            Debug.Log("Bow: 타겟이 없어 공격을 시도하지 않습니다.");
+            return;
+        }
 
         float delay = AttackDelay();
         if (Time.time >= lastAttackTime + delay)
         {
-            StartCoroutine(PerformAttackCycle(delay));
+            Debug.Log("Bow: 공격 시작!");
+            StartCoroutine(PerformAttackCycle()); // 딜레이는 코루틴 내에서 처리
             lastAttackTime = Time.time;
         }
     }
 
-    private IEnumerator PerformAttackCycle(float totalAttackDelay)
+    private IEnumerator PerformAttackCycle()
     {
-        isAttacking = true;
+        isAttack = true;
+
+        if (playerController != null && playerController.IsMoving)
+        {
+            Debug.Log("Bow: PerformAttackCycle 시작 직전에 플레이어 이동 감지. 공격을 취소합니다.");
+            StopAttack();
+            yield break;
+        }
 
         if (player == null)
         {
             Debug.LogError("Bow: Player 컴포넌트를 찾을 수 없습니다.");
-            isAttacking = false;
+            StopAttack();
             yield break;
-        }
-
-        // 애니메이션 속도를 플레이어의 공격 속도에 맞춰 동적으로 조절합니다.
-        if (animator != null)
-        {
-            animator.speed = player.MaxAttackSpeed;
         }
 
         if (animationHandler != null)
         {
-            animationHandler.Attack();
+            animationHandler.Attack(); // 활 공격 애니메이션 재생
         }
         else
         {
             Debug.LogWarning("Bow: AnimationHandler가 할당되지 않아 공격 애니메이션을 재생할 수 없습니다.");
-            isAttacking = false;
+            StopAttack();
             yield break;
         }
 
-        // 화살을 미리 풀에서 가져와 장전 상태로 만듭니다.
+        // 애니메이션이 시작되면 바로 화살을 장전
+        LoadArrow();
+
+        // 애니메이션 이벤트에 의해 화살이 발사될 때까지 대기
+        // isAttack은 Animation Event에서 FireLoadedArrowFromAnimationEvent 호출 후 false로 설정
+        // 또는 공격 애니메이션이 끝났는데도 FireLoadedArrowFromAnimationEvent가 호출되지 않았다면 (예: 애니메이션이 중단된 경우)
+        // 안전 장치로 일정 시간 후 isAttack을 false로 되돌립니다.
+        // 여기서는 애니메이션 이벤트에서 isAttack을 false로 설정하는 것을 기대합니다.
+        // 만약 애니메이션 이벤트가 FireLoadedArrowFromAnimationEvent를 호출하지 않는 경우를 대비한 타임아웃 로직이 필요하다면 추가할 수 있습니다.
+        // 예를 들어, 최대 공격 딜레이 시간만큼 기다린 후에도 isAttack이 true라면 강제 종료
+        // yield return new WaitForSeconds(totalAttackDelay * 2); // 예시: 최대 공격 딜레이의 두 배 시간 후에도 공격 중이라면
+        // if (isAttack) { StopAttack(); }
+
+        // 장전된 화살이 발사되거나 공격이 중단될 때까지 기다립니다.
+        // Animator의 "IsAttack" 상태가 false가 되거나, loadedArrowGO가 null이 될 때까지 기다릴 수 있습니다.
+        // 여기서는 FireLoadedArrowFromAnimationEvent()에서 isAttack을 false로 설정하고 loadedArrowGO를 null로 만들기 때문에
+        // 별도의 긴 대기 시간 없이 애니메이션 이벤트의 호출을 기다리면 됩니다.
+    }
+
+    // 화살을 오브젝트 풀에서 가져와 활에 장전하는 함수
+    private void LoadArrow()
+    {
+        if (loadedArrowGO != null)
+        {
+            // 이미 장전된 화살이 있다면 반환하고 새로 장전
+            ObjectPoolManager.Instance.Return(ARROW_POOL_KEY, loadedArrowGO);
+            loadedArrowGO = null;
+            loadedArrowScript = null;
+        }
+
         loadedArrowGO = ObjectPoolManager.Instance.Get(ARROW_POOL_KEY);
         if (loadedArrowGO == null)
         {
-            Debug.LogError($"Bow: 오브젝트 풀에서 '{ARROW_POOL_KEY}'를 가져오지 못했습니다.");
-            isAttacking = false;
-            yield break;
+            Debug.LogError($"Bow: 오브젝트 풀에서 '{ARROW_POOL_KEY}'를 가져오지 못했습니다. 화살 장전 실패.");
+            StopAttack();
+            return;
         }
 
         loadedArrowScript = loadedArrowGO.GetComponent<Arrow>();
         if (loadedArrowScript == null)
         {
-            Debug.LogError("Bow: 화살 Prefab에 Arrow 스크립트가 없습니다!");
+            Debug.LogError("Bow: 화살 Prefab에 Arrow 스크립트가 없습니다! 화살 장전 실패.");
             ObjectPoolManager.Instance.Return(ARROW_POOL_KEY, loadedArrowGO);
             loadedArrowGO = null;
             loadedArrowScript = null;
-            isAttacking = false;
-            yield break;
+            StopAttack();
+            return;
         }
 
         Rigidbody2D arrowRb = loadedArrowScript.GetComponent<Rigidbody2D>();
         if (arrowRb != null)
         {
-            arrowRb.isKinematic = true;
-            arrowRb.simulated = false;
+            arrowRb.isKinematic = true; // 물리 영향 받지 않도록
+            arrowRb.simulated = false; // 시뮬레이션 비활성화
             arrowRb.velocity = Vector2.zero;
             arrowRb.angularVelocity = 0;
         }
-
         loadedArrowGO.transform.position = firePoint.position;
         loadedArrowGO.transform.rotation = transform.rotation;
         loadedArrowScript.transform.localScale = Vector3.one * player.AttackSize;
         loadedArrowGO.SetActive(true);
-
-        // 총 공격 쿨타임 대기
-        yield return new WaitForSeconds(totalAttackDelay);
-
-        isAttacking = false;
+        Debug.Log("Bow: 화살 장전 완료!");
     }
 
-    /// <summary>
-    /// Unity 애니메이션 이벤트에서 호출되는 화살 발사 메서드입니다.
-    /// loadedArrowGO가 null일 경우, 즉시 화살을 생성하여 발사하는 안전장치 로직이 추가되었습니다.
-    /// </summary>
-    public void FireLoadedArrowFromAnimationEvent()
+
+    public void StopAttack()
     {
-        // 타겟이 없으면 발사하지 않습니다. 이중 확인 로직입니다.
-        if (target == null)
+        Debug.Log("Bow: StopAttack() 호출. 공격 상태를 초기화합니다.");
+        StopAllCoroutines();
+        isAttack = false;
+
+        if (animator != null)
         {
-            if (loadedArrowGO != null)
-            {
-                ObjectPoolManager.Instance.Return(ARROW_POOL_KEY, loadedArrowGO);
-            }
+            animator.SetBool("IsAttack", false);
+        }
+
+        if (loadedArrowGO != null)
+        {
+            ObjectPoolManager.Instance.Return(ARROW_POOL_KEY, loadedArrowGO);
             loadedArrowGO = null;
             loadedArrowScript = null;
+        }
+    }
+
+    public void FireLoadedArrowFromAnimationEvent()
+    {
+        if (playerController != null && playerController.IsMoving)
+        {
+            Debug.Log("Bow: 플레이어가 움직여서 화살 발사를 취소하고 공격을 중지합니다.");
+            StopAttack();
             return;
         }
 
-        // 만약 loadedArrowGO가 준비되지 않았다면, 즉시 생성하여 발사하는 안전장치 로직
-        if (loadedArrowGO == null)
+        if (target == null)
         {
-
-            loadedArrowGO = ObjectPoolManager.Instance.Get(ARROW_POOL_KEY);
-            if (loadedArrowGO == null)
-            {
-                Debug.LogError($"Bow: 오브젝트 풀에서 '{ARROW_POOL_KEY}'를 가져오지 못했습니다.");
-                return;
-            }
-
-            loadedArrowScript = loadedArrowGO.GetComponent<Arrow>();
-            if (loadedArrowScript == null)
-            {
-                Debug.LogError("Bow: 화살 Prefab에 Arrow 스크립트가 없습니다!");
-                ObjectPoolManager.Instance.Return(ARROW_POOL_KEY, loadedArrowGO);
-                loadedArrowGO = null;
-                loadedArrowScript = null;
-                return;
-            }
-
-            Rigidbody2D arrowRb = loadedArrowGO.GetComponent<Rigidbody2D>();
-            if (arrowRb != null)
-            {
-                arrowRb.isKinematic = false;
-                arrowRb.simulated = true;
-            }
-
-            loadedArrowGO.transform.position = firePoint.position;
-            loadedArrowGO.transform.rotation = transform.rotation;
-            loadedArrowScript.transform.localScale = Vector3.one * player.AttackSize;
-            loadedArrowGO.SetActive(true);
+            Debug.Log("Bow: 타겟이 없어 화살 발사를 취소하고 공격을 중지합니다.");
+            StopAttack(); // 타겟이 없으면 공격 사이클 중지
+            return;
         }
 
+        // 장전된 화살이 없으면 발사하지 않고, 공격을 중단합니다.
+        // 이제 PerformAttackCycle에서 화살을 미리 장전하므로, 이 시점에서 loadedArrowGO가 null이면 문제가 있는 것입니다.
+        if (loadedArrowGO == null)
+        {
+            Debug.LogWarning("Bow: 장전된 화살이 없어 발사할 수 없습니다. 애니메이션 이벤트 호출 시점에 loadedArrowGO가 null입니다.");
+            StopAttack();
+            return;
+        }
+
+        Debug.Log("Bow: 화살 발사!");
         Vector3 finalLaunchDirection = (target.transform.position - firePoint.position).normalized;
-        Debug.Log($"Bow: 타겟 '{target.name}'를 찾았습니다. 발사 방향: {finalLaunchDirection}");
 
         bool specialArrowFired = player.TryActivateSpecialArrowAbility(loadedArrowGO, loadedArrowScript);
 
@@ -277,9 +313,14 @@ public class Bow : Abillity
             loadedArrowScript.LaunchTowards(finalLaunchDirection);
         }
 
-        // 발사 후 화살 참조를 초기화합니다.
+        // 화살 발사 후 loadedArrowGO와 loadedArrowScript를 초기화하고 공격 상태 해제
         loadedArrowGO = null;
         loadedArrowScript = null;
+        isAttack = false; // 공격 사이클 완료
+        if (animator != null)
+        {
+            animator.SetBool("IsAttack", false);
+        }
     }
 
     public override void ApplyEffect() { }

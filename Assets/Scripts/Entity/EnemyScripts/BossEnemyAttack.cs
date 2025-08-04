@@ -17,13 +17,13 @@ public class BossEnemyAttack : IEnemyAttack
         lastAttackTime = Time.time;
         isAttacking = true;
 
-        controller.StartCoroutine(SwordSlash(controller));
+        //controller.StartCoroutine(SwordSlash(controller));
     }
 
-    private System.Collections.IEnumerator SwordSlash(EnemyController controller)
-    {
+    //private System.Collections.IEnumerator SwordSlash(EnemyController controller)
+    //{
 
-    }
+    //}
 
     private EnemyMeleeWeaponAttack GetSwordDamageHandler(EnemyController controller)
     {

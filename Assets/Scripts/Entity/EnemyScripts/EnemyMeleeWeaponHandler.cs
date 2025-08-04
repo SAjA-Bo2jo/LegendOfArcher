@@ -42,10 +42,10 @@ public class EnemyMeleeWeaponAttack : MonoBehaviour
                 {
                     BaseController baseController = collision.GetComponent<BaseController>();
 
-                    if (baseController != null)
-                    {
-                        baseController.ApplyKnockback(controller.transform, 8f, 0.6f)
-                    }
+                    //if (baseController != null)
+                    //{
+                    //    baseController.ApplyKnockback(controller.transform, 8f, 0.6f)
+                    //}
                 }
             }
         }
