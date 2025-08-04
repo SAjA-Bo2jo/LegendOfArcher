@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,14 +13,14 @@ public enum EnemyBehaviorType
 
 public class EnemyController : BaseController
 {
-    [Header("�ɷ�ġ")]
+    [Header("Stats")]
     [SerializeField] private EnemyStats stats;
     public EnemyStats Stats { get { return stats; } }
 
-    [Header("���� Ÿ��")]
-    [SerializeField] private EnemyBehaviorType behaviorType;    // �ش� ���� Ÿ�� �ν����� �Է�
+    [Header("Enemy Type")]
+    [SerializeField] private EnemyBehaviorType behaviorType; // Defines enemy behavior
 
-    [Header("���Ÿ� ����")]
+    [Header("Ranged Attack")]
     [SerializeField] private GameObject arrowPrefab;
 
     private Transform target;
@@ -33,27 +33,22 @@ public class EnemyController : BaseController
     public bool IsDead => isDead;
     public GameObject ArrowPrefab => arrowPrefab;
 
-
-
-    // �����ֱ� �Լ�
+    // Initialization
     protected override void Awake()
     {
         base.Awake();
 
         originalLayer = gameObject.layer;
-
         moveSpeed = stats.moveSpeed;
 
-        switch (behaviorType)                             // -> �ν����� �� �������� ���� Ÿ�� �Ǵ�
+        switch (behaviorType) // Initialize behavior strategy
         {
             case EnemyBehaviorType.Melee:
                 EnemyAttack = new MeleeEnemyAttack();
                 break;
-
             case EnemyBehaviorType.Ranged:
                 EnemyAttack = new RangedEnemyAttack();
                 break;
-
             case EnemyBehaviorType.Boss:
                 EnemyAttack = new BossEnemyAttack();
                 break;
@@ -70,17 +65,16 @@ public class EnemyController : BaseController
 
     protected void OnEnable()
     {
-        // stats�� null�� �ƴ� ���� �ʱ�ȭ�ϵ��� null üũ �߰�
         if (stats != null)
         {
-            stats.StatInitialize();
+            stats.StatInitialize(); // Reset stats
         }
 
-        // StageManager.Instance._Player�� null�� �� �����Ƿ� null üũ �߰�
         if (StageManager.Instance != null && StageManager.Instance._Player != null)
         {
-            Init(StageManager.Instance._Player.transform);
+            Init(StageManager.Instance._Player.transform); // Target the player
         }
+
         _animation = GetComponent<EnemyAnimationHandler>();
     }
 
@@ -90,72 +84,70 @@ public class EnemyController : BaseController
 
         if (behaviorType == EnemyBehaviorType.Boss && EnemyAttack is BossEnemyAttack boss)
         {
-            boss.Update(this);
+            boss.Update(this); // Special logic for bosses
         }
     }
 
-    public void Init(Transform target)                       // �ʱ�ȭ �� ���� ��� ���ϴ� �޼���
+    public void Init(Transform target) // Set target
     {
         this.target = target;
     }
 
-
-
-    // ��ƿ��Ƽ �޼���
-    protected float DistanceToTarget()                       // DistanceToTarget �޼��� : �÷��̾� ~ �� �Ÿ� ���ϴ� �޼���
+    // Calculate distance to player
+    protected float DistanceToTarget()
     {
         if (target == null) return float.MaxValue;
         return Vector2.Distance(transform.position, target.position);
     }
 
-    public Vector2 DirectionToTarget()                                   // DirectionToTarget �޼��� : �� -> �÷��̾� �������� ����
+    // Get normalized direction vector to player
+    public Vector2 DirectionToTarget()
     {
         if (target == null) return Vector2.zero;
         return (target.position - transform.position).normalized;
     }
 
-    public bool IsInAttackRange()                            // IsInAttackRange �޼��� : ���� ��Ÿ� ���� �÷��̾� �ִ� �� Ȯ��
+    // Check if player is within attack range
+    public bool IsInAttackRange()
     {
         if (target == null) return false;
         return DistanceToTarget() <= stats.attackRange;
     }
 
-
-
-    // HandleInput �޼��� : �� ��ü�� Ÿ��(�÷��̾�) ���� �ý���
+    // AI movement and attack logic
     protected override void HandleInput()
     {
-        if (target == null || stats.healthPoint <= 0)         // ���� ���(�÷��̾�) ���ų� �� ��ü�� �׾��� ���
+        if (target == null || stats.healthPoint <= 0)
         {
-            moveDirection = Vector2.zero;                     // -> �̵� ����
-            lookDirection = Vector2.zero;                     // -> ȸ�� ����
+            moveDirection = Vector2.zero;
+            lookDirection = Vector2.zero;
             return;
         }
 
         float distance = DistanceToTarget();
         Vector2 direction = DirectionToTarget();
 
-        lookDirection = direction;                             // �� ��ü�� Ÿ���� ��� �ٶ�
+        lookDirection = direction;
 
-        if (distance <= stats.detectRange)                     // ���� ���� ���� ���
+        if (distance <= stats.detectRange)
         {
             float optimalDist = stats.OptimalDistance;
 
-            if (distance > optimalDist + stats.distanceTolerance) // ��� 1. �÷��̾ �ʹ� �ָ� ���� ���
+            if (distance > optimalDist + stats.distanceTolerance)
             {
-                moveDirection = direction;                     // �÷��̾� �������� �̵�
+                moveDirection = direction; // Move closer
             }
             else
             {
-                moveDirection = Vector2.zero ;                              // ��� 2. �����Ÿ� ���� ���� ���
+                moveDirection = Vector2.zero; // Stop moving
             }
         }
         else
         {
-            moveDirection = Vector2.zero;                      // ���� ���� ���� ��� : ����
+            moveDirection = Vector2.zero; // Idle if out of detection range
         }
 
-        if (IsInAttackRange() && EnemyAttack.CanAttack(this))   // �̵� �� -> ��Ÿ� ���� Ÿ�� ������ ����
+        if (IsInAttackRange() && EnemyAttack.CanAttack(this))
         {
             EnemyAttack.Attack(this);
         }
@@ -163,26 +155,22 @@ public class EnemyController : BaseController
         bool inRange = IsInAttackRange();
         bool canAttack = EnemyAttack.CanAttack(this);
 
-        Debug.Log($"거리: {distance:F2}, 공격범위: {stats.attackRange}, 범위안: {inRange}, 공격가능: {canAttack}");
+        Debug.Log($"Distance: {distance:F2}, Range: {stats.attackRange}, InRange: {inRange}, CanAttack: {canAttack}");
 
         if (inRange && canAttack)
         {
-            Debug.Log("🎯 공격 조건 만족! Attack 호출!");
+            Debug.Log("🎯 Attack conditions met! Calling Attack()");
             EnemyAttack.Attack(this);
         }
     }
 
-
-
-    // �� ��ü ��� ó�� ���� �޼���
-    public void GetDamage(float dmg)                           // GetDamage �޼��� : �� ��ü �ǰ� + ��� ���� ó��
+    // Take damage and handle death
+    public void GetDamage(float dmg)
     {
-
         isDead = stats.TakeDamage(dmg);
 
         if (isDead)
         {
-            // ������� ���, ��� ó�� �ڷ�ƾ�� ȣ��
             HandleDeath();
         }
         else
@@ -191,20 +179,16 @@ public class EnemyController : BaseController
         }
     }
 
-    private void HandleDeath()                                 // HandleDeath �޼��� : �� ��ü ��� ó��
+    private void HandleDeath()
     {
-        _animation.Death();                                                // �ִϸ��̼� ����
-
-        // Death �ִϸ��̼� ��� �Ϸ� �� ������Ʈ�� Ǯ�� ��ȯ
+        _animation.Death(); // Play death animation
         StartCoroutine(DeathCoroutine());
     }
 
-    private IEnumerator DeathCoroutine()                       // Death �ִϸ��̼� ��� �Ϸ� �� ������Ʈ ����
+    private IEnumerator DeathCoroutine()
     {
-        // Death �ִϸ��̼��� ����� �ð���ŭ ���
         yield return new WaitForSeconds(0.4f);
 
-        // StageManager�� ���� ���� ��������� �˸�
         if (StageManager.Instance != null)
         {
             StageManager.Instance.RemoveMonsterFromList(gameObject);
@@ -213,33 +197,30 @@ public class EnemyController : BaseController
         EnemyPoolObject poolObject = GetComponent<EnemyPoolObject>();
         if (poolObject != null)
         {
-            poolObject.ReturnToPool();                         // Ǯ�� ���� ��ü ��������
+            poolObject.ReturnToPool();
         }
         else
         {
-            Debug.Log($"{gameObject.name}: EnemyPoolObject�� ���� Destroy�� ��ü�մϴ�.");
+            Debug.Log($"{gameObject.name}: No pool reference, destroying object.");
             Destroy(gameObject);
         }
     }
 
-
-
-    // ���� ��뿡�� ������ �ִ� �޼���
+    // On contact with player
     public void ApplyContactDamage(Collider2D collider)
     {
         if (collider.CompareTag("Player"))
         {
             float damage = stats.contactDamage;
 
-            // 보스 돌진 중이면 3배 피해
             if (behaviorType == EnemyBehaviorType.Boss && EnemyAttack is BossEnemyAttack boss && boss.IsCharging())
             {
                 damage = stats.contactDamage * 3f;
-                Debug.Log("돌진 공격! 피해: " + damage);
+                Debug.Log("Charging attack! Damage: " + damage);
             }
             else
             {
-                Debug.Log("몸통 박치기! 피해: " + damage);
+                Debug.Log("Body slam! Damage: " + damage);
             }
 
             ResourceController rc = collider.GetComponent<ResourceController>();
@@ -250,25 +231,24 @@ public class EnemyController : BaseController
         }
     }
 
+    // Reset values when returned to pool
     public void OnReturnToPool()
     {
         Animator animator = GetComponentInChildren<Animator>();
-        
+
         if (animator == null)
             Debug.LogWarning("Enemy's animator is NULL!");
 
-        animator.Rebind();           // animator reset
-        animator.Update(0f);         // immediately
-                
-        stats.healthPoint = stats.maxHealth;    // reset health
-        isDead = false;                 // reset dead flag
+        animator.Rebind();     // Reset animation state
+        animator.Update(0f);   // Apply immediately
 
-        gameObject.layer = originalLayer;  // reset layer
+        stats.healthPoint = stats.maxHealth;
+        isDead = false;
+
+        gameObject.layer = originalLayer;
 
         Collider2D collider = GetComponent<Collider2D>();
-        // reset collider if it turned off
         if (collider != null)
             collider.enabled = true;
-
     }
 }
