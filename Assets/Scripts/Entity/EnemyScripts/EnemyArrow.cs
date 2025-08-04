@@ -68,6 +68,9 @@ public class EnemyArrow : MonoBehaviour
             }
         }
 
+        if (collision.CompareTag("LowObject"))
+            return;
+
         Destroy(gameObject);
     }
 }
