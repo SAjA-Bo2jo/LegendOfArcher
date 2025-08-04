@@ -4,120 +4,120 @@ using System.Linq;
 
 public class Player : MonoBehaviour
 {
-    // protected AnimationHandler animationHandler; // ÀÌ ÇÊµå´Â »èÁ¦ÇÏ°Å³ª, ¾Æ·¡¿Í °°ÀÌ [SerializeField]·Î ¹Ù²Ù°í Unity¿¡¼­ ¿¬°áÇÏ´Â °ÍÀ» °í·Á.
-    // GetComponentInChildrenÀ¸·Î Ã£À» °ÍÀÌ¹Ç·Î, ÇÊµå´Â ±×³É private ¶Ç´Â protected·Î À¯ÁöÇØµµ ¹«¹æÇÕ´Ï´Ù.
-    private AnimationHandler animationHandler; // PlayerController¿Í ¸¶Âù°¡Áö·Î, privateÀ¸·Î ¹Ù²Ù°í GetComponentInChildrenÀ¸·Î Ã£µµ·Ï ÇÕ´Ï´Ù.
 
-    [Header("±âº» ½ºÅÈ")]
-    // --- Ã¼·Â °ü·Ã ½ºÅÈ ---
-    [SerializeField] private float maxHealth = 100f; // ÃÖ´ë Ã¼·Â
+    [Header("ï¿½âº» ï¿½ï¿½ï¿½ï¿½")]
+    // --- Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ---
+    [SerializeField]
+    private float maxHealth = 100f; // ï¿½Ö´ï¿½ Ã¼ï¿½ï¿½
 
-    // Health ÇÁ·ÎÆÛÆ¼ÀÇ ½ÇÁ¦ °ªÀ» ÀúÀåÇÒ private ÇÊµå
+    // ï¿½Ö´ï¿½ Ã¼ï¿½ï¿½
+
+    // Health ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ private ï¿½Êµï¿½
     private float _health;
     public float Health
     {
         get => _health;
         set
         {
-            // ÇÒ´çÇÏ·Á´Â »õ Ã¼·Â °ªÀÌ ÇöÀç Ã¼·Âº¸´Ù ³·À» ¶§ (ÇÇÇØ¸¦ ÀÔ´Â »óÈ²)
+            // ï¿½Ò´ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½Âºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ (ï¿½ï¿½ï¿½Ø¸ï¿½ ï¿½Ô´ï¿½ ï¿½ï¿½È²)
             if (value < _health)
             {
-                // Health ÇÁ·ÎÆÛÆ¼¸¦ Á÷Á¢ º¯°æÇÏ´Â ´ë½Å, TakeDamage ¸Þ¼­µå¸¦ È£ÃâÇÏ¿© ÇÇÇØ Ã³¸® ·ÎÁ÷À» ½ÇÇà
-                // ÀÌ¶§, 'value'¿Í '_health'ÀÇ Â÷ÀÌ¸¸Å­À» ÇÇÇØ·®À¸·Î ³Ñ°ÜÁÝ´Ï´Ù.
-                // TakeDamage ¸Þ¼­µå ³»ºÎ¿¡¼­ _health °ªÀ» Á÷Á¢ º¯°æÇÏ¹Ç·Î ¹«ÇÑ Àç±Í°¡ ¹ß»ýÇÏÁö ¾Ê½À´Ï´Ù.
+                // Health ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½, TakeDamage ï¿½Þ¼ï¿½ï¿½å¸¦ È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                // ï¿½Ì¶ï¿½, 'value'ï¿½ï¿½ '_health'ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½Å­ï¿½ï¿½ ï¿½ï¿½ï¿½Ø·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½Ý´Ï´ï¿½.
+                // TakeDamage ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ _health ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Í°ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.
                 float damageAmount = _health - value;
-                TakeDamage(damageAmount); // ³»ºÎÀûÀ¸·Î µ¥¹ÌÁö¸¦ Ã³¸®ÇÏ´Â »õ ¸Þ¼­µå È£Ãâ
+                TakeDamage(damageAmount); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½
             }
-            else // Ã¼·ÂÀÌ Áõ°¡ÇÏ°Å³ª °°Àº °ªÀ¸·Î ¼³Á¤µÉ ¶§ (È¸º¹, ÃÊ±âÈ­ µî)
+            else // Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ (È¸ï¿½ï¿½, ï¿½Ê±ï¿½È­ ï¿½ï¿½)
             {
-                _health = Mathf.Min(value, MaxHealth); // ÃÖ´ë Ã¼·ÂÀ» ³ÑÁö ¾Êµµ·Ï ¼³Á¤
-                Debug.Log($"Ã¼·Â ¾÷µ¥ÀÌÆ®: {_health}. (TakeDamageExternal)");
+                _health = Mathf.Min(value, MaxHealth); // ï¿½Ö´ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                Debug.Log($"Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®: {_health}. (TakeDamageExternal)");
             }
 
-            // Ã¼·ÂÀÌ 0 ÀÌÇÏ°¡ µÇ¸é »ç¸Á Ã³¸® (ÀÌ ºÎºÐÀº ¿ÜºÎ¿¡¼­ Ã¼·ÂÀ» Á÷Á¢ 0 ÀÌÇÏ·Î ¼³Á¤ÇÒ °æ¿ì¸¦ ´ëºñ)
+            // Ã¼ï¿½ï¿½ï¿½ï¿½ 0 ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ (ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 0 ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¦ ï¿½ï¿½ï¿½)
             if (_health <= 0)
             {
                 Death();
             }
         }
     }
-    public float MaxHealth // ÃÖ´ë Ã¼·Â
+    public float MaxHealth // ï¿½Ö´ï¿½ Ã¼ï¿½ï¿½
     {
         get { return maxHealth; }
         set { maxHealth = value; }
     }
 
     [SerializeField] private float baseDefense = 0f;
-    public float Defense { get; set; } // ÃÖÁ¾ ¹æ¾î·Â (¹Þ´Â ÇÇÇØ °¨¼Ò)
+    public float Defense { get; set; } // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 
     [SerializeField] private float baseMoveSpeed = 5.0f;
-    public float MoveSpeed { get; set; } // ÃÖÁ¾ ÀÌµ¿ ¼Óµµ
+    public float MoveSpeed { get; set; } // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Óµï¿½
 
     [SerializeField] private float baseAttackDamage = 10f;
-    public float AttackDamage { get; set; } // ÃÖÁ¾ °ø°Ý µ¥¹ÌÁö
+    public float AttackDamage { get; set; } // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     [SerializeField] private float baseAttackRange = 3f;
-    public float AttackRange { get; set; } // ÃÖÁ¾ °ø°Ý ¹üÀ§
+    public float AttackRange { get; set; } // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     [SerializeField] private float baseAttackSize = 1.0f;
-    public float AttackSize { get; set; } // Åõ»çÃ¼/°ø°ÝÀÇ Å©±â ¹èÀ²
+    public float AttackSize { get; set; } // ï¿½ï¿½ï¿½ï¿½Ã¼/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    [SerializeField] private float baseCriticalRate = 10f; // ±âº» Ä¡¸íÅ¸ È®·ü (%)
-    public float CriticalRate { get; set; } // ÃÖÁ¾ Ä¡¸íÅ¸ È®·ü (%)
+    [SerializeField] private float baseCriticalRate = 10f; // ï¿½âº» Ä¡ï¿½ï¿½Å¸ È®ï¿½ï¿½ (%)
+    public float CriticalRate { get; set; } // ï¿½ï¿½ï¿½ï¿½ Ä¡ï¿½ï¿½Å¸ È®ï¿½ï¿½ (%)
 
     [SerializeField] private float baseProjectileSpeed = 7f;
-    public float ProjectileSpeed { get; set; } // ÃÖÁ¾ Åõ»çÃ¼ ¼Óµµ
+    public float ProjectileSpeed { get; set; } // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½Óµï¿½
 
-    [SerializeField] private float baseAttackSpeed = 1.0f; // ±âº» °ø°Ý ¼Óµµ (ÃÊ´ç °ø°Ý È½¼ö)
-    public float AttackSpeedMultiplier { get; set; } = 100f; // °ø°Ý ¼Óµµ ¹èÀ² (100 = 100%)
-    public float MaxAttackSpeed => baseAttackSpeed * (AttackSpeedMultiplier / 100f); // ÃÖÁ¾ °ø°Ý ¼Óµµ °è»ê
+    [SerializeField] private float baseAttackSpeed = 1.0f; // ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ (ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½)
+    public float AttackSpeedMultiplier { get; set; } = 100f; // ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½ (100 = 100%)
+    public float MaxAttackSpeed => baseAttackSpeed * (AttackSpeedMultiplier / 100f); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½
 
-    // --- °æÇèÄ¡/·¹º§ °ü·Ã ½ºÅÈ ---
-    [SerializeField] private int level = 1; // ÇöÀç ·¹º§
-    public int Level => level; // ·¹º§Àº ÀÐ±â Àü¿ëÀ¸·Î ¿ÜºÎ ³ëÃâ
+    // --- ï¿½ï¿½ï¿½ï¿½Ä¡/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ---
+    [SerializeField] private int level = 1; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public int Level => level; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Üºï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    [SerializeField] private float experience = 0f; // ÇöÀç °æÇèÄ¡
-    public float Experience => experience; // °æÇèÄ¡ ÀÐ±â Àü¿ë
+    [SerializeField] private float experience = 0f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡
+    public float Experience => experience; // ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    [SerializeField] private float[] expToNextLevel; // ·¹º§¾÷¿¡ ÇÊ¿äÇÑ °æÇèÄ¡ ¹è¿­ (ÀÎ½ºÆåÅÍ¿¡¼­ ¼³Á¤)
+    [SerializeField] private float[] expToNextLevel; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½è¿­ (ï¿½Î½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 
-    // --- ´É·Â °ü¸® ÇÊµå ---
-    // È¹µæÇÑ ´É·ÂµéÀ» ÀúÀåÇÒ µñ¼Å³Ê¸®: <´É·Â ÇÁ¸®ÆÕ (Key), ÇØ´ç ´É·Â ÀÎ½ºÅÏ½º (Value)>
+    // --- ï¿½É·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ ---
+    // È¹ï¿½ï¿½ï¿½ï¿½ ï¿½É·Âµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³Ê¸ï¿½: <ï¿½É·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (Key), ï¿½Ø´ï¿½ ï¿½É·ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ (Value)>
     public Dictionary<GameObject, Abillity> activeAbilities = new Dictionary<GameObject, Abillity>();
 
-    [Header("´É·Â ÇÕ¼º ·¹½ÃÇÇ")]
-    // ÇÕ¼º ·¹½ÃÇÇ ¸ñ·Ï
+    [Header("ï¿½É·ï¿½ ï¿½Õ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
+    // ï¿½Õ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     public List<AbilityRecipe> abilityRecipes;
 
     void Awake()
     {
-        // === ÇÙ½É ¼öÁ¤ ºÎºÐ ===
-        // AnimationHandler´Â Player GameObjectÀÇ ÀÚ½Ä¿¡ ÀÖÀ¸¹Ç·Î GetComponentInChildren·Î Ã£½À´Ï´Ù.
+        // === ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ ===
+        // AnimationHandlerï¿½ï¿½ Player GameObjectï¿½ï¿½ ï¿½Ú½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ GetComponentInChildrenï¿½ï¿½ Ã£ï¿½ï¿½ï¿½Ï´ï¿½.
         animationHandler = GetComponentInChildren<AnimationHandler>();
         if (animationHandler == null)
         {
-            Debug.LogError("Player ½ºÅ©¸³Æ®: AnimationHandler ÄÄÆ÷³ÍÆ®¸¦ ÀÚ½Ä¿¡¼­ Ã£À» ¼ö ¾ø½À´Ï´Ù! ¸ÞÀÎ ½ºÇÁ¶óÀÌÆ® ¿ÀºêÁ§Æ®¿¡ ÀÖ´ÂÁö È®ÀÎÇÏ¼¼¿ä.");
+            Debug.LogError("Player ï¿½ï¿½Å©ï¿½ï¿½Æ®: AnimationHandler ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ú½Ä¿ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
         }
-        // === ¿©±â±îÁö ¼öÁ¤ ===
+        // === ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ===
 
         RecalculateStats();
-        // Awake ½Ã¿¡´Â Health ÇÁ·ÎÆÛÆ¼ÀÇ set Á¢±ÙÀÚ¸¦ ÅëÇÏÁö ¾Ê°í Á÷Á¢ _health ÇÊµå¸¦ ÃÊ±âÈ­
+        // Awake ï¿½Ã¿ï¿½ï¿½ï¿½ Health ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ set ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ _health ï¿½Êµå¸¦ ï¿½Ê±ï¿½È­
         _health = maxHealth;
 
         if (abilityRecipes == null || abilityRecipes.Count == 0)
         {
-            Debug.LogWarning("Player: Ability Recipes°¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù. ÇÕ¼º ±â´ÉÀÌ ÀÛµ¿ÇÏÁö ¾ÊÀ» ¼ö ÀÖ½À´Ï´Ù.");
+            Debug.LogWarning("Player: Ability Recipesï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½. ï¿½Õ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ûµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ¸ðµç ½ºÅÈÀ» ±âº»°ªÀ¸·Î Àç¼³Á¤ÇÏ°í, È°¼ºÈ­µÈ ´É·ÂÀÇ È¿°ú¸¦ ´Ù½Ã Àû¿ëÇÕ´Ï´Ù.
-    /// ´É·Â È¹µæ/Á¦°Å ½Ã ¶Ç´Â ½ºÅÈ¿¡ ¿µÇâÀ» ÁÖ´Â ¾ÆÀÌÅÛ º¯°æ ½Ã È£ÃâµË´Ï´Ù.
+    /// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½âº»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ç¼³ï¿½ï¿½ï¿½Ï°ï¿½, È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½É·ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+    /// ï¿½É·ï¿½ È¹ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½Ë´Ï´ï¿½.
     /// </summary>
     public void RecalculateStats()
     {
-        // ¸ðµç ½ºÅÈÀ» ±âº»°ªÀ¸·Î ÃÊ±âÈ­
-        MaxHealth = maxHealth; // ÃÖ´ë Ã¼·Âµµ ±âº»°ªÀ¸·Î ¼³Á¤
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½âº»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
+        MaxHealth = maxHealth; // ï¿½Ö´ï¿½ Ã¼ï¿½Âµï¿½ ï¿½âº»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         MoveSpeed = baseMoveSpeed;
         AttackDamage = baseAttackDamage;
         AttackRange = baseAttackRange;
@@ -127,20 +127,20 @@ public class Player : MonoBehaviour
         AttackSpeedMultiplier = 100f;
         Defense = baseDefense;
 
-        // È°¼ºÈ­µÈ ¸ðµç ´É·ÂµéÀÇ È¿°ú¸¦ ÀçÀû¿ëÇÕ´Ï´Ù.
+        // È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½É·Âµï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         foreach (var abilityEntry in activeAbilities)
         {
             abilityEntry.Value.ApplyEffect();
         }
 
-        Debug.Log("¸ðµç ½ºÅÈ Àç°è»ê ¿Ï·á.");
+        Debug.Log("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½.");
     }
 
 
     /// <summary>
-    /// ·¹º§¾÷ ½Ã È£ÃâµÉ ´É·Â È¹µæ ¸Þ¼­µå.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½ï¿½ ï¿½É·ï¿½ È¹ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½.
     /// </summary>
-    /// <param name="abilityPrefab">¼±ÅÃµÈ ´É·ÂÀÇ ÇÁ¸®ÆÕ.</param>
+    /// <param name="abilityPrefab">ï¿½ï¿½ï¿½Ãµï¿½ ï¿½É·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.</param>
     public void AcquireAbility(GameObject abilityPrefab)
     {
         Abillity existingAbility = null;
@@ -149,11 +149,11 @@ public class Player : MonoBehaviour
             if (existingAbility.CurrentLevel < existingAbility.MaxLevel)
             {
                 existingAbility.OnAcquire(this);
-                Debug.Log($"[{existingAbility.AbilityName}] ´É·ÂÀÌ ·¹º§¾÷! (Lv.{existingAbility.CurrentLevel})");
+                Debug.Log($"[{existingAbility.AbilityName}] ï¿½É·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½! (Lv.{existingAbility.CurrentLevel})");
             }
             else
             {
-                Debug.Log($"[{existingAbility.AbilityName}] ´É·ÂÀº ÀÌ¹Ì ÃÖ´ë ·¹º§ÀÔ´Ï´Ù. (Lv.{existingAbility.MaxLevel}). ´Ù¸¥ º¸»óÀ» Á¦°øÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+                Debug.Log($"[{existingAbility.AbilityName}] ï¿½É·ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½. (Lv.{existingAbility.MaxLevel}). ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.");
             }
         }
         else
@@ -166,11 +166,11 @@ public class Player : MonoBehaviour
                 newAbility.InitializeAbility(abilityPrefab);
                 newAbility.OnAcquire(this);
                 activeAbilities.Add(abilityPrefab, newAbility);
-                Debug.Log($"[{newAbility.AbilityName}] »õ·Î¿î ´É·Â È¹µæ! (Lv.{newAbility.CurrentLevel})");
+                Debug.Log($"[{newAbility.AbilityName}] ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½É·ï¿½ È¹ï¿½ï¿½! (Lv.{newAbility.CurrentLevel})");
             }
             else
             {
-                Debug.LogError($"¼±ÅÃµÈ ÇÁ¸®ÆÕ {abilityPrefab.name}¿¡ Abillity ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù!");
+                Debug.LogError($"ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ {abilityPrefab.name}ï¿½ï¿½ Abillity ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!");
                 Destroy(abilityGO);
             }
         }
@@ -178,14 +178,14 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// È°¼ºÈ­µÈ ´É·Âµé Áß Æ¯Á¤ ´É·ÂÀ» Á¦°ÅÇÕ´Ï´Ù. (ÁÖ·Î ÇÕ¼º ½Ã ¿ø·á ´É·Â Á¦°Å¿¡ »ç¿ë)
+    /// È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½É·Âµï¿½ ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½É·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½. (ï¿½Ö·ï¿½ ï¿½Õ¼ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½ ï¿½ï¿½ï¿½Å¿ï¿½ ï¿½ï¿½ï¿½)
     /// </summary>
-    /// <param name="abilityPrefab">Á¦°ÅÇÒ ´É·ÂÀÇ ÇÁ¸®ÆÕ.</param>
+    /// <param name="abilityPrefab">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.</param>
     public void RemoveAbility(GameObject abilityPrefab)
     {
         if (activeAbilities.TryGetValue(abilityPrefab, out Abillity abilityToRemove))
         {
-            Debug.Log($"[{abilityToRemove.AbilityName}] ´É·ÂÀ» Á¦°ÅÇÕ´Ï´Ù.");
+            Debug.Log($"[{abilityToRemove.AbilityName}] ï¿½É·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
             abilityToRemove.OnRemove();
             Destroy(abilityToRemove.gameObject);
             activeAbilities.Remove(abilityPrefab);
@@ -193,14 +193,14 @@ public class Player : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"Á¦°ÅÇÏ·Á´Â ´É·Â ÇÁ¸®ÆÕ {abilityPrefab.name}À»(¸¦) È°¼ºÈ­µÈ ¸ñ·Ï¿¡¼­ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½É·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ {abilityPrefab.name}ï¿½ï¿½(ï¿½ï¿½) È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 
     /// <summary>
-    /// ÇöÀç È°¼ºÈ­µÈ ´É·Âµé°ú ·¹º§À» ±â¹ÝÀ¸·Î ÇÕ¼º °¡´ÉÇÑ ·¹½ÃÇÇ¸¦ Ã£½À´Ï´Ù.
+    /// ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½É·Âµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ Ã£ï¿½ï¿½ï¿½Ï´ï¿½.
     /// </summary>
-    /// <returns>ÇÕ¼º °¡´ÉÇÑ ´É·ÂÀÇ ÇÁ¸®ÆÕ ¸ñ·Ï.</returns>
+    /// <returns>ï¿½Õ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.</returns>
     public List<GameObject> GetCombinableAbilities()
     {
         List<GameObject> combinableList = new List<GameObject>();
@@ -231,11 +231,11 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// Bow°¡ È­»ìÀ» ¹ß»çÇÏ±â Á÷Àü¿¡ ÀÌ ÇÔ¼ö¸¦ È£ÃâÇÏ¿© Æ¯¼ö È­»ì ¹ßµ¿À» ½ÃµµÇÕ´Ï´Ù.
+    /// Bowï¿½ï¿½ È­ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï¿ï¿½ Æ¯ï¿½ï¿½ È­ï¿½ï¿½ ï¿½ßµï¿½ï¿½ï¿½ ï¿½Ãµï¿½ï¿½Õ´Ï´ï¿½.
     /// </summary>
-    /// <param name="regularArrowGO">¹ß»çÇÏ·Á´ø ÀÏ¹Ý È­»ì GameObject.</param>
-    /// <param name="regularArrowScript">¹ß»çÇÏ·Á´ø ÀÏ¹Ý È­»ì Arrow ÄÄÆ÷³ÍÆ®.</param>
-    /// <returns>Æ¯¼ö È­»ìÀÌ ¹ß»çµÇ¾úÀ¸¸é true, ¾Æ´Ï¸é false.</returns>
+    /// <param name="regularArrowGO">ï¿½ß»ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ï¹ï¿½ È­ï¿½ï¿½ GameObject.</param>
+    /// <param name="regularArrowScript">ï¿½ß»ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ï¹ï¿½ È­ï¿½ï¿½ Arrow ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®.</param>
+    /// <returns>Æ¯ï¿½ï¿½ È­ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ true, ï¿½Æ´Ï¸ï¿½ false.</returns>
     public bool TryActivateSpecialArrowAbility(GameObject regularArrowGO, Arrow regularArrowScript)
     {
         foreach (var entry in activeAbilities)
@@ -252,15 +252,15 @@ public class Player : MonoBehaviour
         return false;
     }
 
-    // --- °æÇèÄ¡ È¹µæ ¹× ·¹º§¾÷ ·ÎÁ÷ ---
+    // --- ï¿½ï¿½ï¿½ï¿½Ä¡ È¹ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ---
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î¿¡°Ô °æÇèÄ¡¸¦ Ãß°¡ÇÕ´Ï´Ù.
+    /// ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Õ´Ï´ï¿½.
     /// </summary>
-    /// <param name="expAmount">Ãß°¡ÇÒ °æÇèÄ¡ ¾ç.</param>
+    /// <param name="expAmount">ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½.</param>
     public void AddExperience(float expAmount)
     {
         experience += expAmount;
-        Debug.Log($"°æÇèÄ¡ È¹µæ: {expAmount}. ÇöÀç °æÇèÄ¡: {experience}");
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½Ä¡ È¹ï¿½ï¿½: {expAmount}. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡: {experience}");
 
         if (level < expToNextLevel.Length && experience >= expToNextLevel[level - 1])
         {
@@ -268,21 +268,21 @@ public class Player : MonoBehaviour
         }
         else if (level >= expToNextLevel.Length)
         {
-            Debug.Log("ÃÖ´ë ·¹º§¿¡ µµ´ÞÇß½À´Ï´Ù. ´õ ÀÌ»ó °æÇèÄ¡¸¦ È¹µæÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ È¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î¸¦ ·¹º§¾÷ ½ÃÅ°°í °ü·Ã ½ºÅÈÀ» Áõ°¡½ÃÅµ´Ï´Ù.
+    /// ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½Ï´ï¿½.
     /// </summary>
     private void LevelUp()
     {
         level++;
         experience = 0;
-        Debug.Log($"·¹º§¾÷! ÇöÀç ·¹º§: {level}");
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: {level}");
 
         maxHealth += 10;
-        // MaxHealth ÇÁ·ÎÆÛÆ¼´Â RecalculateStats¿¡¼­ ¾÷µ¥ÀÌÆ®µÇ¹Ç·Î, ¿©±â¼­ Á÷Á¢ _health¸¦ ¼³Á¤
+        // MaxHealth ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ RecalculateStatsï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ç¹Ç·ï¿½, ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ _healthï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         _health = maxHealth;
         baseAttackDamage += 1;
         baseMoveSpeed += 0.1f;
@@ -290,31 +290,31 @@ public class Player : MonoBehaviour
         RecalculateStats();
     }
 
-    // --- Ã¼·Â °ü¸® ¸Þ¼­µå ---
+    // --- Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ ---
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î¿¡°Ô ÇÇÇØ¸¦ ÀÔÈ÷´Â ¿ÜºÎ È£Ãâ¿ë ¸Þ¼­µå.
-    /// ÀÌ ¸Þ¼­µå¸¦ ÅëÇØ ÇÃ·¹ÀÌ¾î¿¡°Ô µ¥¹ÌÁö¸¦ ÁÙ ¼ö ÀÖ½À´Ï´Ù.
+    /// ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Üºï¿½ È£ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½.
+    /// ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
     /// </summary>
-    /// <param name="damageAmount">¹ÞÀ» ÇÇÇØ·®.</param>
+    /// <param name="damageAmount">ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø·ï¿½.</param>
     public void TakeDamage(float damageAmount)
     {
-        // === ÇÙ½É ¼öÁ¤ ºÎºÐ ===
-        // animationHandler°¡ nullÀÌ ¾Æ´Ò ¶§¸¸ Hurt() È£Ãâ
+        // === ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ ===
+        // animationHandlerï¿½ï¿½ nullï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ Hurt() È£ï¿½ï¿½
         if (animationHandler != null)
         {
-            animationHandler.Hurt(); // ¾Ö´Ï¸ÞÀÌ¼Ç ÇÚµé·¯¸¦ ÅëÇØ ÇÇÇØ ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇà
+            animationHandler.Hurt(); // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Úµé·¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
-            Debug.LogWarning("Player.TakeDamage: AnimationHandler°¡ ÇÒ´çµÇÁö ¾Ê¾Æ ÇÇÇØ ¾Ö´Ï¸ÞÀÌ¼ÇÀ» Àç»ýÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("Player.TakeDamage: AnimationHandlerï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
-        // === ¿©±â±îÁö ¼öÁ¤ ===
+        // === ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ===
 
         float finalDamage = Mathf.Max(0, (damageAmount / (damageAmount + this.Defense)));
 
-        // _health ÇÊµå¸¦ Á÷Á¢ ¼öÁ¤ÇÏ¿© ¹«ÇÑ Àç±Í¸¦ ¹æÁöÇÕ´Ï´Ù.
+        // _health ï¿½Êµå¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         _health -= finalDamage;
-        Debug.Log($"ÇÇÇØ¸¦ ¹Þ¾Ò½À´Ï´Ù: {finalDamage}. ³²Àº Ã¼·Â: {_health}");
+        Debug.Log($"ï¿½ï¿½ï¿½Ø¸ï¿½ ï¿½Þ¾Ò½ï¿½ï¿½Ï´ï¿½: {finalDamage}. ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½: {_health}");
 
         if (_health <= 0)
         {
@@ -324,36 +324,36 @@ public class Player : MonoBehaviour
 
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ Ã¼·ÂÀ» È¸º¹½ÃÅµ´Ï´Ù.
+    /// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½Åµï¿½Ï´ï¿½.
     /// </summary>
-    /// <param name="healAmount">È¸º¹ÇÒ Ã¼·Â ¾ç.</param>
+    /// <param name="healAmount">È¸ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½.</param>
     public void Heal(float healAmount)
     {
-        // Heal ¸Þ¼­µå´Â Ã¼·ÂÀ» Áõ°¡½ÃÅ°´Â °æ¿ìÀÌ¹Ç·Î, Health ÇÁ·ÎÆÛÆ¼ÀÇ set Á¢±ÙÀÚ¸¦ »ç¿ëÇØµµ µË´Ï´Ù.
-        // ÀÌ¶§ Health ÇÁ·ÎÆÛÆ¼ÀÇ set Á¢±ÙÀÚ ³»ºÎ¿¡ ÀÖ´Â 'value < _health' Á¶°Ç¿¡ °É¸®Áö ¾ÊÀ¸¹Ç·Î ¾ÈÀüÇÕ´Ï´Ù.
+        // Heal ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½, Health ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ set ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½Øµï¿½ ï¿½Ë´Ï´ï¿½.
+        // ï¿½Ì¶ï¿½ Health ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ set ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½Ö´ï¿½ 'value < _health' ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½É¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         Health = Mathf.Min(MaxHealth, Health + healAmount);
-        Debug.Log($"Ã¼·Â È¸º¹: {healAmount}. ÇöÀç Ã¼·Â: {Health}");
+        Debug.Log($"Ã¼ï¿½ï¿½ È¸ï¿½ï¿½: {healAmount}. ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½: {Health}");
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î »ç¸Á Ã³¸® ·ÎÁ÷ (ÇÊ¿ä½Ã ±¸Çö).
+    /// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ê¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½).
     /// </summary>
     private void Death()
     {
-        // === ÇÙ½É ¼öÁ¤ ºÎºÐ ===
-        // animationHandler°¡ nullÀÌ ¾Æ´Ò ¶§¸¸ Death() È£Ãâ
+        // === ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ ===
+        // animationHandlerï¿½ï¿½ nullï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ Death() È£ï¿½ï¿½
         if (animationHandler != null)
         {
             animationHandler.Death();
         }
         else
         {
-            Debug.LogWarning("Player.Death: AnimationHandler°¡ ÇÒ´çµÇÁö ¾Ê¾Æ »ç¸Á ¾Ö´Ï¸ÞÀÌ¼ÇÀ» Àç»ýÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("Player.Death: AnimationHandlerï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
-        // === ¿©±â±îÁö ¼öÁ¤ ===
+        // === ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ===
 
-        Debug.Log("ÇÃ·¹ÀÌ¾î°¡ »ç¸ÁÇß½À´Ï´Ù!");
-        // °ÔÀÓ ¿À¹ö Ã³¸®, UI Ç¥½Ã µî
-        // Time.timeScale = 0f; // °ÔÀÓ ÀÏ½Ã Á¤Áö (¿¹½Ã)
+        Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½!");
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½, UI Ç¥ï¿½ï¿½ ï¿½ï¿½
+        // Time.timeScale = 0f; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½)
     }
 }

@@ -49,6 +49,8 @@ public class StageManager : MonoSingleton<StageManager>
     public GameObject gateParent;
     public GameObject enemyParent;
 
+    [SerializeField] private MainGameUIManager mainGameUIManager;
+
     private void Start()
     {
         _stageDatabase = StageDatabase.Instance;
@@ -131,6 +133,8 @@ public class StageManager : MonoSingleton<StageManager>
         
         // 스테이지 레벨 +1
         stageLevel++;
+        
+        mainGameUIManager.CalculatePlayerIconPos(stageLevel);
         
         // 다음 스테이지의 정보를 _currentStageData로 옮겨야 함
         LoadCurrentStageData();
