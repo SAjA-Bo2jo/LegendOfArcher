@@ -361,7 +361,6 @@ MonoBehaviour:
   AttackSize: 1
   ProjectileSpeed: 10
   CriticalRate: 0.1
-  invincibilityDuration: 0.5
   abilityRecipes:
   - {fileID: 11400000, guid: df18535bac5162242ace048b062f2b99, type: 2}
 --- !u!114 &725293929147769396
@@ -388,6 +387,18 @@ PrefabInstance:
     - target: {fileID: 2753167647614639087, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: radius
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753167647614639087, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
+      propertyPath: abilityIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: 6c7a06be0ce925148a01ceaf3c20fa0c, type: 3}
+    - target: {fileID: 2753167647614639087, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
+      propertyPath: abilityName
+      value: "\uAE30\uBCF8\uD65C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753167647614639087, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
+      propertyPath: description
+      value: "\uD65C\uD65C"
       objectReference: {fileID: 0}
     - target: {fileID: 2753167647614639087, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: weaponPivot

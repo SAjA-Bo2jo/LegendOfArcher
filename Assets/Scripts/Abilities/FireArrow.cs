@@ -24,20 +24,17 @@ public class FireArrow : Ability
 
     public override void ApplyEffect()
     {
-        // 불화살은 스탯 직접 변경보다는 조건부 발동 능력이므로 이 부분은 비워둡니다.
-        UpdateDescription(); // 설명 업데이트
+        UpdateDescription();
     }
 
     private void UpdateDescription()
     {
         if (CurrentLevel > 0 && CurrentLevel <= MaxLevel)
         {
-            // 수정된 부분: "Description =" 대신 "description ="으로 변경
             description = $"매 {attackCountForFireArrowPerLevel[CurrentLevel - 1]}번째 공격 시 불화살 발사 (데미지 {damageMultiplierPerLevel[CurrentLevel - 1]}배)";
         }
         else
         {
-            // 수정된 부분: "Description =" 대신 "description ="으로 변경
             description = "불화살 능력 (획득 대기)";
         }
     }
@@ -50,17 +47,29 @@ public class FireArrow : Ability
     /// <returns>불화살이 발사되었으면 true, 아니면 false</returns>
     public bool TryActivateFireArrow(GameObject regularArrowGO, Arrow regularArrowScript)
     {
+        // 공격 횟수를 증가시킵니다.
         currentAttackCount++;
 
-        // --- 추가된 디버그 로그 ---
+        // --- 디버그 로그 ---
         Debug.Log($"[FireArrow] TryActivateFireArrow 호출됨. 현재 공격 횟수: {currentAttackCount}");
         if (CurrentLevel > 0)
         {
             Debug.Log($"[FireArrow] 조건 확인: 현재 레벨: {CurrentLevel}, 필요 공격 횟수: {attackCountForFireArrowPerLevel[CurrentLevel - 1]}");
         }
+        // --- 디버그 로그 끝 ---
 
-        ObjectPoolManager.Instance.Return("Arrow", regularArrowGO); // 기존 일반 화살 풀 반환
+        // 조건이 충족되었을 경우에만 불화살을 발사합니다.
+        if (CurrentLevel > 0 && CurrentLevel <= MaxLevel &&
+            currentAttackCount >= attackCountForFireArrowPerLevel[CurrentLevel - 1])
+        {
+            // 불화살 발사 조건이 충족되었으므로, 현재 공격 횟수를 리셋합니다.
+            currentAttackCount = 0;
+            Debug.Log($"FireArrow: 불화살 발동! (Lv.{CurrentLevel})");
 
+            // 기존 일반 화살은 풀로 반환합니다.
+            ObjectPoolManager.Instance.Return("Arrow", regularArrowGO);
+
+            // 불화살을 오브젝트 풀에서 가져옵니다.
             GameObject fireArrowGO = ObjectPoolManager.Instance.Get(FIRE_ARROW_POOL_KEY);
             if (fireArrowGO == null)
             {
@@ -76,10 +85,6 @@ public class FireArrow : Ability
                 return false;
             }
 
-            // FireArrow 능력은 플레이어의 위치와 방향을 사용하여 화살을 발사해야 합니다.
-            // Bow의 FirePoint를 직접 참조할 수 없으므로, 플레이어 위치와 플레이어가 바라보는 방향을 사용하거나
-            // 아니면 Bow에서 넘겨받은 regularArrowGO의 위치와 회전을 활용해야 합니다.
-            // 여기서는 regularArrowGO의 위치와 rotation을 활용합니다.
             fireArrowGO.transform.position = regularArrowGO.transform.position;
             fireArrowGO.transform.rotation = regularArrowGO.transform.rotation;
             fireArrowScript.transform.localScale = regularArrowScript.transform.localScale;
@@ -91,23 +96,25 @@ public class FireArrow : Ability
                 fireArrowRb.simulated = true;
             }
 
-            // 플레이어 스탯 (this.player는 OnAcquire에서 할당됨)
             if (player == null)
             {
                 Debug.LogError("FireArrow: Player 참조가 null입니다. 스탯을 설정할 수 없습니다.");
                 ObjectPoolManager.Instance.Return(FIRE_ARROW_POOL_KEY, fireArrowGO);
                 return false;
             }
+
             fireArrowScript.Setup(
                 damage: player.AttackDamage * damageMultiplierPerLevel[CurrentLevel - 1],
                 size: player.AttackSize,
                 critRate: player.CriticalRate,
                 speed: player.ProjectileSpeed
             );
-            fireArrowScript.LaunchTowards(fireArrowGO.transform.right); // 화살 Prefab의 로컬 X축 방향으로 발사
+            fireArrowScript.LaunchTowards(fireArrowGO.transform.right);
 
-            return true;
+            return true; // 불화살 발사에 성공했으므로 true 반환
         }
+
+        // 조건이 충족되지 않았다면 false를 반환합니다.
         return false;
     }
 }

@@ -218,6 +218,14 @@ public class Player : MonoBehaviour
                     return true;
                 }
             }
+            if (ability is GatlingBow gatlingBow)
+            {
+                // GatlingBow의 TryActivateGatlingArrow 메서드 호출
+                if (gatlingBow.TryActivateGatlingArrow(regularArrowGO, regularArrowScript, this))
+                {
+                    return true;
+                }
+            }
         }
 
         // FireArrow 어빌리티가 없거나 발동 조건을 만족하지 않으면 false를 반환합니다.
