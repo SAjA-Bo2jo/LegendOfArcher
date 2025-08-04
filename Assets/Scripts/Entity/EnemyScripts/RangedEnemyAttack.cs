@@ -4,19 +4,41 @@ using UnityEngine;
 
 public class RangedEnemyAttack : IEnemyAttack
 {
-    private float lastAttackTime = 0f;                                  // 쿨타임 변수
+    private float lastAttackTime = 0f;                                          // 쿨타임 변수
 
     public bool CanAttack(EnemyController controller)
     {
-        return Time.time > lastAttackTime + 1f;                         // 쿨타임보다 시간이 더 지나야 공격 가능
+        return Time.time > lastAttackTime + controller.Stats.attackCooldown;    // 쿨타임보다 시간이 더 지나야 공격 가능
     }
 
     public void Attack(EnemyController controller)
     {
-        lastAttackTime = Time.time;                                     // 공격 시간 기록
+        lastAttackTime = Time.time;
 
-        // 발사체 생성
+        CreateProjectile(controller);
 
-        // 플레이어 방향으로 발사
+        Debug.Log($"{controller.name} 원거리");
+    }
+
+    private void CreateProjectile(EnemyController controller)
+    {
+        GameObject arrowPrefab = controller.ArrowPrefab;
+
+        if (arrowPrefab != null )
+        {
+            Vector2 spawnPosition = (Vector2)controller.transform.position + controller.DirectionToTarget() * 0.5f;
+
+            GameObject arrow = Object.Instantiate(arrowPrefab, spawnPosition, Quaternion.identity);
+
+            EnemyArrow arrowScript = arrow.GetComponent<EnemyArrow>();
+            if (arrowScript != null)
+            {
+                arrowScript.Initialize(controller.Stats.attackDamage, controller.DirectionToTarget());
+            }
+        }
+        else
+        {
+            Debug.Log($"{controller.name} ArrowPrefab 설정 X");
+        }
     }
 }

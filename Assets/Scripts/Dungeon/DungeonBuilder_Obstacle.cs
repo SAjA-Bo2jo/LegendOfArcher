@@ -51,8 +51,8 @@ public partial class DungeonBuilder : MonoBehaviour
             Vector3 newPos;
             do
             {
-                float x = Random.Range(-8.3f, 8.3f);
-                float y = Random.Range(-0.5f, 3.3f);
+                float x = Random.Range(-5f, 5f);
+                float y = Random.Range(0f, 2f);
                 newPos = new Vector3((x + 20 * ((StageManager.Instance.StageLevel - 1) % 5)), y);
                 attempt++;
 
