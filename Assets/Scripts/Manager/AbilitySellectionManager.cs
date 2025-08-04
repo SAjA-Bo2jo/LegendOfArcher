@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using TMPro; // TextMeshPro를 사용하기 위해 필요
-using UnityEngine.UI; // UI 요소를 사용하기 위해 필요
 using System.Linq; // LINQ를 사용하기 위해 필요 (랜덤 선택 등)
+using TMPro; // TextMeshPro를 사용하기 위해 필요
+using UnityEngine;
+using UnityEngine.UI; // UI 요소를 사용하기 위해 필요
 
 public class AbilitySelectionManager : MonoBehaviour
 {
@@ -89,23 +89,23 @@ public class AbilitySelectionManager : MonoBehaviour
             GameObject selectedAbilityPrefab = SelectRandomAbilityUnique(possibleChoices);
             if (selectedAbilityPrefab != null)
             {
-                possibleChoices.Add(selectedAbilityPrefab); // 선택된 어빌리티를 후보 목록에 추가하여 다음 선택에서 제외
-                Abillity tempAbility = selectedAbilityPrefab.GetComponent<Abillity>(); //
+                Ability tempAbility = selectedAbilityPrefab.GetComponent<Ability>();
                 if (tempAbility != null)
                 {
                     // UI 슬롯에 어빌리티 정보를 설정합니다.
                     abilitySlots[i].SetAbility(selectedAbilityPrefab, tempAbility.AbilityName, tempAbility.Description, tempAbility.AbilityIcon);
+                    possibleChoices.Add(selectedAbilityPrefab); // 선택된 어빌리티를 후보 목록에 추가하여 다음 선택에서 제외
                 }
                 else
                 {
-                    Debug.LogWarning($"프리팹 '{selectedAbilityPrefab.name}'에 Abillity 컴포넌트가 없습니다.");
+                    Debug.LogWarning($"프리팹 '{selectedAbilityPrefab.name}'에 Ability 컴포넌트가 없습니다.");
                     abilitySlots[i].ClearSlot();
                 }
             }
             else
             {
                 // 더 이상 선택할 어빌리티가 없는 경우 해당 슬롯은 비활성화 상태 유지
-                abilitySlots[i].ClearSlot(); // 이미 ClearSlot에서 비활성화
+                abilitySlots[i].ClearSlot();
             }
         }
     }
@@ -149,13 +149,18 @@ public class AbilitySelectionManager : MonoBehaviour
         {
             return newAbilities[Random.Range(0, newAbilities.Count)];
         }
-        else if (upgradableAbilities.Any()) // 새로운 어빌리티가 없거나 확률이 안 맞았을 때, 강화 가능한게 있다면 다시 시도
+        // 위 확률에 맞지 않거나 해당 유형의 어빌리티가 없을 경우, 남은 어빌리티 중 아무거나 시도
+        else if (upgradableAbilities.Any())
         {
             return upgradableAbilities[Random.Range(0, upgradableAbilities.Count)];
         }
-        else if (combinableAbilities.Any()) // 강화도 안될 때, 합성 가능한게 있다면 다시 시도
+        else if (combinableAbilities.Any())
         {
             return combinableAbilities[Random.Range(0, combinableAbilities.Count)];
+        }
+        else if (newAbilities.Any()) // 마지막으로 새로운 어빌리티라도 있다면
+        {
+            return newAbilities[Random.Range(0, newAbilities.Count)];
         }
         else
         {

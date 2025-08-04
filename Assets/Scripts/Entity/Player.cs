@@ -1,29 +1,35 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Playables;
 using UnityEngine;
-using System.Linq; // LINQ를 사용하기 위해 추가
 
 public class Player : MonoBehaviour
 {
     private AnimationHandler animationHandler;
 
     [Header("기본 스탯")]
-    [SerializeField] private float maxHealth = 100f;
+    // 이 maxHealth는 이제 어빌리티 효과가 적용되기 전의 순수 기본 체력이 됩니다.
+    // 어빌리티가 체력을 올리면 MaxHealth 프로퍼티를 통해 반영됩니다.
+    [SerializeField] private float baseMaxHealth = 100f; // 레벨 1일 때의 기본 최대 체력
+    private float _maxHealth; // 실제 스탯 계산에 사용될 현재 최대 체력
+    public float MaxHealth
+    {
+        get { return _maxHealth; }
+        set { _maxHealth = value; }
+    }
+
     private float _health;
     public float Health
     {
         get => _health;
-        private set // 외부에서 직접 대입하지 못하도록 private set으로 변경
+        private set
         {
-            _health = Mathf.Clamp(value, 0, MaxHealth); // 0 미만, MaxHealth 초과 방지
-                                                        // 체력 변화에 따른 Debug.Log는 TakeDamage나 Heal 내부에서 하는 것이 좋습니다.
-                                                        // Debug.Log($"체력 업데이트: {_health:F2}"); // 필요시 여기에 로그 추가
+            _health = Mathf.Clamp(value, 0, MaxHealth);
         }
     }
-    public float MaxHealth
-    {
-        get { return maxHealth; }
-        set { maxHealth = value; }
-    }
+
+    // 이제 baseHealth는 필요 없습니다. baseMaxHealth로 통합됩니다.
+    // [SerializeField] private float baseHealth = 100f; 
 
     [SerializeField] private float baseDefense = 0f;
     public float Defense { get; set; }
@@ -50,28 +56,12 @@ public class Player : MonoBehaviour
     public float AttackSpeedMultiplier { get; set; } = 100f;
     public float MaxAttackSpeed => baseAttackSpeed * (AttackSpeedMultiplier / 100f);
 
-    [Header("경험치/레벨 관련 스탯")]
-    [SerializeField] private int level = 1;
-    public int Level => level;
-
-    [SerializeField] private float experience = 0f;
-    public float Experience => experience;
-
-    // 레벨업에 필요한 경험치 배열 (코드에서 자동 생성)
-    [SerializeField] private float[] expToNextLevel;
-
-    [Tooltip("경험치 테이블 계산에 사용될 기본 경험치량 (레벨1->2).")]
-    [SerializeField] private float baseExperienceForLevelUp = 100f;
-    [Tooltip("경험치 테이블 계산에 사용될 지수 계수.")]
-    [SerializeField] private float expCoefficient = 1.2f; // 사용자 요청 계수 1.2
-    [Tooltip("최대 도달 가능한 레벨.")]
-    [SerializeField] private const int MAX_PLAYER_LEVEL = 40; // 최대 레벨 40
-
-    // --- 능력 관리 필드 ---
-    public Dictionary<GameObject, Abillity> activeAbilities = new Dictionary<GameObject, Abillity>();
+    public Dictionary<GameObject, Ability> activeAbilities = new Dictionary<GameObject, Ability>();
 
     [Header("능력 합성 레시피")]
     public List<AbilityRecipe> abilityRecipes;
+
+    private LevelManager levelManager; // 레벨업 이벤트 수신용으로 유지
 
     void Awake()
     {
@@ -81,11 +71,14 @@ public class Player : MonoBehaviour
             Debug.LogError("Player 스크립트: AnimationHandler 컴포넌트를 자식에서 찾을 수 없습니다! 메인 스프라이트 오브젝트에 있는지 확인하세요.");
         }
 
-        // 경험치 테이블 생성
-        GenerateExpTable();
+        levelManager = FindObjectOfType<LevelManager>();
+        if (levelManager == null)
+        {
+            Debug.LogError("Player: 씬에서 LevelManager 오브젝트를 찾을 수 없습니다! 레벨업 기능이 작동하지 않을 수 있습니다.");
+        }
 
-        RecalculateStats();
-        _health = maxHealth;
+        RecalculateStats(); // 초기 스탯 계산 (기본 스탯 + 어빌리티)
+        _health = MaxHealth; // 체력을 초기 최대 체력으로 설정
 
         if (abilityRecipes == null || abilityRecipes.Count == 0)
         {
@@ -93,26 +86,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    /// 지수함수를 적용하여 레벨업에 필요한 경험치 테이블을 생성합니다.
-    private void GenerateExpTable()
-    {
-        expToNextLevel = new float[MAX_PLAYER_LEVEL - 1];
-
-        for (int i = 0; i < MAX_PLAYER_LEVEL - 1; i++)
-        {
-            expToNextLevel[i] = baseExperienceForLevelUp * Mathf.Pow(expCoefficient, i);
-            Debug.Log($"Lv.{i + 1} -> Lv.{i + 2} 필요 경험치: {expToNextLevel[i]:F2}");
-        }
-        Debug.Log($"경험치 테이블 생성 완료 (총 {expToNextLevel.Length} 레벨 구간).");
-    }
-
     /// <summary>
     /// 플레이어의 모든 스탯을 기본값으로 재설정하고, 활성화된 능력의 효과를 다시 적용합니다.
-    /// 능력 획득/제거 시 또는 스탯에 영향을 주는 아이템 변경 시 호출됩니다.
+    /// 능력 획득/제거 시 호출됩니다. 레벨업 시에는 스탯을 직접적으로 올리지 않습니다.
     /// </summary>
     public void RecalculateStats()
     {
-        MaxHealth = maxHealth;
+        // 기본 스탯으로 초기화 (레벨에 따른 증가분 없음)
+        MaxHealth = baseMaxHealth; // 기본 최대 체력으로 초기화
         MoveSpeed = baseMoveSpeed;
         AttackDamage = baseAttackDamage;
         AttackRange = baseAttackRange;
@@ -122,12 +103,17 @@ public class Player : MonoBehaviour
         AttackSpeedMultiplier = 100f;
         Defense = baseDefense;
 
-        foreach (var abilityEntry in activeAbilities)
+        // 활성화된 능력 효과 재적용
+        // 능력들이 이 기본 스탯에 더하거나 곱하는 방식으로 스탯을 변경합니다.
+        foreach (var abilityEntry in activeAbilities.Values)
         {
-            abilityEntry.Value.ApplyEffect();
+            abilityEntry.ApplyEffect();
         }
 
-        Debug.Log("모든 스탯 재계산 완료.");
+        // 스탯 재계산 후 현재 체력이 새로운 MaxHealth를 초과하지 않도록 조정
+        Health = _health; // _health 값을 MaxHealth 범위에 맞게 클램프 (Health 프로퍼티의 set 로직이 적용됨)
+
+        Debug.Log("모든 스탯 재계산 완료 (어빌리티 효과만 적용됨). 현재 MaxHealth: " + MaxHealth + ", AttackDamage: " + AttackDamage);
     }
 
     /// <summary>
@@ -136,7 +122,7 @@ public class Player : MonoBehaviour
     /// <param name="abilityPrefab">선택된 능력의 프리팹.</param>
     public void AcquireAbility(GameObject abilityPrefab)
     {
-        Abillity existingAbility = null;
+        Ability existingAbility = null;
         if (activeAbilities.TryGetValue(abilityPrefab, out existingAbility))
         {
             if (existingAbility.CurrentLevel < existingAbility.MaxLevel)
@@ -152,7 +138,7 @@ public class Player : MonoBehaviour
         else
         {
             GameObject abilityGO = Instantiate(abilityPrefab, transform);
-            Abillity newAbility = abilityGO.GetComponent<Abillity>();
+            Ability newAbility = abilityGO.GetComponent<Ability>();
 
             if (newAbility != null)
             {
@@ -163,11 +149,11 @@ public class Player : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"선택된 프리팹 {abilityPrefab.name}에 Abillity 컴포넌트가 없습니다!");
+                Debug.LogError($"선택된 프리팹 {abilityPrefab.name}에 Ability 컴포넌트가 없습니다!");
                 Destroy(abilityGO);
             }
         }
-        RecalculateStats();
+        RecalculateStats(); // 능력 획득/강화 후 스탯 재계산
     }
 
     /// <summary>
@@ -176,13 +162,13 @@ public class Player : MonoBehaviour
     /// <param name="abilityPrefab">제거할 능력의 프리팹.</param>
     public void RemoveAbility(GameObject abilityPrefab)
     {
-        if (activeAbilities.TryGetValue(abilityPrefab, out Abillity abilityToRemove))
+        if (activeAbilities.TryGetValue(abilityPrefab, out Ability abilityToRemove))
         {
             Debug.Log($"[{abilityToRemove.AbilityName}] 능력을 제거합니다.");
             abilityToRemove.OnRemove();
             Destroy(abilityToRemove.gameObject);
             activeAbilities.Remove(abilityPrefab);
-            RecalculateStats();
+            RecalculateStats(); // 능력 제거 후 스탯 재계산
         }
         else
         {
@@ -204,7 +190,6 @@ public class Player : MonoBehaviour
         {
             // 이미 합성된 능력이면 건너뛰기
             if (activeAbilities.ContainsKey(recipe.CombinedAbilityPrefab)) continue;
-
 
             bool canCombine = true;
             foreach (AbilityRecipe.RequiredAbility req in recipe.RequiredAbilities)
@@ -235,90 +220,28 @@ public class Player : MonoBehaviour
     {
         foreach (var entry in activeAbilities)
         {
-            Abillity ability = entry.Value;
-            if (ability is FireArrow fireArrow)
+            Ability ability = entry.Value;
+            if (ability is FireArrow fireArrow) // FireArrow는 Ability를 상속하는 특정 능력 클래스라고 가정
             {
                 if (fireArrow.TryActivateFireArrow(regularArrowGO, regularArrowScript))
                 {
                     return true;
                 }
             }
+            // 다른 특수 화살 능력이 있다면 여기에 추가
+            // if (ability is IceArrow iceArrow) { ... }
         }
         return false;
     }
 
-    // --- 경험치 획득 및 레벨업 로직 ---
+    // --- 체력 관리 메서드 ---
     /// <summary>
-    /// 플레이어에게 경험치를 추가합니다.
-    /// </summary>
-    /// <param name="expAmount">추가할 경험치 양.</param>
-    public void AddExperience(float expAmount)
-    {
-        if (level >= MAX_PLAYER_LEVEL) // 최대 레벨에 도달했는지 먼저 확인
-        {
-            Debug.Log("최대 레벨에 도달했습니다. 더 이상 경험치를 획득할 수 없습니다.");
-            return;
-        }
-
-        experience += expAmount;
-        Debug.Log($"경험치 획득: {expAmount}. 현재 경험치: {experience:F2} / {expToNextLevel[level - 1]:F2}");
-
-        // 현재 레벨이 최대 레벨 미만이고, 다음 레벨업에 필요한 경험치를 충족했는지 확인
-        // 이 부분은 그대로 두어서 레벨업 조건이 충족되면 LevelUp을 호출하게 합니다.
-        if (level < MAX_PLAYER_LEVEL && experience >= expToNextLevel[level - 1])
-        {
-            LevelUp();
-        }
-    }
-
-    /// <summary>
-    /// 플레이어를 레벨업 시키고 관련 스탯을 증가시킵니다.
-    /// </summary>
-    private void LevelUp()
-    {
-        // 현재 레벨업에 필요한 경험치량을 가져옵니다.
-        float requiredExpForCurrentLevel = expToNextLevel[level - 1];
-
-        // 초과 경험치를 계산하고 다음 레벨로 이월합니다.
-        experience -= requiredExpForCurrentLevel; // 필요 경험치를 빼고 남은 경험치가 다음 레벨로 이월됩니다.
-
-        level++; // 레벨 증가
-
-        Debug.Log($"레벨업! 현재 레벨: {level}. 이월된 경험치: {experience:F2}");
-
-        RecalculateStats(); // 증가된 스탯 및 능력 효과 재적용
-
-        // 레벨업 시 어빌리티 선택창 표시
-        AbilitySelectionManager abilityManager = FindObjectOfType<AbilitySelectionManager>();
-        if (abilityManager != null)
-        {
-            abilityManager.ShowAbilitySelection();
-        }
-        else
-        {
-            Debug.LogWarning("AbilitySelectionManager를 씬에서 찾을 수 없습니다. 어빌리티 선택창을 표시할 수 없습니다.");
-        }
-
-        // 레벨업 후에도 여전히 다음 레벨업 조건을 충족하는지 다시 확인합니다.
-        // 이는 한 번에 여러 레벨이 오를 수 있는 경우 (예: 매우 많은 경험치를 한 번에 획득)를 처리하기 위함입니다.
-        if (level < MAX_PLAYER_LEVEL && experience >= expToNextLevel[level - 1])
-        {
-            LevelUp(); // 중첩 레벨업을 위해 재귀적으로 호출 (최대 레벨까지 계속)
-        }
-        else if (level >= MAX_PLAYER_LEVEL)
-        {
-            // 최대 레벨에 도달하면 경험치를 0으로 설정합니다. (더 이상 레벨업 불가)
-            experience = 0;
-            Debug.Log("최대 레벨에 도달하여 더 이상 레벨업할 수 없습니다.");
-        }
-    }
-
     /// 플레이어에게 피해를 입히는 외부 호출용 메서드.
     /// 이 메서드를 통해 플레이어에게 데미지를 줄 수 있습니다.
     /// </summary>
     /// <param name="damageAmount">받을 피해량.</param>
     /// <param name="attacker">피해를 입힌 GameObject (선택 사항).</param>
-    public void TakeDamage(float damageAmount, GameObject attacker = null) // attacker 매개변수 추가, 기본값 null
+    public void TakeDamage(float damageAmount, GameObject attacker = null)
     {
         if (animationHandler != null)
         {
@@ -331,14 +254,13 @@ public class Player : MonoBehaviour
 
         float finalDamage = Mathf.Max(0, damageAmount - this.Defense);
 
-        // _health 대신 Health 프로퍼티의 set 접근자를 사용하도록 변경
-        Health -= finalDamage; // Health 프로퍼티를 통해 체력 감소
+        Health -= finalDamage;
 
         Debug.Log($"피해를 받았습니다: {finalDamage:F2}. 남은 체력: {Health:F2}");
 
-        if (Health <= 0) // Health 프로퍼티 사용
+        if (Health <= 0)
         {
-            Death(attacker); // 사망 시 공격자 정보 전달
+            Death(attacker);
         }
     }
 
@@ -346,7 +268,7 @@ public class Player : MonoBehaviour
     /// 플레이어 사망 처리 로직.
     /// </summary>
     /// <param name="killer">플레이어를 사망하게 만든 GameObject (선택 사항).</param>
-    private void Death(GameObject killer = null) // killer 매개변수 추가, 기본값 null
+    private void Death(GameObject killer = null)
     {
         if (animationHandler != null)
         {
@@ -360,14 +282,17 @@ public class Player : MonoBehaviour
         string killerInfo = killer != null ? killer.name : "알 수 없는 원인";
         Debug.Log($"플레이어가 사망했습니다! 사망 원인: {killerInfo}");
 
-        // 게임 오버 처리, UI 표시 등
-        // Time.timeScale = 0f; // 게임 일시 정지 (예시)
+        Time.timeScale = 0f; // 게임 일시 정지 (예시)
+        // 다른 게임 오버 로직 (씬 로드, UI 활성화 등)
     }
 
+    /// <summary>
+    /// 플레이어의 체력을 회복합니다.
+    /// </summary>
     /// <param name="healAmount">회복할 체력 양.</param>
     public void Heal(float healAmount)
     {
-        Health = Mathf.Min(MaxHealth, Health + healAmount);
+        Health += healAmount;
         Debug.Log($"체력 회복: {healAmount:F2}. 현재 체력: {Health:F2}");
     }
 }
