@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     // GetComponentInChildren으로 찾을 것이므로, 필드는 그냥 private 또는 protected로 유지해도 무방합니다.
     private AnimationHandler animationHandler; // PlayerController와 마찬가지로, private으로 바꾸고 GetComponentInChildren으로 찾도록 합니다.
 
+    [Header("플레이어 피격 효과음")] public AudioClip damageSoundClip;
+    
     [Header("기본 스탯")]
     // --- 체력 관련 스탯 ---
     [SerializeField] private float maxHealth = 100f; // 최대 체력

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,11 +16,14 @@ public class SoundManager : MonoSingleton<SoundManager>
     public AudioClip MainGameMusic;
     public AudioClip DeadMusic;
     public AudioClip WinMusic;
+    public AudioClip BossMusic;
 
     // MonoSingleton의 Awake를 오버라이드해 초기화 처리
     protected override void Awake()
     {
         base.Awake(); // 부모 Awake 호출로 싱글톤 및 DontDestroyOnLoad 처리
+        
+        DontDestroyOnLoad(this.gameObject);
 
         // 현재 오브젝트에 AudioSource 컴포넌트가 있으면 가져오고, 없으면 추가
         musicAudioSource = GetComponent<AudioSource>();
@@ -27,6 +31,11 @@ public class SoundManager : MonoSingleton<SoundManager>
             musicAudioSource = gameObject.AddComponent<AudioSource>();
 
         musicAudioSource.loop = true; // 배경음악 무한 반복 재생 설정
+        musicAudioSource.volume = musicVolume;  // 초기 볼륨 설정
+    }
+
+    private void Update()
+    {
         musicAudioSource.volume = musicVolume;  // 초기 볼륨 설정
     }
 
@@ -50,16 +59,16 @@ public class SoundManager : MonoSingleton<SoundManager>
         // 씬 이름에 따라 재생할 음악 선택
         switch (scene.name)
         {
-            case "TitleScene":
+            case "TitleUI":
                 clipToPlay = TitleMusic;
                 break;
-            case "MainGameScene":
+            case "JYJ_DungeonTestScene":
                 clipToPlay = MainGameMusic;
                 break;
-            case "EndGameScene(Dead)":
+            case "EndGame(Dead)UI":
                 clipToPlay = DeadMusic;
                 break;
-            case "EndGameScene(Win)":
+            case "EndGame(Win)UI":
                 clipToPlay = WinMusic;
                 break;
         }
