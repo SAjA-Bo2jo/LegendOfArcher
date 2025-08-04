@@ -25,7 +25,7 @@ public abstract class Abillity : MonoBehaviour
     public string Description { get; protected set; }
 
     // 능력이 생성될 때 호출되며, 이 능력의 프리팹 정보를 할당합니다.
-    protected virtual void InitializeAbility(GameObject prefab)
+    public virtual void InitializeAbility(GameObject prefab)
     {
         AbilityPrefab = prefab;
     }
@@ -46,9 +46,9 @@ public abstract class Abillity : MonoBehaviour
     }
 
     // 각 능력의 실제 효과를 적용하는 메서드 (하위 클래스에서 반드시 구현)
-    protected abstract void ApplyEffect();
+    public abstract void ApplyEffect();
     // 각 능력의 효과를 제거하는 메서드 (하위 클래스에서 반드시 구현)
-    protected abstract void RemoveEffect();
+    public abstract void RemoveEffect();
 
     // 선택적으로 각 능력 클래스에서 Update 로직을 가질 수 있습니다.
     // 하지만, Player 또는 PlayerController에서 이 메서드를 호출해주어야 합니다.

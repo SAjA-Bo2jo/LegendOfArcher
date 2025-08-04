@@ -68,7 +68,7 @@ public class PlayerController : BaseController
     protected override void MoveToward(Vector2 direction)
     {
         // BaseController의 moveSpeed 대신 Player의 Speed를 사용합니다.
-        direction *= player.Speed;   // 기본 속도 반영
+        direction *= player.MoveSpeed;   // 기본 속도 반영
 
         if (KnockbackTime > 0.0f)
         {

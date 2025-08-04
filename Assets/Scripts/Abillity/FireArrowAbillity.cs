@@ -36,14 +36,14 @@ public class FireArrowAbility : Abillity
     }
 
     // 이 능력은 스탯 변경이 아닌 조건부 발동이므로 ApplyEffect에서는 특별한 스탯 변경 없음
-    protected override void ApplyEffect()
+    public override void ApplyEffect()
     {
         // 주로 UpdateDescription()을 호출하여 UI에 표시될 설명을 업데이트
         UpdateDescription();
     }
 
     // 제거 시 특별한 스탯 변경 없음
-    protected override void RemoveEffect()
+    public override void RemoveEffect()
     {
         // 특별히 해야 할 일 없음
     }

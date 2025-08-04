@@ -18,7 +18,7 @@ public class AttackSpeedBoostAbility : Abillity
     }
 
     // 레벨업 시 효과 적용
-    protected override void ApplyEffect()
+    public override void ApplyEffect()
     {
         if (player == null) return;
 
@@ -39,7 +39,7 @@ public class AttackSpeedBoostAbility : Abillity
     }
 
     // 능력이 제거될 때 효과를 되돌립니다. (합성 등으로 사라질 때)
-    protected override void RemoveEffect()
+    public override void RemoveEffect()
     {
         if (player == null) return;
 

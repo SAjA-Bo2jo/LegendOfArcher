@@ -134,7 +134,7 @@ public class Bow : Abillity
         loadedArrowScript = loadedArrowGO.GetComponent<Arrow>();
         if (loadedArrowScript == null)
         {
-            Debug.LogError("화살 Prefab에 Arrow 스크립트가 없습니다!");
+            //          Debug.LogError("화살 Prefab에 Arrow 스크립트가 없습니다!"); // 주석 처리: 이 부분은 Arrow가 없으면 치명적
             ObjectPoolManager.Instance.Return(ARROW_POOL_KEY, loadedArrowGO);
             loadedArrowGO = null;
             loadedArrowScript = null;
@@ -218,4 +218,19 @@ public class Bow : Abillity
         loadedArrowGO = null;
         loadedArrowScript = null;
     }
+
+    // --- CS0534 오류 해결을 위해 추가된 부분 ---
+    // Abillity 클래스의 추상 메서드를 구현합니다.
+    public override void ApplyEffect()
+    {
+        // Bow는 직접적인 플레이어 스탯을 변경하지 않으므로 비워둡니다.
+        // 필요에 따라 여기에 활 관련 초기화/활성화 로직을 추가할 수 있습니다.
+    }
+
+    public override void RemoveEffect()
+    {
+        // Bow는 직접적인 플레이어 스탯을 변경하지 않으므로 비워둡니다.
+        // 필요에 따라 여기에 활 관련 비활성화 로직을 추가할 수 있습니다.
+    }
+    // --- 추가된 부분 끝 ---
 }
