@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5222011963930566130}
   - component: {fileID: 5292406470060187744}
   - component: {fileID: 8541414049277450309}
-  - component: {fileID: 357966540712952846}
+  - component: {fileID: 3073041673677132400}
   m_Layer: 0
   m_Name: BigSword
   m_TagString: Untagged
@@ -153,7 +153,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.6}
   m_EdgeRadius: 0
---- !u!114 &357966540712952846
+--- !u!114 &3073041673677132400
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,13 +162,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3267899936864208380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62f7a590e2df33748a9285fcf8de658f, type: 3}
+  m_Script: {fileID: 11500000, guid: 462f82e8eac29bc4bb8237dac4d127da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minOrder: 2
-  maxOrder: 999
-  minY: -1.2
-  maxY: 3.7
 --- !u!1 &4634924188473567027
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,9 +375,9 @@ MonoBehaviour:
     attackDamage: 25
     contactDamage: 10
     attackCooldown: 3
-    moveSpeed: 1
+    moveSpeed: 2
     detectRange: 25
-    attackRange: 8
+    attackRange: 1
     optimalDistanceRatio: 0.75
     distanceTolerance: 0.5
     canRetreat: 0

@@ -1,27 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+// EnemyCollisionHandler.cs 전체 교체
 using UnityEngine;
 
 public class EnemyCollisionHandler : MonoBehaviour
 {
-    private EnemyAnimationHandler enemyAnimationHandler;
-    private EnemyController enemyController;
+    private EnemyController controller;
 
     private void Awake()
     {
-        enemyController = GetComponent<EnemyController>();
+        controller = GetComponent<EnemyController>();
     }
 
-    private void OnTriggerEnter2D(Collider2D playerCollider)                    // 충돌 감지 메서드
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (playerCollider.CompareTag("Player"))
-        {
-            if (enemyController.IsDead) return;
+        controller.ApplyContactDamage(collision.collider);
+    }
 
-            if (enemyController != null)
-            {
-                enemyController.ApplyContactDamage(playerCollider);
-            }
-        }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        controller.ApplyContactDamage(other);
     }
 }
