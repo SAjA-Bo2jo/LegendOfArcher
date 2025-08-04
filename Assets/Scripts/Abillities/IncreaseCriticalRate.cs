@@ -5,18 +5,21 @@ public class IncreaseCriticalRateAbility : Abillity
     // 레벨당 증가할 치명타 확률 (%)
     [SerializeField] private float criticalRateIncreasePerLevel = 5f;
 
+    [SerializeField] private Sprite hawksEyeIconSprite; // <--- 인스펙터에서 할당할 아이콘 스프라이트 필드
+
     void Awake()
     {
-        AbilityName = "치명타 확률 증가";
+        AbilityName = "매의 눈"; // "치명타 확률 증가" 대신 구체적인 이름
         MaxLevel = 5; // 최대 레벨 5로 설정 (선택 사항, 필요에 따라 조절)
         InitializeAbility(this.gameObject); // 이 능력의 프리팹 정보를 할당
+        AbilityIcon = hawksEyeIconSprite; // <--- 아이콘 할당
     }
 
     // 능력을 획득하거나 레벨업 할 때 호출
     public override void OnAcquire(Player playerInstance)
     {
-        base.OnAcquire(playerInstance); // 부모 클래스 OnAcquire 호출 (레벨 증가 및 ApplyEffect 호출)
-        UpdateDescription(); // 능력 설명 업데이트
+        base.OnAcquire(playerInstance);
+        UpdateDescription();
         Debug.Log($"[{AbilityName}] Lv.{CurrentLevel} 획득/강화: {Description}");
     }
 
@@ -46,11 +49,6 @@ public class IncreaseCriticalRateAbility : Abillity
     }
 
     // 각 능력의 효과를 제거하는 메서드 (RecalculateStats()가 처리하므로 여기서는 빈 상태)
-    public override void RemoveEffect()
-    {
-        // Player의 RecalculateStats()가 스탯을 초기화하고 모든 활성화된 능력의 ApplyEffect를 다시 호출하므로,
-        // 이 RemoveEffect에서는 특별히 스탯을 되돌릴 필요가 없습니다.
-    }
 
     // 능력 설명을 현재 레벨에 맞춰 업데이트
     private void UpdateDescription()

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7310137916194950943}
-  - component: {fileID: 799817718573964980}
+  - component: {fileID: 1876252809534717047}
   m_Layer: 0
   m_Name: IncreaseAttackSpeed
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &799817718573964980
+--- !u!114 &1876252809534717047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -51,3 +51,4 @@ MonoBehaviour:
   - 60
   - 80
   - 100
+  rapidfireIcon: {fileID: 21300000, guid: 789a787ec26249348bfe88ac04883012, type: 3}

@@ -52,3 +52,4 @@ MonoBehaviour:
   - 2
   - 2.2
   - 2.5
+  fireArrowIcon: {fileID: 21300000, guid: 84bbd5c13f1a52c44a7549f5c47e6b10, type: 3}

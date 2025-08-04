@@ -5,16 +5,19 @@ public class IncreaseAttackSpeed : Abillity
     // 레벨별 공격 속도 증가량 (예: 20%, 40%, 60%, 80%, 100% (총합))
     [SerializeField] private float[] attackSpeedIncreasePercentages = { 20f, 40f, 60f, 80f, 100f };
 
+    [SerializeField] private Sprite rapidfireIcon; // <--- 인스펙터에서 할당할 아이콘 스프라이트 필드
+
     // 이 능력으로 인해 현재 플레이어에게 적용된 공격 속도 증가량 (이전 레벨과의 차이를 관리)
     private float currentAppliedBoost = 0f;
 
     void Awake()
     {
-        AbilityName = "공격 속도 증가";
+        AbilityName = "고속 연사";
         MaxLevel = attackSpeedIncreasePercentages.Length; // 배열 크기에 따라 최대 레벨 설정
 
         // 이 능력 프리팹을 자기 자신으로 할당 (인스펙터에서 수동 할당 대신 코드로)
         InitializeAbility(this.gameObject);
+        AbilityIcon = rapidfireIcon; // <--- 이 줄을 추가합니다.
     }
 
     // 레벨업 시 효과 적용
@@ -38,17 +41,9 @@ public class IncreaseAttackSpeed : Abillity
         }
     }
 
-    // 능력이 제거될 때 효과를 되돌립니다. (합성 등으로 사라질 때)
-    public override void RemoveEffect()
+    public override void OnRemove()
     {
-        if (player == null) return;
-
-        // 적용되어 있던 공격 속도 증가량을 되돌립니다.
-        if (currentAppliedBoost > 0)
-        {
-            player.AttackSpeedMultiplier -= currentAppliedBoost;
-            currentAppliedBoost = 0f;
-            Debug.Log($"[{AbilityName}] 효과 제거: 공격 속도 {player.AttackSpeedMultiplier}%로 복원.");
-        }
+        base.OnRemove(); // 부모 클래스 OnRemove 호출 (CurrentLevel 초기화)
+        Debug.Log($"[{AbilityName}] 효과 제거됨.");
     }
 }

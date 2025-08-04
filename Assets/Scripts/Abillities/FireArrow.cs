@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class FireArrow : Abillity
 {
+    [SerializeField] private Sprite fireArrowIcon; // Inspector에서 드래그하여 할당
+
     // 레벨별 요구 공격 횟수 (예: 3, 2, 2, 1, 1)
     [SerializeField] private int[] attackCountForFireArrowPerLevel = { 3, 2, 2, 1, 1 };
+
     // 레벨별 불화살 데미지 배율 (예: 1.5, 1.7, 2.0, 2.2, 2.5)
     [SerializeField] private float[] damageMultiplierPerLevel = { 1.5f, 1.7f, 2.0f, 2.2f, 2.5f };
 
@@ -17,6 +20,7 @@ public class FireArrow : Abillity
         AbilityName = "불화살";
         MaxLevel = attackCountForFireArrowPerLevel.Length;
         InitializeAbility(this.gameObject);
+        AbilityIcon = fireArrowIcon; // 아이콘 할당
     }
 
     // 능력을 획득하거나 레벨업 할 때 호출
@@ -43,10 +47,6 @@ public class FireArrow : Abillity
     }
 
     // 제거 시 특별한 스탯 변경 없음
-    public override void RemoveEffect()
-    {
-        // 특별히 해야 할 일 없음
-    }
 
     // 능력 설명을 현재 레벨에 맞춰 업데이트
     private void UpdateDescription()

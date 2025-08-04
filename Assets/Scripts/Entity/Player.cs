@@ -288,6 +288,17 @@ public class Player : MonoBehaviour
         baseMoveSpeed += 0.1f;
 
         RecalculateStats();
+
+        // 레벨업 시 어빌리티 선택창 표시
+        AbilitySelectionManager abilityManager = FindObjectOfType<AbilitySelectionManager>();
+        if (abilityManager != null)
+        {
+            abilityManager.ShowAbilitySelection();
+        }
+        else
+        {
+            Debug.LogWarning("AbilitySelectionManager를 씬에서 찾을 수 없습니다. 어빌리티 선택창을 표시할 수 없습니다.");
+        }
     }
 
     // --- 체력 관리 메서드 ---

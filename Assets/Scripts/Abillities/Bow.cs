@@ -327,5 +327,4 @@ public class Bow : Abillity
 
     // Abillity 클래스에서 상속받은 추상 메서드 구현 (필요에 따라 로직 추가)
     public override void ApplyEffect() { }
-    public override void RemoveEffect() { }
 }
