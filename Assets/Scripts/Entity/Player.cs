@@ -377,5 +377,6 @@ public class Player : MonoBehaviour
         Debug.Log("플레이어가 사망했습니다!");
         // 게임 오버 처리, UI 표시 등
         // Time.timeScale = 0f; // 게임 일시 정지 (예시)
+        StageManager.Instance.PlayerDie();
     }
 }

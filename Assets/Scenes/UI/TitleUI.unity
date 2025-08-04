@@ -123,6 +123,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &18262896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 18262898}
+  - component: {fileID: 18262897}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &18262897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18262896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3079f4f8a7facf479b20625bcf4b826, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killMonsterCount: 0
+  finalFloor: 0
+--- !u!4 &18262898
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18262896}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &26245742
 GameObject:
   m_ObjectHideFlags: 0
@@ -5417,12 +5463,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundSlider: {fileID: 1457537868}
   soundMuteButton: {fileID: 1386135290}
-  soundMuteImage: {fileID: 0}
+  soundMuteImage: {fileID: -1537613001, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
   soundIcon: {fileID: -1460911550, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
   soundMuteIcon: {fileID: -1537613001, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
   musicSlider: {fileID: 1224888748}
   musicMuteButton: {fileID: 1172624359}
-  musicMuteImage: {fileID: 0}
+  musicMuteImage: {fileID: 1636515062, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
   musicIcon: {fileID: 232900706, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
   musicMuteIcon: {fileID: 1636515062, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
 --- !u!1 &1921017168
@@ -8481,3 +8527,4 @@ SceneRoots:
   - {fileID: 6425621700245710895}
   - {fileID: 1551914768}
   - {fileID: 8058738069355590841}
+  - {fileID: 18262898}

@@ -19,6 +19,7 @@
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Entity/PlayerController.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/ObjectPool/ObjectPoolManager.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Projectile/PlayerProjectile/Arrow.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/UIManager/SoundMusicSettingManager.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/UIManager/TitleSceneUIManager.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/UIManager/UIManager.cs" charset="EUC-KR" />
   </component>
