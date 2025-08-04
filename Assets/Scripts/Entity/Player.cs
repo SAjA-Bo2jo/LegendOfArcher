@@ -4,12 +4,20 @@ using System.Linq;
 
 public class Player : MonoBehaviour
 {
-    
+
     [Header("기본 스탯")]
     // --- 체력 관련 스탯 ---
-    [SerializeField] private float maxHealth = 100f; // 최대 체력
+    [SerializeField]
+    private float maxHealth = 100f; // 최대 체력
+
     public float Health { get; set; } // 현재 체력 (Public으로 외부 접근 허용)
-    public float MaxHealth { get; set; } // 최대 체력
+
+    public float MaxHealth
+    {
+        get { return maxHealth; }
+        set { maxHealth = value; }
+    }
+    // 최대 체력
 
     // --- 방어 관련 스탯 ---
     [SerializeField] private float baseDefense = 0f;

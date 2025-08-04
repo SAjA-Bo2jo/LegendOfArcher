@@ -83,7 +83,7 @@ public class Bow : Abillity
             if (animator != null)
             {
                 // 공격 애니메이션을 멈춥니다.
-                animator.SetBool("isAttacking", false);
+                animator.SetBool("IsAttack", false);
             }
         }
         else
