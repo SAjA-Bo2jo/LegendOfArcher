@@ -24,11 +24,27 @@ public class EnemyMeleeWeaponAttack : MonoBehaviour
     {
         if (isAttacking && other.CompareTag("Player"))
         {
+            /*
             ResourceController rc = other.GetComponent<ResourceController>();
             if (rc != null)
             {
                 rc.ChangeHealth(-damage);
                 Debug.Log("대검 공격! 피해: " + damage);
+            }
+            */
+
+            Player player = other.GetComponent<Player>();
+
+            if (player == null)
+                Debug.LogWarning("[Boss Melee Weapon Attack] can not find \"Player\" component");
+
+            player.TakeDamage(damage, gameObject);
+            Debug.Log("Great Sword Attack! Damage: " + damage);
+
+            BaseController controller = other.GetComponentInParent<BaseController>();
+            if (controller != null)
+            {
+                controller.ApplyKnockback(transform, 4f, 0.3f);
             }
         }
     }

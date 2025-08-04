@@ -67,7 +67,7 @@ public class EnemyAnimationHandler : MonoBehaviour
             animator = GetComponent<Animator>();
             if (animator == null)
             {
-                Debug.LogWarning("Animator is missing in EnemyAnimationHandler!");
+                // Debug.LogWarning("Animator is missing in EnemyAnimationHandler!");
                 return;
             }
         }

@@ -25,13 +25,18 @@ public class EnemyController : BaseController
 
     private Transform target;
     private EnemyAnimationHandler _animation;
-    private IEnemyAttack EnemyAttack;
+    private IEnemyAttack enemyAttack;
 
     private int originalLayer;
+
+    private BossEnemyAttack bossAttack;
 
     bool isDead = false;
     public bool IsDead => isDead;
     public GameObject ArrowPrefab => arrowPrefab;
+    public EnemyBehaviorType BehaviorType => behaviorType;
+    public IEnemyAttack EnemyAttack => enemyAttack;
+    public BossEnemyAttack BossAttack => bossAttack;
 
     // Initialization
     protected override void Awake()
@@ -44,13 +49,14 @@ public class EnemyController : BaseController
         switch (behaviorType) // Initialize behavior strategy
         {
             case EnemyBehaviorType.Melee:
-                EnemyAttack = new MeleeEnemyAttack();
+                enemyAttack = new MeleeEnemyAttack();
                 break;
             case EnemyBehaviorType.Ranged:
-                EnemyAttack = new RangedEnemyAttack();
+                enemyAttack = new RangedEnemyAttack();
                 break;
             case EnemyBehaviorType.Boss:
-                EnemyAttack = new BossEnemyAttack();
+                bossAttack = new BossEnemyAttack();
+                enemyAttack = bossAttack;
                 break;
         }
 
@@ -81,10 +87,12 @@ public class EnemyController : BaseController
 
         _animation?.Move(moveDirection);
 
-        if (behaviorType == EnemyBehaviorType.Boss && EnemyAttack is BossEnemyAttack boss)
-        {
-            boss.Update(this); // Special logic for bosses
-        }
+        bossAttack?.Update(this);
+
+        //if (behaviorType == EnemyBehaviorType.Boss && EnemyAttack is BossEnemyAttack boss)
+        //{
+        //    boss.Update(this); // Special logic for bosses
+        //}
     }
 
     public void Init(Transform target) // Set target
@@ -146,20 +154,20 @@ public class EnemyController : BaseController
             moveDirection = Vector2.zero; // Idle if out of detection range
         }
 
-        if (IsInAttackRange() && EnemyAttack.CanAttack(this))
+        if (IsInAttackRange() && enemyAttack.CanAttack(this))
         {
-            EnemyAttack.Attack(this);
+            enemyAttack.Attack(this);
         }
 
         bool inRange = IsInAttackRange();
-        bool canAttack = EnemyAttack.CanAttack(this);
+        bool canAttack = enemyAttack.CanAttack(this);
 
-        Debug.Log($"Distance: {distance:F2}, Range: {stats.attackRange}, InRange: {inRange}, CanAttack: {canAttack}");
+        // Debug.Log($"Distance: {distance:F2}, Range: {stats.attackRange}, InRange: {inRange}, CanAttack: {canAttack}");
 
         if (inRange && canAttack)
         {
             Debug.Log("Attack conditions met! Calling Attack()");
-            EnemyAttack.Attack(this);
+            enemyAttack.Attack(this);
         }
     }
 
@@ -219,7 +227,7 @@ public class EnemyController : BaseController
         {
             float damage = stats.contactDamage;
 
-            if (behaviorType == EnemyBehaviorType.Boss && EnemyAttack is BossEnemyAttack boss && boss.IsCharging())
+            if (behaviorType == EnemyBehaviorType.Boss && enemyAttack is BossEnemyAttack boss && boss.IsCharging())
             {
                 damage = stats.contactDamage * 3f;
                 Debug.Log("Charging attack! Damage: " + damage);
@@ -229,10 +237,24 @@ public class EnemyController : BaseController
                 Debug.Log("Body slam! Damage: " + damage);
             }
 
+            /*
             ResourceController rc = collider.GetComponent<ResourceController>();
             if (rc != null)
             {
                 rc.ChangeHealth(-damage);
+            }
+            */
+
+            Player player = collider.GetComponent<Player>();
+            if (player != null)
+            {
+                player.TakeDamage(damage, this.gameObject);
+
+                BaseController controller = player.GetComponent<BaseController>();
+                if (controller != null)
+                {
+                    controller.ApplyKnockback(transform, 2f, 0.3f);
+                }
             }
         }
     }

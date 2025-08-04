@@ -99,7 +99,7 @@ public partial class DungeonBuilder : MonoBehaviour
             // only spawn Box which index is 0
             GameObject obj = Instantiate(obstaclePrefabs[0], pos, Quaternion.identity);
 
-            Debug.Log($" object spawn location {i}: {pos}");
+            // Debug.Log($" object spawn location {i}: {pos}");
 
             allOccupiedPositions.Add(pos);
 

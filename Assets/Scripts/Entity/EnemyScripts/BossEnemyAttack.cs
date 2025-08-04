@@ -8,13 +8,13 @@ public class BossEnemyAttack : IEnemyAttack
 
     public bool CanAttack(EnemyController controller)
     {
-        Debug.Log("CanAttack 호출됨: " + !isCharging);
+        // Debug.Log("CanAttack 호출됨: " + !isCharging);
         return !isCharging;
     }
 
     public void Attack(EnemyController controller)
     {
-        Debug.Log("🗡️ 보스 대검 공격!");
+        // Debug.Log("보스 대검 공격!");
 
         Transform bigSword = controller.transform.Find("WeaponPivot/Weapon/BigSword");
         if (bigSword != null)
@@ -26,13 +26,15 @@ public class BossEnemyAttack : IEnemyAttack
 
     public void Update(EnemyController controller)
     {
+        // Debug.Log("BossEnemyAttack.Update() 실행 중");
         chargeTimer += Time.deltaTime;
 
-        // 테스트용: 3초마다 돌진 (나중에 10f로 변경)
-        if (chargeTimer >= 3f)
+        // 10초마다 돌진
+        if (chargeTimer >= 10f)
         {
-            Debug.Log("🚀 보스 돌진 시작!");
-            controller.StartCoroutine(ChargeAttack(controller));
+            Debug.Log("보스 돌진 시작!");
+            if (controller is MonoBehaviour mb)
+                controller.StartCoroutine(ChargeAttack(controller));
             chargeTimer = 0f;
         }
     }

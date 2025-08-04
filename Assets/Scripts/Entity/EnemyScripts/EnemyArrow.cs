@@ -34,6 +34,7 @@ public class EnemyArrow : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            /*
             ResourceController resourceController = collision.GetComponent<ResourceController>();
 
             if (resourceController != null)
@@ -50,7 +51,26 @@ public class EnemyArrow : MonoBehaviour
                     Debug.Log($"화살, 데미지 {damage}");
                 }
             }
+            */
+
+            Player player = collision.GetComponent<Player>();
+
+            if (player != null)
+            {
+                player.TakeDamage(damage, this.gameObject);
+                BaseController controller = player.GetComponent<BaseController>();
+                if (controller != null)
+                {
+                    controller.ApplyKnockback(transform, 2f, 0.3f);
+                }
+
+                Debug.Log($"[EnemyArrow] {gameObject.name}이 플레이어에게 {damage} 피해를 입힘");
+            }
         }
+
+        if (collision.CompareTag("LowObject"))
+            return;
+
         Destroy(gameObject);
     }
 }
