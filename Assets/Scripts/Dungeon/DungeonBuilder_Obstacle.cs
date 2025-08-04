@@ -51,14 +51,17 @@ public partial class DungeonBuilder : MonoBehaviour
             Vector3 newPos;
             do
             {
-                float x = Random.Range(-8.3f, 8.3f);
-                float y = Random.Range(0f, 2.8f);
+                float x = Random.Range(-5f, 5f);
+                float y = Random.Range(0f, 2f);
                 newPos = new Vector3((x + 20 * ((StageManager.Instance.StageLevel - 1) % 5)), y);
                 attempt++;
 
                 // break and force to place obj after try 100 times
                 if (attempt > maxAttempt)
+                {
+                    Debug.LogWarning("장애물 배치 실패! 강제 배치합니다.");
                     break;
+                }
 
                 flag = (IsOverlapping(newPos, minDistance)
                     || IsInPlayerSpawnArea(newPos)) ? true : false;

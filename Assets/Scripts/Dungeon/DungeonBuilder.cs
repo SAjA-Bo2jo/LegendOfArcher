@@ -41,7 +41,8 @@ public partial class DungeonBuilder : MonoBehaviour
     public DungeonObjects Build()
     {
         result = new DungeonObjects();
-        
+        allOccupiedPositions = new List<Vector3>();
+
         // 던전 생성
         MakeDungeonMaps();
         

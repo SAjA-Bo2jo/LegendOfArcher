@@ -10,7 +10,8 @@ public class SpikeTrapController : MonoBehaviour
     [SerializeField] private float damage = 2.0f;
     [SerializeField] private float damageCooldowns = 1.0f;
 
-    private Dictionary<Player, float> lastHitTime = new();
+    [SerializeField] PlayerController playerCrtl;
+    private Dictionary<PlayerController, float> lastHitTime = new();
 
 
     private void Start()
@@ -29,33 +30,35 @@ public class SpikeTrapController : MonoBehaviour
         }
     }
 
+    /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            Player player = collision.GetComponent<Player>();
-            if (player != null)
+            PlayerController playerCtrl = collision.GetComponent<PlayerController>();
+            if (playerCtrl != null)
             {
-                player.Health -= damage;
-                Debug.Log($"플레이어에게 데미지 {damage}");
+                playerCtrl.TakeDamage(damage);
+                Debug.Log($"가시 함정이 플레이어에게 {damage} 데미지!");
             }
         }
     }
+    */
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            Player player = collision.GetComponent<Player>();
-            if (player != null && spikeCollider.enabled)
+            PlayerController playerCtrl = collision.GetComponent<PlayerController>();
+            if (playerCtrl != null && spikeCollider.enabled)
             {
-                lastHitTime.TryGetValue(player, out float lastHit);
+                lastHitTime.TryGetValue(playerCtrl, out float lastHit);
 
                 if (Time.time - lastHit >= damageCooldowns)
                 {
-                    player.Health -= damage;
-                    Debug.Log($"플레이어에게 데미지 {damage}");
-                    lastHitTime[player] = Time.time;
+                    playerCtrl.TakeDamage(damage);
+                    Debug.Log($"가시 함정이 플레이어에게 {damage} 데미지!");
+                    lastHitTime[playerCtrl] = Time.time;
                 }
             }
         }
@@ -65,10 +68,10 @@ public class SpikeTrapController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Player player = collision.GetComponent<Player>();
-            if (player != null && lastHitTime.ContainsKey(player))
+            PlayerController playerCtrl = collision.GetComponent<PlayerController>();
+            if (playerCrtl != null && lastHitTime.ContainsKey(playerCtrl))
             {
-                lastHitTime.Remove(player); // remove record when out of range
+                lastHitTime.Remove(playerCtrl); // remove record when out of range
             }
         }
     }
