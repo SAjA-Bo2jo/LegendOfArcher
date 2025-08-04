@@ -53,14 +53,14 @@ public class EnemyController : BaseController
                 EnemyAttack = new BossEnemyAttack();
                 break;
         }
+
+        if (_animation == null)
+            _animation = GetComponent<EnemyAnimationHandler>();
     }
 
     protected override void Start()
     {
         base.Start();
-
-        if (_animation == null)
-            _animation = GetComponent<EnemyAnimationHandler>();
     }
 
     protected void OnEnable()
@@ -70,17 +70,16 @@ public class EnemyController : BaseController
             stats.StatInitialize(); // Reset stats
         }
 
-        if (StageManager.Instance != null && StageManager.Instance._Player != null)
-        {
-            Init(StageManager.Instance._Player.transform); // Target the player
-        }
+        StartCoroutine(WaitForInit());
 
-        _animation = GetComponent<EnemyAnimationHandler>();
+        _animation?.ResetState();
     }
 
     protected override void Update()
     {
         base.Update();
+
+        _animation?.Move(moveDirection);
 
         if (behaviorType == EnemyBehaviorType.Boss && EnemyAttack is BossEnemyAttack boss)
         {
@@ -159,7 +158,7 @@ public class EnemyController : BaseController
 
         if (inRange && canAttack)
         {
-            Debug.Log("🎯 Attack conditions met! Calling Attack()");
+            Debug.Log("Attack conditions met! Calling Attack()");
             EnemyAttack.Attack(this);
         }
     }
@@ -183,6 +182,13 @@ public class EnemyController : BaseController
     {
         _animation.Death(); // Play death animation
         StartCoroutine(DeathCoroutine());
+    }
+
+    private IEnumerator WaitForInit()
+    {
+        yield return new WaitUntil(() => StageManager.Instance != null &&
+            StageManager.Instance._Player != null);
+        Init(StageManager.Instance._Player.transform);
     }
 
     private IEnumerator DeathCoroutine()
@@ -239,8 +245,15 @@ public class EnemyController : BaseController
         if (animator == null)
             Debug.LogWarning("Enemy's animator is NULL!");
 
-        animator.Rebind();     // Reset animation state
-        animator.Update(0f);   // Apply immediately
+        EnemyAnimationHandler animationHandler = GetComponent<EnemyAnimationHandler>();
+        if (animationHandler != null)
+        {
+            animationHandler.ResetState();
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name} is missing EnemyAnimationHandler.");
+        }
 
         stats.healthPoint = stats.maxHealth;
         isDead = false;
