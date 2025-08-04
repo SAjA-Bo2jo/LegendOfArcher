@@ -1,0 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MeleeEnemyAttack : IEnemyAttack
+{
+    public bool CanAttack(EnemyController controller)
+    {
+        return true;
+    }
+
+    public void Attack(EnemyController controller)
+    {
+
+    }
+}
