@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13ca72a0c75f564f9bda694b836cea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolKey: Enemy
+  poolKey: enemy
 --- !u!1 &8502108601692260934
 GameObject:
   m_ObjectHideFlags: 0
