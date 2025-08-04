@@ -23,6 +23,7 @@ public abstract class Abillity : MonoBehaviour
     // 이 능력에 대한 설명, 아이콘 등을 위한 데이터
     public string AbilityName { get; protected set; }
     public string Description { get; protected set; }
+    public Sprite AbilityIcon { get; protected set; } // <--- 이 줄을 추가합니다.
 
     // 능력이 생성될 때 호출되며, 이 능력의 프리팹 정보를 할당합니다.
     public virtual void InitializeAbility(GameObject prefab)
@@ -41,14 +42,12 @@ public abstract class Abillity : MonoBehaviour
     // 능력이 제거될 때 (예: 합성으로 사라질 때) 호출될 메서드
     public virtual void OnRemove()
     {
-        RemoveEffect(); // 효과 제거
         CurrentLevel = 0; // 레벨 초기화
     }
 
     // 각 능력의 실제 효과를 적용하는 메서드 (하위 클래스에서 반드시 구현)
     public abstract void ApplyEffect();
     // 각 능력의 효과를 제거하는 메서드 (하위 클래스에서 반드시 구현)
-    public abstract void RemoveEffect();
 
     // 선택적으로 각 능력 클래스에서 Update 로직을 가질 수 있습니다.
     // 하지만, Player 또는 PlayerController에서 이 메서드를 호출해주어야 합니다.
