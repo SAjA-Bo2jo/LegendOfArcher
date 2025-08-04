@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 7471220306491737616}
   - component: {fileID: 3618222246529601938}
   - component: {fileID: 1984523676468045334}
+  - component: {fileID: 7654948360279165004}
   m_Layer: 0
   m_Name: MainSprite
   m_TagString: Untagged
@@ -154,6 +155,18 @@ MonoBehaviour:
   maxOrder: 999
   minY: -1.2
   maxY: 3.7
+--- !u!114 &7654948360279165004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738777145306199683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26bebaa3d13811d49b94ea4e1893aa71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2934652378543946906
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +180,6 @@ GameObject:
   - component: {fileID: 5973008285471576010}
   - component: {fileID: 899064153907690827}
   - component: {fileID: 3258808181113098979}
-  - component: {fileID: 447022998737260196}
   - component: {fileID: 7463710379377135120}
   - component: {fileID: 725293929147769396}
   m_Layer: 0
@@ -327,18 +339,7 @@ MonoBehaviour:
   characterRenderer: {fileID: 7471220306491737616}
   weaponPivot: {fileID: 4954709950129795065}
   moveSpeed: 5
---- !u!114 &447022998737260196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2934652378543946906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26bebaa3d13811d49b94ea4e1893aa71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  playerAnimationHandler: {fileID: 7654948360279165004}
 --- !u!114 &7463710379377135120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,7 +353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  baseDefense: 100
+  baseDefense: 0
   baseMoveSpeed: 5
   baseAttackDamage: 2
   baseAttackRange: 50
@@ -411,7 +412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7578177436838376626, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.292
       objectReference: {fileID: 0}
     - target: {fileID: 7578177436838376626, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: m_LocalPosition.z

@@ -51,7 +51,7 @@ public class ResourceController : MonoBehaviour
 
         if (change < 0)
         {
-            animationHandler.Damage();
+            animationHandler.Hurt();
 
         }
 

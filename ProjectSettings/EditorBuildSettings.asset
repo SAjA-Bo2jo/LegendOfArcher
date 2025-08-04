@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/UI/TitleUI.unity
+    guid: a0636b29a59562249b1e4876ddad7a4a
+  - enabled: 1
+    path: Assets/Scenes/JYJ_DungeonTestScene.unity
+    guid: fca1da80f0764d045bbe3672f73c07e3
+  - enabled: 1
     path: Assets/Scenes/TestScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/UI/EndGame(Dead)UI.unity
+    guid: 982ad4b7be8b6ea4680ce430ba43d291
+  - enabled: 1
+    path: Assets/Scenes/UI/EndGame(Win)UI.unity
+    guid: 224c94eae1ab86f49951a0418a618220
   m_configObjects: {}
