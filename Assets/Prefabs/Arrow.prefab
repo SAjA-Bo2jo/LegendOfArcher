@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6713946673120178173}
   - component: {fileID: 6577631823913827685}
   - component: {fileID: 8209474762458571682}
+  - component: {fileID: 2615749080831860558}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -100,8 +101,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1344219013
+  m_SortingLayer: 1
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 83eb6ed6e2ae6df42a03a4d9ff8c3bd0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -177,3 +178,19 @@ PolygonCollider2D:
       - {x: -0.20827188, y: 0.05549705}
       - {x: -0.19784646, y: -0.020798221}
   m_UseDelaunayMesh: 0
+--- !u!114 &2615749080831860558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2617466681887532506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62f7a590e2df33748a9285fcf8de658f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minOrder: 2
+  maxOrder: 999
+  minY: -1.2
+  maxY: 3.7
