@@ -13,14 +13,14 @@ public enum EnemyBehaviorType
 
 public class EnemyController : BaseController
 {
-    [Header("´É·ÂÄ¡")]
+    [Header("ï¿½É·ï¿½Ä¡")]
     [SerializeField] private EnemyStats stats;
     public EnemyStats Stats { get { return stats; } }
 
-    [Header("À¯´Ö Å¸ÀÔ")]
-    [SerializeField] private EnemyBehaviorType behaviorType;    // ÇØ´ç À¯´Ö Å¸ÀÔ ÀÎ½ºÆåÅÍ ÀÔ·Â
+    [Header("ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½")]
+    [SerializeField] private EnemyBehaviorType behaviorType;    // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½Î½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½
 
-    [Header("¿ø°Å¸® °ø°Ý")]
+    [Header("ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField] private GameObject arrowPrefab;
 
     private Transform target;
@@ -33,14 +33,14 @@ public class EnemyController : BaseController
 
 
 
-    // »ý¸íÁÖ±â ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ ï¿½Ô¼ï¿½
     protected override void Awake()
     {
         base.Awake();
 
         moveSpeed = stats.moveSpeed;
 
-        switch (behaviorType)                                   // -> ÀÎ½ºÆåÅÍ °ª ¹ÙÅÁÀ¸·Î À¯´Ö Å¸ÀÔ ÆÇ´Ü
+        switch (behaviorType)                             // -> ï¿½Î½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½Ç´ï¿½
         {
             case EnemyBehaviorType.Melee:
                 EnemyAttack = new MeleeEnemyAttack();
@@ -53,38 +53,48 @@ public class EnemyController : BaseController
             case EnemyBehaviorType.Boss:
                 EnemyAttack = new BossEnemyAttack();
                 break;
-        } 
+        }
     }
 
     protected override void Start()
     {
         base.Start();
 
-        stats.StatInitialize();
+        // statsï¿½ï¿½ nullï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ïµï¿½ï¿½ï¿½ null Ã¼Å© ï¿½ß°ï¿½
+        if (stats != null)
+        {
+            stats.StatInitialize();
+        }
 
-        Init(StageManager.Instance._Player.transform);
+        // StageManager.Instance._Playerï¿½ï¿½ nullï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ null Ã¼Å© ï¿½ß°ï¿½
+        if (StageManager.Instance != null && StageManager.Instance._Player != null)
+        {
+            Init(StageManager.Instance._Player.transform);
+        }
         _animation = GetComponent<EnemyAnimationHandler>();
     }
 
-    public void Init(Transform target)                                      // ÃÊ±âÈ­ ½Ã ÃßÀû ´ë»ó Á¤ÇÏ´Â ¸Þ¼­µå
+    public void Init(Transform target)                       // ï¿½Ê±ï¿½È­ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     {
         this.target = target;
     }
 
 
 
-    // À¯Æ¿¸®Æ¼ ¸Þ¼­µå
-    protected float DistanceToTarget()                                      // DistanceToTarget ¸Þ¼­µå : ÇÃ·¹ÀÌ¾î ~ Àû °Å¸® ±¸ÇÏ´Â ¸Þ¼­µå
+    // ï¿½ï¿½Æ¿ï¿½ï¿½Æ¼ ï¿½Þ¼ï¿½ï¿½ï¿½
+    protected float DistanceToTarget()                       // DistanceToTarget ï¿½Þ¼ï¿½ï¿½ï¿½ : ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ~ ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     {
+        if (target == null) return float.MaxValue;
         return Vector2.Distance(transform.position, target.position);
     }
 
-    public Vector2 DirectionToTarget()                                   // DirectionToTarget ¸Þ¼­µå : Àû -> ÇÃ·¹ÀÌ¾î ´ÜÀ§º¤ÅÍ ±¸ÇÔ
+    public Vector2 DirectionToTarget()                                   // DirectionToTarget ï¿½Þ¼ï¿½ï¿½ï¿½ : ï¿½ï¿½ -> ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     {
+        if (target == null) return Vector2.zero;
         return (target.position - transform.position).normalized;
     }
 
-    public bool IsInAttackRange()                                           // IsInAttackRange ¸Þ¼­µå : °ø°Ý »ç°Å¸® ³»¿¡ ÇÃ·¹ÀÌ¾î ÀÖ´Â Áö È®ÀÎ
+    public bool IsInAttackRange()                            // IsInAttackRange ï¿½Þ¼ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ È®ï¿½ï¿½
     {
         if (target == null) return false;
         return DistanceToTarget() <= stats.attackRange;
@@ -92,40 +102,40 @@ public class EnemyController : BaseController
 
 
 
-    // HandleInput ¸Þ¼­µå : Àû °³Ã¼ÀÇ Å¸°Ù(ÇÃ·¹ÀÌ¾î) ÃßÀû ½Ã½ºÅÛ
+    // HandleInput ï¿½Þ¼ï¿½ï¿½ï¿½ : ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ Å¸ï¿½ï¿½(ï¿½Ã·ï¿½ï¿½Ì¾ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½
     protected override void HandleInput()
     {
-        if (target == null || stats.healthPoint <= 0)                       // ÃßÀû ´ë»ó(ÇÃ·¹ÀÌ¾î) ¾ø°Å³ª Àû °³Ã¼°¡ Á×¾úÀ» °æ¿ì
+        if (target == null || stats.healthPoint <= 0)         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½Ã·ï¿½ï¿½Ì¾ï¿½) ï¿½ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½×¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         {
-            moveDirection = Vector2.zero;                                   // -> ÀÌµ¿ ÁßÁö
-            lookDirection = Vector2.zero;                                   // -> È¸Á¤ ÁßÁö
+            moveDirection = Vector2.zero;                     // -> ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
+            lookDirection = Vector2.zero;                     // -> È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             return;
         }
 
-        float distance = DistanceToTarget();       
+        float distance = DistanceToTarget();
         Vector2 direction = DirectionToTarget();
 
-        lookDirection = direction;                                          // Àû °³Ã¼´Â Å¸°ÙÀ» °è¼Ó ¹Ù¶óº½
+        lookDirection = direction;                             // ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ù¶ï¿½
 
-        if (distance <= stats.detectRange)                                  // ÃßÀû ¹üÀ§ ³»ÀÏ °æ¿ì
+        if (distance <= stats.detectRange)                     // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         {
             float optimalDist = stats.OptimalDistance;
 
-            if (distance >  optimalDist + stats.distanceTolerance)          // °æ¿ì 1. ÇÃ·¹ÀÌ¾î°¡ ³Ê¹« ¸Ö¸® ÀÖÀ» °æ¿ì
+            if (distance > optimalDist + stats.distanceTolerance) // ï¿½ï¿½ï¿½ 1. ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ê¹ï¿½ ï¿½Ö¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             {
-                moveDirection = direction;                                  // ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î ÀÌµ¿
+                moveDirection = direction;                     // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
             }
             else
             {
-                moveDirection = Vector2.zero ;                              // °æ¿ì 2. ÃÖÀû°Å¸® ¹üÀ§ ³»ÀÏ °æ¿ì
+                moveDirection = Vector2.zero ;                              // ï¿½ï¿½ï¿½ 2. ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             }
         }
-        else 
-        { 
-            moveDirection = Vector2.zero;                                   // ÃßÀû ¹üÀ§ ¿ÜÀÏ °æ¿ì : Á¤Áö
+        else
+        {
+            moveDirection = Vector2.zero;                      // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½
         }
 
-        if (IsInAttackRange() && EnemyAttack.CanAttack(this))               // ÀÌµ¿ ³¡ -> »ç°Å¸® ³»¿¡ Å¸°Ù ÀÖÀ¸¸é °ø°Ý
+        if (IsInAttackRange() && EnemyAttack.CanAttack(this))   // ï¿½Ìµï¿½ ï¿½ï¿½ -> ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             EnemyAttack.Attack(this);
         }
@@ -133,15 +143,16 @@ public class EnemyController : BaseController
 
 
 
-    // Àû °³Ã¼ »ç¸Á Ã³¸® °ü·Ã ¸Þ¼­µå
-    public void GetDamage(float dmg)                                        // GetDamage ¸Þ¼­µå : Àû °³Ã¼ ÇÇ°Ý + »ç¸Á ÆÇÁ¤ Ã³¸®
+    // ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+    public void GetDamage(float dmg)                           // GetDamage ï¿½Þ¼ï¿½ï¿½ï¿½ : ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½Ç°ï¿½ + ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
     {
-        Debug.Log("µ¥¹ÌÁö°¡ µé¾î°¬½À´Ï´Ù" + dmg);
-        
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¬ï¿½ï¿½ï¿½Ï´ï¿½: " + dmg);
+
         isDead = stats.TakeDamage(dmg);
 
         if (isDead)
         {
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾ï¿½ï¿½ È£ï¿½ï¿½
             HandleDeath();
         }
         else
@@ -150,34 +161,40 @@ public class EnemyController : BaseController
         }
     }
 
-    private void HandleDeath()                                              // HandleDeath ¸Þ¼­µå : Àû °³Ã¼ »ç¸Á Ã³¸®
+    private void HandleDeath()                                 // HandleDeath ï¿½Þ¼ï¿½ï¿½ï¿½ : ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
     {
-        _animation.Death();                                                // ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇà
+        _animation.Death();                                                // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 
+        // Death ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ç®ï¿½ï¿½ ï¿½ï¿½È¯
         StartCoroutine(DeathCoroutine());
     }
 
-    private IEnumerator DeathCoroutine()                                    // Death ¾Ö´Ï¸ÞÀÌ¼Ç Àç»ý ¿Ï·á ÈÄ ¿ÀºêÁ§Æ® »èÁ¦
+    private IEnumerator DeathCoroutine()                       // Death ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
     {
+        // Death ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½
         yield return new WaitForSeconds(0.4f);
 
-        StageManager.Instance.RemoveMonsterFromList(gameObject);
+        // StageManagerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½
+        if (StageManager.Instance != null)
+        {
+            StageManager.Instance.RemoveMonsterFromList(gameObject);
+        }
 
         EnemyPoolObject poolObject = GetComponent<EnemyPoolObject>();
         if (poolObject != null)
         {
-            poolObject.ReturnToPool();                                      // Pool·Î Á×Àº °³Ã¼ µ¹·Áº¸³¿
+            poolObject.ReturnToPool();                         // Ç®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
-            Debug.Log($"{gameObject.name}: EnemyPoolObject ¾øÀ½ Destroy·Î ´ëÃ¼");
+            Debug.Log($"{gameObject.name}: EnemyPoolObjectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Destroyï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½Õ´Ï´ï¿½.");
             Destroy(gameObject);
         }
     }
 
 
 
-    // Á¢ÃË »ó´ë¿¡°Ô µ¥¹ÌÁö ÁÖ´Â ¸Þ¼­µå
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ë¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public void ApplyContactDamage(Collider2D collider)
     {
         float damage = stats.contactDamage;
