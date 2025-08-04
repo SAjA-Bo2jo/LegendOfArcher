@@ -58,7 +58,10 @@ public partial class DungeonBuilder : MonoBehaviour
 
                 // break and force to place obj after try 100 times
                 if (attempt > maxAttempt)
+                {
+                    Debug.LogWarning("장애물 배치 실패! 강제 배치합니다.");
                     break;
+                }
 
                 flag = (IsOverlapping(newPos, minDistance)
                     || IsInPlayerSpawnArea(newPos)) ? true : false;
