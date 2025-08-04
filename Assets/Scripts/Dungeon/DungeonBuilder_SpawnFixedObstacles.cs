@@ -30,6 +30,7 @@ public partial class DungeonBuilder : MonoBehaviour
         return obstacles;
     }
 
+    /*
     // spawn boss
     private void SpawnBoss()
     {
@@ -45,5 +46,6 @@ public partial class DungeonBuilder : MonoBehaviour
         result.enemies = new List<GameObject> { boss };
         StageManager.Instance.AddMonsterToList(boss);
     }
+    */
 
 }
