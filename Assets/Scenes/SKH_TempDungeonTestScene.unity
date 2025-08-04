@@ -11309,63 +11309,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1717433567}
   m_CullTransparentMesh: 1
---- !u!1001 &1732407010
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6656189543097028530, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_Name
-      value: GatlingBow
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 268.5093
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 198.43231
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.1501331
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
 --- !u!1 &1738386741
 GameObject:
   m_ObjectHideFlags: 0
@@ -12522,16 +12465,19 @@ MonoBehaviour:
   entries:
   - key: enemy
     prefab: {fileID: 7072391522761673993, guid: 1668ce8d19ae7e54185a942772b29bda, type: 3}
-    size: 0
+    size: 20
   - key: Arrow
     prefab: {fileID: 2617466681887532506, guid: 15dbfb6e22b71ef4187ab3f932ecf260, type: 3}
     size: 20
   - key: Archer
     prefab: {fileID: 7072391522761673993, guid: 4a33c87d2e44e1a46bcf3f6600694274, type: 3}
-    size: 0
+    size: 20
   - key: Boss
     prefab: {fileID: 7072391522761673993, guid: 13869cc96d27de1459e532a736d8aac3, type: 3}
-    size: 0
+    size: 5
+  - key: EnemyArrow
+    prefab: {fileID: 2617466681887532506, guid: cb72814c367ebf140b20b7e4057f8c83, type: 3}
+    size: 20
 --- !u!4 &1939743533
 Transform:
   m_ObjectHideFlags: 0
@@ -14207,4 +14153,3 @@ SceneRoots:
   - {fileID: 1939743533}
   - {fileID: 123693149}
   - {fileID: 800098413}
-  - {fileID: 1732407010}
