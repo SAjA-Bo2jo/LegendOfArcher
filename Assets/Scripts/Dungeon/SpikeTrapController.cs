@@ -56,7 +56,7 @@ public class SpikeTrapController : MonoBehaviour
 
                 if (Time.time - lastHit >= damageCooldowns)
                 {
-                    collision.GetComponent<Player>().TakeDamage(damage);
+                    collision.GetComponent<Player>().TakeDamage(damage, this.gameObject);
                     // Debug.Log($"가시 함정이 플레이어에게 {damage} 데미지!");
                     lastHitTime[playerCtrl] = Time.time;
                 }
