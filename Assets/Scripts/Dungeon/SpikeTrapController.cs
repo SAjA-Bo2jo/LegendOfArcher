@@ -37,6 +37,7 @@ public class SpikeTrapController : MonoBehaviour
             if (player != null)
             {
                 player.Health -= damage;
+                Debug.Log($"플레이어에게 데미지 {damage}");
             }
         }
     }
@@ -53,6 +54,7 @@ public class SpikeTrapController : MonoBehaviour
                 if (Time.time - lastHit >= damageCooldowns)
                 {
                     player.Health -= damage;
+                    Debug.Log($"플레이어에게 데미지 {damage}");
                     lastHitTime[player] = Time.time;
                 }
             }

@@ -48,10 +48,12 @@ MonoBehaviour:
   entryGate: {fileID: 2693293464429072703, guid: bba2479c328c0994692c1835c16fc802, type: 3}
   exitGate: {fileID: 2693293464429072703, guid: bba2479c328c0994692c1835c16fc802, type: 3}
   playerPrefab: {fileID: 2934652378543946906, guid: c2ca1940d7ca62344b15ac30d1e9ea0f, type: 3}
-  playerPos: {x: -4, y: 2, z: 0}
-  enemyCount: 1
+  baseGoblinCount: 1
+  archerGoblinCount: 1
+  bossGoblinCount: 0
   obstaclePrefabs:
   - {fileID: 6702161451005868214, guid: 8d482ff4d0fcaac4498d01c64525432a, type: 3}
   - {fileID: 1533343156486425455, guid: c329a94a8f23d704d90ac44cc8c1b9ed, type: 3}
   - {fileID: 5198373612373493544, guid: 8f1664e67b856594b8c89053d85cf553, type: 3}
+  - {fileID: 5244188556842310641, guid: 8f65f4b4980623f40869cf6f1aeb1cd2, type: 3}
   obstacleCount: 1
