@@ -263,7 +263,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 7471220306491737616}
   weaponPivot: {fileID: 4954709950129795065}
-  WeaponPrefab: {fileID: 0}
   moveSpeed: 5
   AbillityPrefab: {fileID: 0}
 --- !u!114 &447022998737260196
@@ -290,41 +289,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ec33f2dd317724fa2f36a9e49f61f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  baseHealth: 100
-  healthMultiplier: 100
   maxHealth: 100
-  healthRegen: 0
-  healingMultiplier: 100
-  defense: 100
   baseDefense: 100
-  defenseMultiplier: 100
-  speed: 3
-  baseSpeed: 5
-  speedMultiplier: 100
-  attackDamage: 2
+  baseMoveSpeed: 5
   baseAttackDamage: 2
-  attackDamageMultiplier: 100
-  attackRange: 50
   baseAttackRange: 50
-  attackRangeMultiplier: 500
-  attackSpeed: 2
-  baseAttackSpeed: 2
-  attackSpeedMultiplier: 100
-  attackSize: 1
   baseAttackSize: 1
-  attackSizeMultiplier: 100
-  numberOfAttack: 1
-  baseNumberOfAttack: 1
-  multipleShot: 1
-  baseMultipleShot: 1
-  criticalRate: 0
   baseCriticalRate: 0
-  criticalDamageMultiplier: 100
-  accuracyRate: 100
-  baseAccuracyRate: 100
-  evasionRate: 0
-  baseEvasionRate: 0
+  baseProjectileSpeed: 7
+  baseAttackSpeed: 2
+  level: 1
+  experience: 0
+  expToNextLevel: []
+  abilityRecipes: []
 --- !u!114 &725293929147769396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,6 +334,14 @@ PrefabInstance:
     - target: {fileID: 5244200189435732769, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: m_Name
       value: Bow
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363847047641173920, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363847047641173920, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1344219013
       objectReference: {fileID: 0}
     - target: {fileID: 7578177436838376626, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: m_LocalPosition.x
