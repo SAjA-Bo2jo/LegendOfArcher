@@ -76,5 +76,10 @@ public class Arrow : Projectile
             rb.isKinematic = true; // 풀로 돌아갈 때 정지 상태 유지
             ObjectPoolManager.Instance.Return("Arrow", gameObject);
         }
+        if (other.CompareTag("LowObject"))
+        {
+            // 낮은 오브젝트와 충돌 시
+            return;
+        }
     }
 }

@@ -266,7 +266,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0026054084, y: 0.41165248}
+  m_Offset: {x: 0.0026054084, y: 0.27263325}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -277,7 +277,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.30696505, y: 0.27048928}
+  m_Size: {x: 0.30696505, y: 0.5485277}
   m_EdgeRadius: 0
 --- !u!61 &899064153907690827
 BoxCollider2D:
@@ -311,7 +311,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0026053935, y: 0.13808593}
+  m_Offset: {x: 0.0043876767, y: 0.13986823}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -322,7 +322,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.30715457, y: 0.2656651}
+  m_Size: {x: 0.26794404, y: 0.24071294}
   m_EdgeRadius: 0
 --- !u!114 &3258808181113098979
 MonoBehaviour:
@@ -352,21 +352,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ec33f2dd317724fa2f36a9e49f61f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageSoundClip: {fileID: 8300000, guid: 31281760f918075468e13ba00e26ba50, type: 3}
-  maxHealth: 100
-  baseDefense: 0
-  baseMoveSpeed: 5
-  baseAttackDamage: 2
-  baseAttackRange: 50
-  baseAttackSize: 1
-  baseCriticalRate: 0
-  baseProjectileSpeed: 7
-  baseAttackSpeed: 1
-  level: 1
-  experience: 0
-  expToNextLevel: []
-  baseExperienceForLevelUp: 100
-  expCoefficient: 1.2
+  MaxHealth: 100
+  AttackDamage: 10
+  Defense: 0
+  MoveSpeed: 5
+  AttackSpeed: 1
+  AttackRange: 5
+  AttackSize: 1
+  ProjectileSpeed: 10
+  CriticalRate: 0.1
+  invincibilityDuration: 0.5
   abilityRecipes:
   - {fileID: 11400000, guid: df18535bac5162242ace048b062f2b99, type: 2}
 --- !u!114 &725293929147769396

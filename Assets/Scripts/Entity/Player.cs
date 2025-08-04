@@ -4,49 +4,34 @@ using System.Linq;
 
 public class Player : MonoBehaviour
 {
-
-
     // === 플레이어 스탯 ===
     [Header("Player Stats")]
-[SerializeField] private float baseDefense = 0f;
-    public float Defense { get; set; }
-
-    [SerializeField] private float baseMoveSpeed = 5.0f;
-    public float MoveSpeed { get; set; }
-
-    [SerializeField] private float baseAttackDamage = 10f;
-    public float AttackDamage { get; set; }
-
-    [SerializeField] private float baseAttackRange = 3f;
-    public float AttackRange { get; set; }
-
-    [SerializeField] private float baseAttackSize = 1.0f;
-    public float AttackSize { get; set; }
-
-    [SerializeField] private float baseCriticalRate = 10f;
-    public float CriticalRate { get; set; }
-
-    [SerializeField] private float baseProjectileSpeed = 7f;
-    public float ProjectileSpeed { get; set; }
-
-    [SerializeField] private float baseAttackSpeed = 1.0f;
-    public float AttackSpeedMultiplier { get; set; } = 100f;
-    public float MaxAttackSpeed => baseAttackSpeed * (AttackSpeedMultiplier / 100f);
+    public float MaxHealth = 100f;
+    public float AttackDamage = 10f;
+    public float Defense = 0f;
+    public float MoveSpeed = 5f;
+    public float AttackSpeed = 1f;
+    public float MaxAttackSpeed { get; private set; }
+    public float AttackRange = 5f;
+    public float AttackSize = 1f;
+    public float ProjectileSpeed = 10f;
+    public float CriticalRate = 0.1f;
 
     // === 플레이어 현재 상태 ===
-    public float Health { get; private set; } // 현재 체력
-    [SerializeField] private float invincibilityDuration = 0.5f; // 무적 시간 (피격 후)
-    private float invincibilityEndTime = 0f; // 무적 시간이 끝나는 시간
+    private bool isDead = false;
+    //private bool isInvincible = false; // 무적 상태를 관리할 새로운 변수
+    public float Health { get; private set; }
+    [SerializeField] private float invincibilityDuration = 0.5f;
+    private float invincibilityEndTime = 0f;
 
     // === 능력 관리 ===
     public Dictionary<GameObject, Ability> activeAbilities = new Dictionary<GameObject, Ability>();
 
     // === 합성 능력 관리 ===
     [Header("Ability Recipes")]
-    // 이 목록에 합성 가능한 모든 어빌리티 레시피를 할당합니다.
-    // 인스펙터에서 편집 가능하도록 [SerializeField]를 사용합니다.
+    // 이제 MonoBehaviour를 상속받는 AbilityRecipe 컴포넌트를 참조합니다.
     [SerializeField]
-    public List<AbilityRecipe> abilityRecipes; // <-- 레시피 목록 추가
+    public AbilityRecipe[] abilityRecipes;
 
     // === 기타 참조 ===
     private PlayerController playerController;
@@ -55,21 +40,21 @@ public class Player : MonoBehaviour
     void Awake()
     {
         playerController = GetComponent<PlayerController>();
-        animationHandler = GetComponent<AnimationHandler>();
+        animationHandler = GetComponentInChildren<AnimationHandler>();
     }
 
     void Start()
     {
         RecalculateStats();
-        Health = MaxHealth; // 시작 시 현재 체력을 최대 체력으로 설정
+        Health = MaxHealth;
     }
 
     void Update()
     {
-        if (Time.time >= invincibilityEndTime && IsInvincible())
-        {
-            animationHandler?.InvincibilityEnd();
-        }
+        //if (Time.time >= invincibilityEndTime && IsInvincible())
+        //{
+        //    animationHandler?.InvincibilityEnd();
+        //}
     }
 
     /// <summary>
@@ -147,14 +132,24 @@ public class Player : MonoBehaviour
         Debug.Log($"Player Stats Recalculated: MaxHealth={MaxHealth}, CurrentHealth={Health}, Damage={AttackDamage}, Defense={Defense}, MoveSpeed={MoveSpeed}, Speed={MaxAttackSpeed}, Range={AttackRange}");
     }
 
+    //public void SetInvincibleState(bool state)
+    //{
+    //    isInvincible = state;
+    //}
+    //public bool IsInvincible()
+    //{
+    //    return isInvincible;
+    //}
+
     /// <summary>
     /// 플레이어가 데미지를 받도록 합니다.
     /// </summary>
     public void TakeDamage(float damageAmount, GameObject damageSource = null)
     {
-        if (IsInvincible() || damageAmount <= 0)
+        // 무적 상태 체크 코드를 제거했습니다. 이제 사망하거나 데미지 0일 때만 데미지를 무시합니다.
+        if (isDead || damageAmount <= 0)
         {
-            Debug.Log($"Player 무적 상태이거나 데미지 0. 데미지 적용 안됨. (소스: {damageSource?.name})");
+            Debug.Log($"Player 사망했거나 데미지 0. 데미지 적용 안됨. (소스: {damageSource?.name})");
             return;
         }
 
@@ -165,12 +160,24 @@ public class Player : MonoBehaviour
         Debug.Log($"플레이어가 {damageAmount} 데미지를 받았습니다. (방어력 적용 후 최종 데미지: {finalDamage}) (소스: {damageSource?.name}) 현재 체력: {Health}");
 
         animationHandler?.Hurt();
-        invincibilityEndTime = Time.time + invincibilityDuration;
 
         if (Health <= 0f)
         {
             Death(damageSource);
         }
+    }
+
+    /// <summary>
+    /// 플레이어 사망 처리
+    /// </summary>
+    private void Death(GameObject killer = null)
+    {
+        if (isDead) return;
+
+        Debug.Log($"플레이어가 사망했습니다! (킬러: {killer?.name})");
+        isDead = true;
+        animationHandler?.Death();
+        gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -184,14 +191,6 @@ public class Player : MonoBehaviour
         Health = Mathf.Min(Health, MaxHealth);
 
         Debug.Log($"플레이어 체력 {amount} 회복. 현재 체력: {Health}");
-    }
-
-    /// <summary>
-    /// 플레이어가 무적 상태인지 확인합니다.
-    /// </summary>
-    public bool IsInvincible()
-    {
-        return Time.time < invincibilityEndTime;
     }
 
     /// <summary>
@@ -226,15 +225,7 @@ public class Player : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// 플레이어 사망 처리
-    /// </summary>
-    private void Death(GameObject killer = null)
-    {
-        Debug.Log($"플레이어가 사망했습니다! (킬러: {killer?.name})");
-        animationHandler?.Death();
-        gameObject.SetActive(false);
-    }
+
 
     /// <summary>
     /// 현재 플레이어가 보유한 어빌리티로 합성할 수 있는 어빌리티 레시피를 찾습니다.
@@ -264,9 +255,9 @@ public class Player : MonoBehaviour
         if (activeAbilities.ContainsKey(abilityPrefab))
         {
             Ability abilityInstance = activeAbilities[abilityPrefab];
-            abilityInstance.OnRemove(); // 능력 제거 전 정리 작업 호출
-            Destroy(abilityInstance.gameObject); // 씬에서 오브젝트 제거
-            activeAbilities.Remove(abilityPrefab); // 딕셔너리에서 제거
+            abilityInstance.OnRemove();
+            Destroy(abilityInstance.gameObject);
+            activeAbilities.Remove(abilityPrefab);
             Debug.Log($"[{abilityPrefab.name}] 어빌리티가 제거되었습니다.");
         }
     }

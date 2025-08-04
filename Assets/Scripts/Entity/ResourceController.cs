@@ -27,14 +27,14 @@ public class ResourceController : MonoBehaviour
 
     private void Update()
     {
-        if (timeSinceLastChange < healthChangeDelay)
-        {
-            timeSinceLastChange += Time.deltaTime;
-            if (timeSinceLastChange >= healthChangeDelay)
-            {
-                animationHandler.InvincibilityEnd();
-            }
-        }
+        //if (timeSinceLastChange < healthChangeDelay)
+        //{
+        //    timeSinceLastChange += Time.deltaTime;
+        //    if (timeSinceLastChange >= healthChangeDelay)
+        //    {
+        //        animationHandler.InvincibilityEnd();
+        //    }
+        //}
     }
 
     public bool ChangeHealth(float change)

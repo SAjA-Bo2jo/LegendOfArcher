@@ -28,16 +28,8 @@ public class LevelManager : MonoBehaviour
     {
         // 씬에서 Player와 AbilitySelectionManager 참조를 찾습니다.
         player = FindObjectOfType<Player>();
-        if (player == null)
-        {
-            Debug.LogError("LevelManager: 씬에서 Player 오브젝트를 찾을 수 없습니다!");
-        }
 
         abilitySelectionManager = FindObjectOfType<AbilitySelectionManager>();
-        if (abilitySelectionManager == null)
-        {
-            Debug.LogWarning("LevelManager: 씬에서 AbilitySelectionManager 오브젝트를 찾을 수 없습니다.");
-        }
 
         // 경험치 테이블 생성
         GenerateExpTable();
