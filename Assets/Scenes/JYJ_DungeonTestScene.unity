@@ -205,6 +205,12 @@ MonoBehaviour:
   - key: Arrow
     prefab: {fileID: 2617466681887532506, guid: 15dbfb6e22b71ef4187ab3f932ecf260, type: 3}
     size: 20
+  - key: Archer
+    prefab: {fileID: 7072391522761673993, guid: 4a33c87d2e44e1a46bcf3f6600694274, type: 3}
+    size: 0
+  - key: Boss
+    prefab: {fileID: 7072391522761673993, guid: 13869cc96d27de1459e532a736d8aac3, type: 3}
+    size: 0
 --- !u!1 &542793381
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,12 +5,10 @@ using UnityEngine;
 public class BaseController : MonoBehaviour
 {
     protected Rigidbody2D _rigidbody;
-    protected WeaponHandler weaponHandler;
     protected AnimationHandler animationHandler;
 
     [SerializeField] private SpriteRenderer characterRenderer;
     [SerializeField] private Transform weaponPivot;
-    [SerializeField] public WeaponHandler WeaponPrefab;
 
     protected Vector2 moveDirection = Vector2.zero;                     // moveDirection : 이동하려는 방향
     public Vector2 MoveDirection                                        // -> 참조 시에 MoveDirection
@@ -39,15 +37,6 @@ public class BaseController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         animationHandler = GetComponent<AnimationHandler>();
-
-        if (WeaponPrefab != null)
-        {
-            weaponHandler = Instantiate(WeaponPrefab, weaponPivot);     // WeaponPrefeb 있으면 WeaponPivot 자리에 생성
-        }
-        else
-        {
-            weaponHandler = GetComponentInChildren<WeaponHandler>();    // 없으면 자식으로 배치된 weaponHandler 사용
-        }
     }
     protected virtual void Start()
     {
@@ -59,8 +48,6 @@ public class BaseController : MonoBehaviour
         HandleInput();
 
         Rotate(lookDirection);
-
-        HandleAttackDelay();
     }
 
     protected virtual void FixedUpdate()
@@ -103,33 +90,8 @@ public class BaseController : MonoBehaviour
         {
             weaponPivot.rotation = Quaternion.Euler(0, 0, rotationAngle);
         }
-
-        weaponHandler?.Rotate(isLeft);
     }
 
-    private void HandleAttackDelay()                                    // 공격 딜레이 구하는 메서드
-    {
-        if (weaponHandler == null) return;                              // 무기 없으면 공격 X.
-
-        if (timeSinceLastAttack <= weaponHandler.Delay)
-        {
-            timeSinceLastAttack += Time.deltaTime;
-        }
-
-        if (isAttacking && timeSinceLastAttack > weaponHandler.Delay)
-        {
-            timeSinceLastAttack = 0;
-            Attack();
-        }
-    }
-
-    protected virtual void Attack()                                     // 실제 공격 메서드
-    {
-        if (lookDirection != Vector2.zero)
-        {
-            weaponHandler?.Attack();                                    // 명확한 방향이 있어야 공격
-        }
-    }
 
     public void ApplyKnockback(Transform otherObject, float power, float duration)
     {

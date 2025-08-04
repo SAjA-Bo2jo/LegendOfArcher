@@ -13,6 +13,8 @@ public partial class DungeonBuilder : MonoBehaviour
     // Obstacle generation method
     public List<GameObject> SpawnObstacles()
     {
+        obstacleCount = StageManager.Instance.CurrentStageData.obstacleCount;
+        
         List<GameObject> obstacles = new List<GameObject>();
 
         // Obstacle Positioning
@@ -51,7 +53,7 @@ public partial class DungeonBuilder : MonoBehaviour
             {
                 float x = Random.Range(-8.3f, 8.3f);
                 float y = Random.Range(-0.5f, 3.3f);
-                newPos = new Vector3(x, y);
+                newPos = new Vector3((x + 20 * ((StageManager.Instance.StageLevel - 1) % 5)), y);
                 attempt++;
 
                 // break and force to place obj after try 100 times

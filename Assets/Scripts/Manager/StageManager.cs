@@ -135,6 +135,9 @@ public class StageManager : MonoSingleton<StageManager>
         // 다음 스테이지의 정보를 _currentStageData로 옮겨야 함
         LoadCurrentStageData();
         
+        // 다음 스테이지의 장애물들을 스폰
+        dungeonBuilder.result.obstacles = dungeonBuilder.SpawnObstacles();
+        
         // 다음 스테이지의 몬스터를 스폰
         dungeonBuilder.SpawnMonsters();
         

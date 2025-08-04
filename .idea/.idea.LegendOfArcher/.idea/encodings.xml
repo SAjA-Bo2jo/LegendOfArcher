@@ -10,6 +10,9 @@
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Entity/Controller/EnemyController.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Entity/EnemyAnimationHandler.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Entity/EnemyPoolObject.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Entity/EnemyScripts/EnemyAnimationHandler.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Entity/EnemyScripts/EnemyController.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Entity/EnemyScripts/EnemyPoolObject.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Entity/Player.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Entity/PlayerController.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/ObjectPool/ObjectPoolManager.cs" charset="EUC-KR" />

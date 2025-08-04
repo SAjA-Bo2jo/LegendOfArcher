@@ -29,12 +29,14 @@ public partial class DungeonBuilder : MonoBehaviour
     private Vector3 playerPos;
     
     // 적 
-    [SerializeField] private int enemyCount;
+    [SerializeField] private int baseGoblinCount;
+    [SerializeField] private int archerGoblinCount;
+    [SerializeField] private int bossGoblinCount;
     private float enemyPosX = 0;
     private float enemyPosY = 0;
     Vector2 enemyPos = Vector2.zero; 
 
-    private DungeonObjects result;
+    public DungeonObjects result;
 
     public DungeonObjects Build()
     {
@@ -99,12 +101,39 @@ public partial class DungeonBuilder : MonoBehaviour
 
     public void SpawnMonsters()
     {
-        enemyCount = StageManager.Instance.CurrentStageData.enemyCount;
+        baseGoblinCount = StageManager.Instance.CurrentStageData.baseGoblinCount;
+        archerGoblinCount = StageManager.Instance.CurrentStageData.archerGoblincount;
+        bossGoblinCount = StageManager.Instance.CurrentStageData.bossGoblinCount;
+        
         // result.enemies = SpawnEnemies();
         result.enemies = new List<GameObject>();
-        for (int i = 0; i < enemyCount; i++)
+        
+        // 기본 고블린 생성
+        for (int i = 0; i < baseGoblinCount; i++)
         {
             GameObject enemy = ObjectPoolManager.Instance.Get("enemy");            // 적 키값은 enum으로 관리되도록 수정
+            enemy.transform.SetParent(StageManager.Instance.enemyParent.transform);
+            enemy.transform.position = 
+                new Vector2(enemyPosX + 20 * ((StageManager.Instance.StageLevel - 1) % 5), enemyPosY);
+            result.enemies.Add(enemy);
+            StageManager.Instance.AddMonsterToList(enemy);
+        }
+        
+        // 궁수 고블린 생성
+        for (int i = 0; i < archerGoblinCount; i++)
+        {
+            GameObject enemy = ObjectPoolManager.Instance.Get("Archer");
+            enemy.transform.SetParent(StageManager.Instance.enemyParent.transform);
+            enemy.transform.position = 
+                new Vector2(enemyPosX + 20 * ((StageManager.Instance.StageLevel - 1) % 5), enemyPosY);
+            result.enemies.Add(enemy);
+            StageManager.Instance.AddMonsterToList(enemy);
+        }
+        
+        // 보스 고블린 생성
+        for (int i = 0; i < bossGoblinCount; i++)
+        {
+            GameObject enemy = ObjectPoolManager.Instance.Get("Boss");
             enemy.transform.SetParent(StageManager.Instance.enemyParent.transform);
             enemy.transform.position = 
                 new Vector2(enemyPosX + 20 * ((StageManager.Instance.StageLevel - 1) % 5), enemyPosY);
