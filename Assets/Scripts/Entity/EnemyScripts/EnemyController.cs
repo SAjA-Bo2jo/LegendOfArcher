@@ -229,10 +229,24 @@ public class EnemyController : BaseController
                 Debug.Log("Body slam! Damage: " + damage);
             }
 
+            /*
             ResourceController rc = collider.GetComponent<ResourceController>();
             if (rc != null)
             {
                 rc.ChangeHealth(-damage);
+            }
+            */
+
+            Player player = collider.GetComponent<Player>();
+            if (player != null)
+            {
+                player.TakeDamage(damage, this.gameObject);
+
+                BaseController controller = player.GetComponent<BaseController>();
+                if (controller != null)
+                {
+                    controller.ApplyKnockback(transform, 2f, 0.3f);
+                }
             }
         }
     }
