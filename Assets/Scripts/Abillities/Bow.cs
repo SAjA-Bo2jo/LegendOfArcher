@@ -246,7 +246,6 @@ public class Bow : Abillity
         loadedArrowGO.transform.rotation = transform.rotation;
         loadedArrowScript.transform.localScale = Vector3.one * player.AttackSize;
         loadedArrowGO.SetActive(true); // 화살 활성화
-        Debug.Log("Bow: 화살 장전 완료!");
     }
 
     // 현재 진행 중인 공격을 중단하고 모든 관련 상태를 초기화합니다.
@@ -277,7 +276,6 @@ public class Bow : Abillity
         // 발사 직전에 다시 한 번 플레이어 상태와 타겟 여부를 확인합니다.
         if ((playerController != null && playerController.IsMoving) || target == null)
         {
-            Debug.Log("Bow: 발사 직전 플레이어 이동 또는 타겟 상실 감지. 화살 발사를 취소하고 공격을 중단합니다.");
             StopAttack();
             return;
         }
@@ -285,12 +283,10 @@ public class Bow : Abillity
         // 장전된 화살이 없으면 경고하고 공격을 중단합니다. (LoadArrow가 제대로 작동하지 않았거나, 이미 발사된 경우)
         if (loadedArrowGO == null)
         {
-            Debug.LogWarning("Bow: 장전된 화살이 없어 발사할 수 없습니다. 애니메이션 이벤트 호출 시점에 loadedArrowGO가 null입니다.");
             StopAttack();
             return;
         }
 
-        Debug.Log("Bow: 애니메이션 이벤트에 의해 화살 발사!");
         // 타겟 방향으로 화살을 발사합니다.
         Vector3 finalLaunchDirection = (target.transform.position - firePoint.position).normalized;
 
@@ -331,5 +327,4 @@ public class Bow : Abillity
 
     // Abillity 클래스에서 상속받은 추상 메서드 구현 (필요에 따라 로직 추가)
     public override void ApplyEffect() { }
-    public override void RemoveEffect() { }
 }

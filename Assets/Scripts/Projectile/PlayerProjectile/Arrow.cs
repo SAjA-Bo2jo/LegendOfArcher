@@ -7,6 +7,8 @@ public class Arrow : Projectile
     private float speed;
     private Rigidbody2D rb;
 
+    public AudioClip attackSoundClip;
+
     // Awake()에서 Rigidbody2D 가져오기
     void Awake()
     {
@@ -53,6 +55,11 @@ public class Arrow : Projectile
             if (enemyController != null)
             {
                 enemyController.GetDamage(finalDamage);
+            }
+
+            if (attackSoundClip != null)
+            {
+                SoundManager.Instance.PlaySoundEffect(attackSoundClip, Vector3.zero);
             }
 
             // 충돌 후 화살을 풀로 반환

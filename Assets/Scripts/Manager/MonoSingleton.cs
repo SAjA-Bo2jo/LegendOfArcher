@@ -27,6 +27,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
             }
             return instance;
         }
+        set { instance = value; }
     }
 
     //private void Awake()
@@ -58,11 +59,11 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
         }
 
         // 부모가 있으면 부모 루트 게임오브젝트를 파괴하지 않도록 설정
-        if (transform.parent != null && transform.root != null)
-            DontDestroyOnLoad(this.transform.root.gameObject);
-        else
-            // 부모가 없으면 이 게임오브젝트를 파괴하지 않도록 설정
-            DontDestroyOnLoad(this.gameObject);
+        // if (transform.parent != null && transform.root != null)
+        //     DontDestroyOnLoad(this.transform.root.gameObject);
+        // else
+        //     // 부모가 없으면 이 게임오브젝트를 파괴하지 않도록 설정
+        //     DontDestroyOnLoad(this.gameObject);
 
         // 씬이 로드될 때 호출될 이벤트 강제 등록
         RegisterSceneLoadedEvent();

@@ -123,6 +123,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &18262896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 18262898}
+  - component: {fileID: 18262897}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &18262897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18262896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3079f4f8a7facf479b20625bcf4b826, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killMonsterCount: 0
+  finalFloor: 0
+--- !u!4 &18262898
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18262896}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &26245742
 GameObject:
   m_ObjectHideFlags: 0
@@ -5256,6 +5302,57 @@ RectTransform:
   m_AnchoredPosition: {x: 44.2, y: 139}
   m_SizeDelta: {x: 65, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1868840726
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1868840728}
+  - component: {fileID: 1868840727}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1868840727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868840726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd871026e2fc56341a8644dd057a94c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundSourcePrefab: {fileID: 4437649413734355708, guid: 3a0f8d60a1fe45046b8a105be9881f66, type: 3}
+  musicVolume: 0.025
+  TitleMusic: {fileID: 8300000, guid: 944f20228db25074895e3280b974b593, type: 3}
+  MainGameMusic: {fileID: 8300000, guid: 503da1c1f2a69914295b352c3515781e, type: 3}
+  DeadMusic: {fileID: 8300000, guid: 4537cf723f2693f4aa7edc3636516570, type: 3}
+  WinMusic: {fileID: 8300000, guid: 8a97e41e98ad6ec49aadba81fbb56a43, type: 3}
+  BossMusic: {fileID: 8300000, guid: cfa3bfaf7af847c43a88d5868e32a657, type: 3}
+--- !u!4 &1868840728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868840726}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1896155440
 GameObject:
   m_ObjectHideFlags: 0
@@ -5417,12 +5514,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundSlider: {fileID: 1457537868}
   soundMuteButton: {fileID: 1386135290}
-  soundMuteImage: {fileID: 0}
+  soundMuteImage: {fileID: -1537613001, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
   soundIcon: {fileID: -1460911550, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
   soundMuteIcon: {fileID: -1537613001, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
   musicSlider: {fileID: 1224888748}
   musicMuteButton: {fileID: 1172624359}
-  musicMuteImage: {fileID: 0}
+  musicMuteImage: {fileID: 1636515062, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
   musicIcon: {fileID: 232900706, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
   musicMuteIcon: {fileID: 1636515062, guid: 115d4ee9a4b812a4d806fab2f4304ef4, type: 3}
 --- !u!1 &1921017168
@@ -8478,6 +8575,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1818547204}
+  - {fileID: 18262898}
+  - {fileID: 1868840728}
   - {fileID: 6425621700245710895}
   - {fileID: 1551914768}
   - {fileID: 8058738069355590841}

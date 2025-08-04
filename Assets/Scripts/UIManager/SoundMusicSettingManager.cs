@@ -6,14 +6,14 @@ public class SoundMusicSettingsManager : MonoBehaviour
     [Header("Sound Settings")]
     public Slider soundSlider;                 // 소리 음량 조절 슬라이더
     public Button soundMuteButton;             // 소리 음소거 토글 버튼
-    public Image soundMuteImage;               // 소리 음소거 상태 이미지 (버튼 내 Image)
+    public Sprite soundMuteImage;               // 소리 음소거 상태 이미지 (버튼 내 Image)
     public Sprite soundIcon;                   // 소리 일반 아이콘
     public Sprite soundMuteIcon;               // 소리 음소거 아이콘
 
     [Header("Music Settings")]
     public Slider musicSlider;                 // 음악 음량 조절 슬라이더
     public Button musicMuteButton;             // 음악 음소거 토글 버튼
-    public Image musicMuteImage;               // 음악 음소거 상태 이미지
+    public Sprite musicMuteImage;               // 음악 음소거 상태 이미지
     public Sprite musicIcon;                   // 음악 일반 아이콘
     public Sprite musicMuteIcon;               // 음악 음소거 아이콘
 
@@ -114,11 +114,11 @@ public class SoundMusicSettingsManager : MonoBehaviour
 
     private void UpdateSoundMuteImage()
     {
-        soundMuteImage.sprite = isSoundMuted ? soundMuteIcon : soundIcon;
+        soundMuteImage = isSoundMuted ? soundMuteIcon : soundIcon;
     }
 
     private void UpdateMusicMuteImage()
     {
-        musicMuteImage.sprite = isMusicMuted ? musicMuteIcon : musicIcon;
+        musicMuteImage = isMusicMuted ? musicMuteIcon : musicIcon;
     }
 }

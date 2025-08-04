@@ -352,6 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ec33f2dd317724fa2f36a9e49f61f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageSoundClip: {fileID: 8300000, guid: 31281760f918075468e13ba00e26ba50, type: 3}
   maxHealth: 100
   baseDefense: 0
   baseMoveSpeed: 5
@@ -364,7 +365,10 @@ MonoBehaviour:
   level: 1
   experience: 0
   expToNextLevel: []
-  abilityRecipes: []
+  baseExperienceForLevelUp: 100
+  expCoefficient: 1.2
+  abilityRecipes:
+  - {fileID: 11400000, guid: df18535bac5162242ace048b062f2b99, type: 2}
 --- !u!114 &725293929147769396
 MonoBehaviour:
   m_ObjectHideFlags: 0
