@@ -50,8 +50,8 @@ public class Bow : Ability
             Debug.LogError($"{this.GetType().Name}: Fire Point가 할당되지 않았습니다! {this.gameObject.name}에서 화살 발사 위치를 지정해주세요.");
         }
 
-        AbilityName = "기본 활";
-        Description = "플레이어의 기본 원거리 무기입니다.";
+        abilityName = "기본 활";
+        description = "플레이어의 기본 원거리 무기입니다.";
         MaxLevel = 1;
         CurrentLevel = 1;
     }

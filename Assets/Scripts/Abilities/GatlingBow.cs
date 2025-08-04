@@ -49,11 +49,11 @@ public class GatlingBow : Ability // Ability 클래스를 상속받습니다.
     {
         if (CurrentLevel > 0)
         {
-            Description = $"플레이어의 공격 속도를 {attackSpeedBonus:F1} 증가시키고, 매 공격 시 {arrowsPerShot}발의 특수 화살을 발사합니다.";
+            description = $"플레이어의 공격 속도를 {attackSpeedBonus:F1} 증가시키고, 매 공격 시 {arrowsPerShot}발의 특수 화살을 발사합니다.";
         }
         else
         {
-            Description = "개틀링 보우 능력 (획득 대기)";
+            description = "개틀링 보우 능력 (획득 대기)";
         }
     }
 

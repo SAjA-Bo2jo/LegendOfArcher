@@ -62,11 +62,11 @@ public class IncreaseMaxHealth : Ability
         {
             // 현재 레벨에 대한 총 체력 증가량 계산
             float totalHealthIncrease = healthIncreasePerLevel * CurrentLevel;
-            Description = $"최대 체력 {totalHealthIncrease} 증가 및 능력 획득/레벨업 시 체력 {healAmountOnAcquire} 회복.";
+            description = $"최대 체력 {totalHealthIncrease} 증가 및 능력 획득/레벨업 시 체력 {healAmountOnAcquire} 회복.";
         }
         else
         {
-            Description = "최대 체력을 증가시키고 체력을 회복합니다.";
+            description = "최대 체력을 증가시키고 체력을 회복합니다.";
         }
     }
 }

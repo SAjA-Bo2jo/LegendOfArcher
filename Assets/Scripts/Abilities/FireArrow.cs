@@ -33,11 +33,13 @@ public class FireArrow : Ability
     {
         if (CurrentLevel > 0 && CurrentLevel <= MaxLevel)
         {
-            Description = $"매 {attackCountForFireArrowPerLevel[CurrentLevel - 1]}번째 공격 시 불화살 발사 (데미지 {damageMultiplierPerLevel[CurrentLevel - 1]}배)";
+            // 수정된 부분: "Description =" 대신 "description ="으로 변경
+            description = $"매 {attackCountForFireArrowPerLevel[CurrentLevel - 1]}번째 공격 시 불화살 발사 (데미지 {damageMultiplierPerLevel[CurrentLevel - 1]}배)";
         }
         else
         {
-            Description = "불화살 능력 (획득 대기)";
+            // 수정된 부분: "Description =" 대신 "description ="으로 변경
+            description = "불화살 능력 (획득 대기)";
         }
     }
 

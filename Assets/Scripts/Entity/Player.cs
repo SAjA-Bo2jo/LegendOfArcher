@@ -21,8 +21,6 @@ public class Player : MonoBehaviour
     private bool isDead = false;
     //private bool isInvincible = false; // 무적 상태를 관리할 새로운 변수
     public float Health { get; private set; }
-    [SerializeField] private float invincibilityDuration = 0.5f;
-    private float invincibilityEndTime = 0f;
 
     // === 능력 관리 ===
     public Dictionary<GameObject, Ability> activeAbilities = new Dictionary<GameObject, Ability>();

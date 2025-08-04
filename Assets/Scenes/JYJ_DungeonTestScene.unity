@@ -11466,6 +11466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 397d4f99e9784ce4fb3fba222ffa5471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilitySelectionManager: {fileID: 1845604627}
   stageLevel: 1
   dungeonBuilder: {fileID: 5729417262404796022, guid: 74ce8829d32e68342922507c2447a174, type: 3}
   exitGateList: []
@@ -12229,8 +12230,12 @@ MonoBehaviour:
   - {fileID: 9113084276707236296, guid: 148030fd2160ec7408c6a73ad2d8f0c5, type: 3}
   - {fileID: 3341465619746869620, guid: bb77263ebf8a33c4885ad58134393908, type: 3}
   - {fileID: 8686397491478364525, guid: a11d6fbd4d48edb479e7b65f9c5425e8, type: 3}
+  - {fileID: 7302838883461125089, guid: 07a352a40767f764fa2abce3300d7d3c, type: 3}
+  - {fileID: 4069219637729505124, guid: 43cfc3fd95a8e414da130a2033304c82, type: 3}
+  - {fileID: 6656189543097028530, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
   existingAbilityUpgradeChance: 0.6
   combineAbilityChance: 0.3
+  player: {fileID: 7463710379377135120, guid: c2ca1940d7ca62344b15ac30d1e9ea0f, type: 3}
 --- !u!4 &1845604628
 Transform:
   m_ObjectHideFlags: 0

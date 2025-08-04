@@ -44,5 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bd581fefb3eab41a434d951c49ee2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilityName: "\uC7A5\uAD81 \uAC1C\uC870"
+  description: "\uC0AC\uC815 \uAC70\uB9AC\uAC00 \uB298\uC5B4\uB0A9\uB2C8\uB2E4"
+  abilityIcon: {fileID: 21300000, guid: 6c7a06be0ce925148a01ceaf3c20fa0c, type: 3}
   lastAttackTime: -999
   rangeIncreasePerLevel: 2
