@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1898427412236479835}
   - component: {fileID: 4555685321884818795}
   - component: {fileID: 4604974807676955965}
+  - component: {fileID: 785995883604748359}
   m_Layer: 0
   m_Name: SpikeTrap
   m_TagString: Trap
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -197592653, guid: e70f87424625ccc4ba4ea539cb637d8c, type: 3}
+  m_Sprite: {fileID: 2009267844, guid: e70f87424625ccc4ba4ea539cb637d8c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,7 +95,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5244188556842310641}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -160,3 +161,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9d1db1b2b85fe469090842fe0b4fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 785995883604748359}
+  spikeCollider: {fileID: 1898427412236479835}
+  delay: 1.5
+--- !u!95 &785995883604748359
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5244188556842310641}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7e58c36517e10d84586e3915656cbadf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
