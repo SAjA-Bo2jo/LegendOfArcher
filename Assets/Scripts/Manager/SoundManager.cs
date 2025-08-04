@@ -18,6 +18,8 @@ public class SoundManager : MonoSingleton<SoundManager>
     public AudioClip WinMusic;
     public AudioClip BossMusic;
 
+    public AudioClip ButtonClick;
+
     // MonoSingleton의 Awake를 오버라이드해 초기화 처리
     protected override void Awake()
     {
@@ -38,7 +40,7 @@ public class SoundManager : MonoSingleton<SoundManager>
     {
         musicAudioSource.volume = musicVolume;  // 초기 볼륨 설정
     }
-
+    
     // 씬 로드 이벤트 등록 (상속받은 MonoSingleton의 가상 메서드 구현)
     protected override void RegisterSceneLoadedEvent()
     {
@@ -119,5 +121,14 @@ public class SoundManager : MonoSingleton<SoundManager>
 
         // 생성된 SoundSource에서 효과음 재생 시작
         obj.Play(clip, volume, pitchVariance);
+    }
+
+    public void PlayButtonSound(float volume = 1f, float pitchVariance = 0f)
+    {
+        if (soundSourcePrefab == null) return;
+
+        SoundSource obj = Instantiate(soundSourcePrefab, Vector3.zero, Quaternion.identity);
+        
+        obj.Play(ButtonClick, volume, pitchVariance);
     }
 }

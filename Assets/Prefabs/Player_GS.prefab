@@ -353,7 +353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageSoundClip: {fileID: 8300000, guid: 31281760f918075468e13ba00e26ba50, type: 3}
-  maxHealth: 100
+  maxHealth: 2
   baseDefense: 0
   baseMoveSpeed: 5
   baseAttackDamage: 2
