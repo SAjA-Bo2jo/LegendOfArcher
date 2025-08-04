@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 7313861653825165546}
   - component: {fileID: 7471220306491737616}
   - component: {fileID: 3618222246529601938}
+  - component: {fileID: 4542282291589090385}
   m_Layer: 0
   m_Name: MainSprite
   m_TagString: Untagged
@@ -137,6 +138,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4542282291589090385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738777145306199683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26bebaa3d13811d49b94ea4e1893aa71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2934652378543946906
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,7 +163,6 @@ GameObject:
   - component: {fileID: 5973008285471576010}
   - component: {fileID: 899064153907690827}
   - component: {fileID: 3258808181113098979}
-  - component: {fileID: 447022998737260196}
   - component: {fileID: 7463710379377135120}
   - component: {fileID: 725293929147769396}
   m_Layer: 0
@@ -237,7 +249,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0026054084, y: 0.41165248}
+  m_Offset: {x: 0.0026054084, y: 0.27636772}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -248,7 +260,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.30696505, y: 0.27048928}
+  m_Size: {x: 0.30696505, y: 0.5410588}
   m_EdgeRadius: 0
 --- !u!61 &899064153907690827
 BoxCollider2D:
@@ -310,18 +322,7 @@ MonoBehaviour:
   characterRenderer: {fileID: 7471220306491737616}
   weaponPivot: {fileID: 4954709950129795065}
   moveSpeed: 5
---- !u!114 &447022998737260196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2934652378543946906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26bebaa3d13811d49b94ea4e1893aa71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  playerAnimationHandler: {fileID: 4542282291589090385}
 --- !u!114 &7463710379377135120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  baseDefense: 100
+  baseDefense: 0
   baseMoveSpeed: 5
   baseAttackDamage: 2
   baseAttackRange: 50
@@ -394,7 +395,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7578177436838376626, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: m_LocalPosition.y
+<<<<<<< Updated upstream
       value: 0.302
+=======
+      value: 0.315
+>>>>>>> Stashed changes
       objectReference: {fileID: 0}
     - target: {fileID: 7578177436838376626, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: m_LocalPosition.z

@@ -30,22 +30,27 @@ public class Bow : Abillity
         player = GetComponentInParent<Player>();
         playerController = GetComponentInParent<PlayerController>();
 
+<<<<<<< Updated upstream
         // 활 오브젝트에서 AnimationHandler 컴포넌트를 가져와 할당합니다.
         // 이전에 부모(Player)에서 가져오던 것을 변경합니다.
+=======
+>>>>>>> Stashed changes
         animationHandler = GetComponent<AnimationHandler>();
         if (animationHandler == null)
         {
             Debug.LogError("Bow 스크립트에 AnimationHandler 컴포넌트가 없습니다! Bow 오브젝트에 있는지 확인하세요.");
         }
 
+<<<<<<< Updated upstream
         // 스크린샷에서 확인된 Animator 컴포넌트를 가져옵니다.
+=======
+>>>>>>> Stashed changes
         animator = GetComponent<Animator>();
         if (animator == null)
         {
             Debug.LogError("Bow 스크립트에 Animator 컴포넌트가 없습니다! Player > WeaponPivot > Bow에 Animator가 있는지 확인하세요.");
         }
 
-        // SpriteRenderer 컴포넌트를 가져옵니다.
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer == null)
         {
@@ -78,22 +83,27 @@ public class Bow : Abillity
 
     protected void Update()
     {
+        // 매 프레임 타겟을 찾고, 공격을 시도합니다.
         target = FindTarget();
         TryAttack();
 
-        // 타겟이 없으면 활을 숨기고, 있으면 보이게 합니다.
-        if (target == null)
+        // --- 핵심 수정 부분: 타겟이 없거나 플레이어가 움직일 경우 공격 중단 및 화살 반환 ---
+        if (target == null || playerController.IsMoving)
         {
             if (spriteRenderer != null)
             {
                 spriteRenderer.enabled = false;
             }
+<<<<<<< Updated upstream
             if (animator != null)
             {
                 // 공격 애니메이션을 멈춥니다.
                 animator.SetBool("IsAttack", false);
             }
             StopAttack(); // 타겟이 없으면 공격 사이클도 중지
+=======
+            StopAttack(); // 공격 중단 및 장전된 화살 반환
+>>>>>>> Stashed changes
         }
         else
         {
@@ -129,25 +139,42 @@ public class Bow : Abillity
 
     protected void TryAttack()
     {
+<<<<<<< Updated upstream
         if (isAttack) return; // 이미 공격 중이면 스킵
 
         if (playerController != null && playerController.IsMoving)
         {
             Debug.Log("Bow: 플레이어가 움직이고 있어 공격을 시도하지 않습니다.");
+=======
+        if (isAttack) return;
+
+        // 플레이어 움직임 체크를 AttackDelay 안으로 옮기지 않고, 여기서 미리 체크합니다.
+        if (playerController != null && playerController.IsMoving)
+        {
+            // Debug.Log("Bow: 플레이어가 움직이고 있어 공격을 시도하지 않습니다."); // 너무 자주 출력될 수 있어 주석 처리
+>>>>>>> Stashed changes
             return;
         }
 
         if (target == null)
         {
+<<<<<<< Updated upstream
             Debug.Log("Bow: 타겟이 없어 공격을 시도하지 않습니다.");
+=======
+            // Debug.Log("Bow: 타겟이 없어 공격을 시도하지 않습니다."); // 너무 자주 출력될 수 있어 주석 처리
+>>>>>>> Stashed changes
             return;
         }
 
         float delay = AttackDelay();
         if (Time.time >= lastAttackTime + delay)
         {
+<<<<<<< Updated upstream
             Debug.Log("Bow: 공격 시작!");
             StartCoroutine(PerformAttackCycle()); // 딜레이는 코루틴 내에서 처리
+=======
+            StartCoroutine(PerformAttackCycle());
+>>>>>>> Stashed changes
             lastAttackTime = Time.time;
         }
     }
@@ -181,6 +208,7 @@ public class Bow : Abillity
             yield break;
         }
 
+<<<<<<< Updated upstream
         // 애니메이션이 시작되면 바로 화살을 장전
         LoadArrow();
 
@@ -198,14 +226,24 @@ public class Bow : Abillity
         // Animator의 "IsAttack" 상태가 false가 되거나, loadedArrowGO가 null이 될 때까지 기다릴 수 있습니다.
         // 여기서는 FireLoadedArrowFromAnimationEvent()에서 isAttack을 false로 설정하고 loadedArrowGO를 null로 만들기 때문에
         // 별도의 긴 대기 시간 없이 애니메이션 이벤트의 호출을 기다리면 됩니다.
+=======
+        LoadArrow(); // 애니메이션 시작과 동시에 화살 장전
+>>>>>>> Stashed changes
     }
 
     // 화살을 오브젝트 풀에서 가져와 활에 장전하는 함수
     private void LoadArrow()
     {
+<<<<<<< Updated upstream
         if (loadedArrowGO != null)
         {
             // 이미 장전된 화살이 있다면 반환하고 새로 장전
+=======
+        // --- 핵심 수정 부분: 이미 장전된 화살이 있다면 먼저 풀로 반환 ---
+        if (loadedArrowGO != null)
+        {
+            Debug.LogWarning("Bow: 새로운 화살을 장전하기 전에 이전에 장전된 화살을 반환합니다.");
+>>>>>>> Stashed changes
             ObjectPoolManager.Instance.Return(ARROW_POOL_KEY, loadedArrowGO);
             loadedArrowGO = null;
             loadedArrowScript = null;
@@ -242,6 +280,7 @@ public class Bow : Abillity
         loadedArrowGO.transform.rotation = transform.rotation;
         loadedArrowScript.transform.localScale = Vector3.one * player.AttackSize;
         loadedArrowGO.SetActive(true);
+<<<<<<< Updated upstream
         Debug.Log("Bow: 화살 장전 완료!");
     }
 
@@ -250,18 +289,36 @@ public class Bow : Abillity
     {
         Debug.Log("Bow: StopAttack() 호출. 공격 상태를 초기화합니다.");
         StopAllCoroutines();
+=======
+    }
+
+    public void StopAttack()
+    {
+        StopAllCoroutines(); // 모든 활 관련 코루틴 중지
+>>>>>>> Stashed changes
         isAttack = false;
 
         if (animator != null)
         {
+<<<<<<< Updated upstream
             animator.SetBool("IsAttack", false);
         }
 
+=======
+            animator.SetBool("IsAttack", false); // 공격 애니메이션 중지
+        }
+
+        // --- 핵심 수정 부분: 장전된 화살이 있다면 반드시 풀로 반환 ---
+>>>>>>> Stashed changes
         if (loadedArrowGO != null)
         {
             ObjectPoolManager.Instance.Return(ARROW_POOL_KEY, loadedArrowGO);
             loadedArrowGO = null;
             loadedArrowScript = null;
+<<<<<<< Updated upstream
+=======
+            Debug.Log("Bow: 장전된 화살을 오브젝트 풀로 반환했습니다.");
+>>>>>>> Stashed changes
         }
     }
 
@@ -271,6 +328,7 @@ public class Bow : Abillity
         {
             Debug.Log("Bow: 플레이어가 움직여서 화살 발사를 취소하고 공격을 중지합니다.");
             StopAttack();
+<<<<<<< Updated upstream
             return;
         }
 
@@ -278,6 +336,22 @@ public class Bow : Abillity
         {
             Debug.Log("Bow: 타겟이 없어 화살 발사를 취소하고 공격을 중지합니다.");
             StopAttack(); // 타겟이 없으면 공격 사이클 중지
+=======
+            return;
+        }
+
+        if (target == null)
+        {
+            Debug.Log("Bow: 타겟이 없어 화살 발사를 취소하고 공격을 중지합니다.");
+            StopAttack();
+            return;
+        }
+
+        if (loadedArrowGO == null)
+        {
+            Debug.LogWarning("Bow: 장전된 화살이 없어 발사할 수 없습니다. 애니메이션 이벤트 호출 시점에 loadedArrowGO가 null입니다.");
+            StopAttack();
+>>>>>>> Stashed changes
             return;
         }
 
@@ -313,10 +387,16 @@ public class Bow : Abillity
             loadedArrowScript.LaunchTowards(finalLaunchDirection);
         }
 
+<<<<<<< Updated upstream
         // 화살 발사 후 loadedArrowGO와 loadedArrowScript를 초기화하고 공격 상태 해제
         loadedArrowGO = null;
         loadedArrowScript = null;
         isAttack = false; // 공격 사이클 완료
+=======
+        loadedArrowGO = null;
+        loadedArrowScript = null;
+        isAttack = false;
+>>>>>>> Stashed changes
         if (animator != null)
         {
             animator.SetBool("IsAttack", false);
