@@ -1,105 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+Ôªøusing System.Collections;
 using UnityEngine;
 
 public class BossEnemyAttack : IEnemyAttack
 {
-    private float lastAttackTime = 0f;
-
-    // µπ¡¯ ±‚πÕ ∫Øºˆ
-    private bool isCharging = false;                // µπ¡¯ ¡ﬂ ø©∫Œ ∆«¥‹
-    private bool canCharge = true;                  // µπ¡¯ ∞°¥…«— ¡ˆ ø©∫Œ ∆«¥‹
-    private float chargeTimer = 0f;                 // ƒ≈∏¿” ∞ËªÍøÎ ∫Øºˆ
-    private float chargeCooldown = 10f;             // µπ¡¯ ƒ≈∏¿”
-    private float chargeDuration = 1f;              // µπ¡¯ ¡ˆº” Ω√∞£
-
-    private float chargeDamageMultiplier = 3f;      // µπ¡¯ µ•πÃ¡ˆ πË¿≤
-    private float chargeSpeedMultiplier = 3f;       // µπ¡¯ ¿Ãµøº”µµ πË¿≤
-
-    public float GetSwordDamage(EnemyController controller) => controller.Stats.attackDamage;
-    public float GetChargeDamage(EnemyController controller) => controller.Stats.contactDamage * chargeDamageMultiplier;
-    public float GetBodyDamage(EnemyController controller) => controller.Stats.contactDamage;
-    public bool IsCharging() => isCharging;
+    private bool isCharging = false;
+    private float chargeTimer = 0f;
 
     public bool CanAttack(EnemyController controller)
     {
-        return (!isCharging &&
-                Time.time > lastAttackTime + controller.Stats.attackCooldown);
+        Debug.Log("CanAttack Ìò∏Ï∂úÎê®: " + !isCharging);
+        return !isCharging;
     }
 
     public void Attack(EnemyController controller)
     {
-        
-    }
+        Debug.Log("üó°Ô∏è Î≥¥Ïä§ ÎåÄÍ≤Ä Í≥µÍ≤©!");
 
-    private void Update(EnemyController controller)
-    {
-        if (canCharge)
+        Transform bigSword = controller.transform.Find("WeaponPivot/Weapon/BigSword");
+        if (bigSword != null)
         {
-            chargeTimer += Time.deltaTime;          // ƒ≈∏¿” √º≈©
-            if (chargeTimer >= chargeCooldown)
-            {
-                controller.StartCoroutine(ChargeAttack(controller));
-            }
+            bigSword.GetComponent<Animator>()?.SetTrigger("Attack");
+            bigSword.GetComponent<EnemyMeleeWeaponAttack>()?.StartAttack(controller.Stats.attackDamage);
         }
     }
 
-    private void StartSwardAttack(EnemyController controller)
+    public void Update(EnemyController controller)
     {
-        Transform weaponPivot = controller.transform.Find("WeaponPivot");
-        if (weaponPivot != null)
+        chargeTimer += Time.deltaTime;
+
+        // ÌÖåÏä§Ìä∏Ïö©: 3Ï¥àÎßàÎã§ ÎèåÏßÑ (ÎÇòÏ§ëÏóê 10fÎ°ú Î≥ÄÍ≤Ω)
+        if (chargeTimer >= 3f)
         {
-            Transform weapon = weaponPivot.Find("Weapon");
-            if (weapon != null)
-            {
-                Transform bigSword = weapon.Find("BigSword");
-                if (bigSword != null)
-                {
-                    Animator swordAnimator = bigSword.GetComponent<Animator>();
-                    if (swordAnimator != null)
-                    {
-                        swordAnimator.SetTrigger("Attack");
-
-                        EnemyMeleeWeaponAttack meleeAttack = bigSword.GetComponent<EnemyMeleeWeaponAttack>();
-                        if (meleeAttack != null)
-                        {
-                            meleeAttack.StartAttack(controller.Stats.attackDamage);
-                        }
-                    }
-
-                }
-            }
+            Debug.Log("üöÄ Î≥¥Ïä§ ÎèåÏßÑ ÏãúÏûë!");
+            controller.StartCoroutine(ChargeAttack(controller));
+            chargeTimer = 0f;
         }
     }
 
     private IEnumerator ChargeAttack(EnemyController controller)
     {
-        canCharge = false;
-        chargeTimer = 0f;
         isCharging = true;
+        Debug.Log("ÎèåÏßÑ Ï§ÄÎπÑ Ï§ë...");
 
-        Vector2 originalVelocity = controller.GetComponent<Rigidbody2D>().velocity;
-        controller.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-
+        Rigidbody2D rb = controller.GetComponent<Rigidbody2D>();
+        rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(1f);
 
-        Vector2 chargeDirection = controller.DirectionToTarget();
-        Rigidbody2D rigidbody = controller.GetComponent<Rigidbody2D>();
-        float chargeSpeed = controller.Stats.moveSpeed * chargeSpeedMultiplier;
+        Debug.Log("ÎèåÏßÑ Ïã§Ìñâ!");
+        Vector2 direction = controller.DirectionToTarget();
+        float chargeSpeed = controller.Stats.moveSpeed * 3f;
 
-        float chargeTimeLeft = chargeDuration;
-        while (chargeTimeLeft > 0f)
+        float time = 0f;
+        while (time < 1f)
         {
-            rigidbody.velocity = chargeDirection * chargeSpeed;
-            chargeTimeLeft -= Time.deltaTime;
+            rb.velocity = direction * chargeSpeed;
+            time += Time.deltaTime;
             yield return null;
         }
 
-        rigidbody.velocity = Vector2.zero;
+        rb.velocity = Vector2.zero;
         isCharging = false;
-
-        yield return new WaitForSeconds(2f); // µπ¡¯ »ƒ 2√  ƒ¥ŸøÓ
-        canCharge = true;
+        Debug.Log("ÎèåÏßÑ ÏôÑÎ£å!");
     }
+
+    public bool IsCharging() => isCharging;
 }

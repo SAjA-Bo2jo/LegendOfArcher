@@ -78,7 +78,6 @@ public class AnimationHandler : MonoBehaviour
         if (animator != null)
         {
             animator.SetBool(IsAttack, true); // 일반적으로 Attack은 Trigger로 설정합니다 (SetTrigger("AttackTrigger"))
-            Debug.Log("[AnimationHandler] Attack 호출됨: IsAttack을 true로 설정했습니다.");
         }
         // else { Debug.LogWarning("AnimationHandler: Animator가 없어 Attack 애니메이션을 재생할 수 없습니다."); }
     }

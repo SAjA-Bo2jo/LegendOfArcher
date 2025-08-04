@@ -74,6 +74,16 @@ public class EnemyController : BaseController
         _animation = GetComponent<EnemyAnimationHandler>();
     }
 
+    protected override void Update()
+    {
+        base.Update();
+
+        if (behaviorType == EnemyBehaviorType.Boss && EnemyAttack is BossEnemyAttack boss)
+        {
+            boss.Update(this);
+        }
+    }
+
     public void Init(Transform target)                       // �ʱ�ȭ �� ���� ��� ���ϴ� �޼���
     {
         this.target = target;
@@ -139,6 +149,17 @@ public class EnemyController : BaseController
         {
             EnemyAttack.Attack(this);
         }
+
+        bool inRange = IsInAttackRange();
+        bool canAttack = EnemyAttack.CanAttack(this);
+
+        Debug.Log($"거리: {distance:F2}, 공격범위: {stats.attackRange}, 범위안: {inRange}, 공격가능: {canAttack}");
+
+        if (inRange && canAttack)
+        {
+            Debug.Log("🎯 공격 조건 만족! Attack 호출!");
+            EnemyAttack.Attack(this);
+        }
     }
 
 
@@ -196,12 +217,26 @@ public class EnemyController : BaseController
     // ���� ��뿡�� ������ �ִ� �޼���
     public void ApplyContactDamage(Collider2D collider)
     {
-        float damage = stats.contactDamage;
-
-        ResourceController resourceController = collider.GetComponent<ResourceController>();
-        if (resourceController != null)
+        if (collider.CompareTag("Player"))
         {
-            resourceController.ChangeHealth(-damage);
+            float damage = stats.contactDamage;
+
+            // 보스 돌진 중이면 3배 피해
+            if (behaviorType == EnemyBehaviorType.Boss && EnemyAttack is BossEnemyAttack boss && boss.IsCharging())
+            {
+                damage = stats.contactDamage * 3f;
+                Debug.Log("돌진 공격! 피해: " + damage);
+            }
+            else
+            {
+                Debug.Log("몸통 박치기! 피해: " + damage);
+            }
+
+            ResourceController rc = collider.GetComponent<ResourceController>();
+            if (rc != null)
+            {
+                rc.ChangeHealth(-damage);
+            }
         }
     }
 }
