@@ -17,7 +17,7 @@ public class TitleSceneUIManager : MonoBehaviour
 
     public void OnGameStartButton()
     {
-        SceneManager.LoadScene("MainGame");
+        SceneManager.LoadScene("JYJ_DungeonTestScene");
     }
 
     public void OnCharacterButton()
