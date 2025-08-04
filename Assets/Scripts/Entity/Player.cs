@@ -12,23 +12,11 @@ public class Player : MonoBehaviour
     public float Health
     {
         get => _health;
-        set
+        private set // 외부에서 직접 대입하지 못하도록 private set으로 변경
         {
-            if (value < _health)
-            {
-                float damageAmount = _health - value;
-                TakeDamage(damageAmount);
-            }
-            else
-            {
-                _health = Mathf.Min(value, MaxHealth);
-                Debug.Log($"체력 업데이트: {_health}. (TakeDamageExternal)");
-            }
-
-            if (_health <= 0)
-            {
-                Death();
-            }
+            _health = Mathf.Clamp(value, 0, MaxHealth); // 0 미만, MaxHealth 초과 방지
+                                                        // 체력 변화에 따른 Debug.Log는 TakeDamage나 Heal 내부에서 하는 것이 좋습니다.
+                                                        // Debug.Log($"체력 업데이트: {_health:F2}"); // 필요시 여기에 로그 추가
         }
     }
     public float MaxHealth
@@ -325,13 +313,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    // --- 체력 관리 메서드 ---
-    /// <summary>
     /// 플레이어에게 피해를 입히는 외부 호출용 메서드.
     /// 이 메서드를 통해 플레이어에게 데미지를 줄 수 있습니다.
     /// </summary>
     /// <param name="damageAmount">받을 피해량.</param>
-    public void TakeDamage(float damageAmount)
+    /// <param name="attacker">피해를 입힌 GameObject (선택 사항).</param>
+    public void TakeDamage(float damageAmount, GameObject attacker = null) // attacker 매개변수 추가, 기본값 null
     {
         if (animationHandler != null)
         {
@@ -342,28 +329,24 @@ public class Player : MonoBehaviour
             Debug.LogWarning("Player.TakeDamage: AnimationHandler가 할당되지 않아 피해 애니메이션을 재생할 수 없습니다.");
         }
 
-        // 방어력 계산 적용 (피해량 감소)
-        float finalDamage = Mathf.Max(0, damageAmount - this.Defense); // 방어력은 피해량을 직접 감소시키는 방식으로 변경
-        // 또는 float finalDamage = Mathf.Max(0, damageAmount * (1 - this.Defense / (100 + this.Defense))); // 퍼센트 감소 방식
+        float finalDamage = Mathf.Max(0, damageAmount - this.Defense);
 
-        _health = Mathf.Max(0, _health - finalDamage);
-        Debug.Log($"피해를 받았습니다: {finalDamage:F2}. 남은 체력: {_health:F2}");
+        // _health 대신 Health 프로퍼티의 set 접근자를 사용하도록 변경
+        Health -= finalDamage; // Health 프로퍼티를 통해 체력 감소
 
-        if (_health <= 0)
+        Debug.Log($"피해를 받았습니다: {finalDamage:F2}. 남은 체력: {Health:F2}");
+
+        if (Health <= 0) // Health 프로퍼티 사용
         {
-            Death();
+            Death(attacker); // 사망 시 공격자 정보 전달
         }
     }
 
-    /// <param name="healAmount">회복할 체력 양.</param>
-    public void Heal(float healAmount)
-    {
-        Health = Mathf.Min(MaxHealth, Health + healAmount);
-        Debug.Log($"체력 회복: {healAmount:F2}. 현재 체력: {Health:F2}");
-    }
-
-    // 플레이어 사망 처리 로직
-    private void Death()
+    /// <summary>
+    /// 플레이어 사망 처리 로직.
+    /// </summary>
+    /// <param name="killer">플레이어를 사망하게 만든 GameObject (선택 사항).</param>
+    private void Death(GameObject killer = null) // killer 매개변수 추가, 기본값 null
     {
         if (animationHandler != null)
         {
@@ -374,9 +357,17 @@ public class Player : MonoBehaviour
             Debug.LogWarning("Player.Death: AnimationHandler가 할당되지 않아 사망 애니메이션을 재생할 수 없습니다.");
         }
 
-        Debug.Log("플레이어가 사망했습니다!");
+        string killerInfo = killer != null ? killer.name : "알 수 없는 원인";
+        Debug.Log($"플레이어가 사망했습니다! 사망 원인: {killerInfo}");
+
         // 게임 오버 처리, UI 표시 등
         // Time.timeScale = 0f; // 게임 일시 정지 (예시)
-        StageManager.Instance.PlayerDie();
+    }
+
+    /// <param name="healAmount">회복할 체력 양.</param>
+    public void Heal(float healAmount)
+    {
+        Health = Mathf.Min(MaxHealth, Health + healAmount);
+        Debug.Log($"체력 회복: {healAmount:F2}. 현재 체력: {Health:F2}");
     }
 }
