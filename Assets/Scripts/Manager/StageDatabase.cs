@@ -8,16 +8,20 @@ using UnityEngine;
 public struct StageData
 {
     public int stageLevel;
-    public int enemyCount;
+    public int baseGoblinCount;
+    public int archerGoblincount;
     public bool isBossStage;
-    public int bossCount;
+    public int bossGoblinCount;
+    public int obstacleCount;
 
-    public StageData(int stageLevel, int enemyCount, bool isBossStage, int bossCount)
+    public StageData(int stageLevel, int baseGoblinCount, int archerGoblinCount, bool isBossStage, int bossGoblinCount, int obstacleCount)
     {
         this.stageLevel = stageLevel;
-        this.enemyCount = enemyCount;
+        this.baseGoblinCount = baseGoblinCount;
+        this.archerGoblincount = archerGoblinCount;
         this.isBossStage = isBossStage;
-        this.bossCount = bossCount;
+        this.bossGoblinCount = bossGoblinCount;
+        this.obstacleCount = obstacleCount;
     }
 }
 
@@ -45,17 +49,17 @@ public class StageDatabase : MonoBehaviour
     {
         _stageList = new List<StageData>
         {
-            new StageData(1, 1, false, 0),
-            new StageData(2, 2, false, 0),
-            new StageData(3, 3, false, 0),
-            new StageData(4, 4, false, 0),
-            new StageData(5, 5, false, 0),
+            new StageData(1, 1,0, false, 0, 0),
+            new StageData(2, 1, 1, false, 0, 1),
+            new StageData(3, 2, 1, false, 0, 2),
+            new StageData(4, 2, 2, false, 0, 3),
+            new StageData(5, 0, 0, true, 1, 0),
             
-            new StageData(6, 1, false, 0),
-            new StageData(7, 2, false, 0),
-            new StageData(8, 3, false, 0),
-            new StageData(9, 4, false, 0),
-            new StageData(10, 5, false, 0),
+            new StageData(6, 0, 1, false, 0, 1),
+            new StageData(7, 2, 1, false, 0, 2),
+            new StageData(8, 3, 1, false, 0, 3),
+            new StageData(9, 3, 2, false, 0, 1),
+            new StageData(10, 0, 0, true, 2, 0),
         };
         
         Debug.Log("stageList에 " + _stageList.Count + "개의 스테이지 데이터가 초기화되었습니다.");

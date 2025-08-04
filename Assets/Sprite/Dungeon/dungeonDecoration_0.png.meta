@@ -139,12 +139,12 @@ TextureImporter:
       name: dungeonDecoration_Bump_0
       rect:
         serializedVersion: 2
-        x: 35
-        y: 181
-        width: 10
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 36
+        y: 182
+        width: 8
+        height: 7
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -160,12 +160,12 @@ TextureImporter:
       name: dungeonDecoration_Bump_1
       rect:
         serializedVersion: 2
-        x: 58
-        y: 181
-        width: 12
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 59
+        y: 182
+        width: 10
+        height: 7
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -181,12 +181,12 @@ TextureImporter:
       name: dungeonObstacle_Boxes_0
       rect:
         serializedVersion: 2
-        x: 82
-        y: 114
-        width: 28
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 83
+        y: 115
+        width: 26
+        height: 19
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -202,12 +202,12 @@ TextureImporter:
       name: dungeonObstacle_Box_0
       rect:
         serializedVersion: 2
-        x: 97
-        y: 82
-        width: 14
-        height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 98
+        y: 83
+        width: 12
+        height: 14
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
