@@ -70,6 +70,8 @@ public class StageManager : MonoSingleton<StageManager>
             Debug.LogError("exitGate 생성에 문제가 생겼습니다!");
         
         _dungeon.exitGate.OnPlayerEnterExitGate = StageClear;
+        
+        Time.timeScale = 1f;
     }
 
     private void Update()
@@ -93,6 +95,7 @@ public class StageManager : MonoSingleton<StageManager>
     public void RemoveMonsterFromList(GameObject monster)
     {
         monsterList.Remove(monster);
+        GameManager.Instance.AddKillMonsterCount();
     }
     
     // 스테이지 안의 몬스터가 0 -> 스테이지 클리어, 다음 스테이지로 가는 게이트가 열림
@@ -114,7 +117,7 @@ public class StageManager : MonoSingleton<StageManager>
         // 스테이지 데이터가 적은 관계로 임시로 만든 스테이지 클리어
         if (stageLevel == 10)
         {
-            UnityEditor.EditorApplication.isPlaying = false;
+            ToWinEndGameScene();
             return;
         }
         
@@ -148,10 +151,23 @@ public class StageManager : MonoSingleton<StageManager>
         isClear = false;
         isClearProcessed = false;
     }
+
+    private void ToWinEndGameScene()
+    {
+        GameManager.Instance.FinalFloor = stageLevel;
+        GameManager.Instance.LoadResultWinScene();
+    }
     
     public void PlayerDie()
     {
         // 현재 플레이어가 가지고 있는 정보들을 결과창에 옮긴다.
         // 결과창 호출
+        Invoke("LoadEndGameScene", 3f);
+    }
+    
+    private void LoadEndGameScene()
+    {
+        GameManager.Instance.FinalFloor = stageLevel;
+        GameManager.Instance.LoadResultDeadScene();
     }
 }

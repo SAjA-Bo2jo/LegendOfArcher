@@ -8,23 +8,60 @@ using UnityEngine.SceneManagement;
 // GameManager는 게임의 흐름을 감지하고 그 흐름에 맞게 씬을 변경해주는 역할
 public class GameManager : MonoSingleton<GameManager>
 {
-    public void Awake()
+    [SerializeField] private int killMonsterCount;
+    public int KillMonsterCount
     {
-        DontDestroyOnLoad(gameObject);
+        get { return killMonsterCount; }
+        set { killMonsterCount = value; }
+    }
+
+    [SerializeField] private int finalFloor;
+    public int FinalFloor
+    {
+        get { return finalFloor; }
+        set { finalFloor = value; }
     }
     
+    public void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        killMonsterCount = 0;
+    }
+
     public void LoadTitleScene()
     {
-        // SceneManager.LoadScene("TitleScene");
+        SceneManager.LoadScene("Scenes/UI/TitleUI");
     }
 
     public void LoadMainGameScene()
     {
-        // SceneManager.LoadScene("MainGameScene");
+        SceneManager.LoadScene("Scenes/JYJ_DungeonTestScene");
     }
 
-    public void LoadResultScene()
+    public void LoadResultWinScene()
     {
-        // SceneManager.LoadScene("ResultScene");
+        SceneManager.LoadScene("EndGame(Win)UI");
+    }
+    
+    public void LoadResultDeadScene()
+    {
+        SceneManager.LoadScene("Scenes/UI/EndGame(Dead)UI");
+    }
+
+    public void AddKillMonsterCount()
+    {
+        killMonsterCount++;
     }
 }

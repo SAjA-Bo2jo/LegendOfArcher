@@ -53,6 +53,8 @@ public class GateController : MonoBehaviour
         if (gateType == GateType.Exit)
         {
             animator.SetTrigger("CloseGate");
+            gateCollider.enabled = false;
+            isTriggered = false;
         }
     }
 
@@ -75,8 +77,11 @@ public class GateController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("123");
+        Debug.Log(gateCollider.enabled.ToString());
+        Debug.Log(isTriggered.ToString());
         if (!gateCollider.enabled || isTriggered) return;
-        
+        Debug.Log("345");
         // 플레이어 외 오브젝트 충돌 무시
         if (!collision.CompareTag("Player")) return;
         
