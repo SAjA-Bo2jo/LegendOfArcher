@@ -380,6 +380,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bow
       objectReference: {fileID: 0}
+    - target: {fileID: 5363847047641173920, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363847047641173920, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1344219013
+      objectReference: {fileID: 0}
     - target: {fileID: 7578177436838376626, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.314
