@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class IncreaseCriticalRateAbility : Abillity
+public class IncreaseCriticalRateAbility : Ability
 {
     // 레벨당 증가할 치명타 확률 (%)
     [SerializeField] private float criticalRateIncreasePerLevel = 5f;

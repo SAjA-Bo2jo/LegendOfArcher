@@ -2312,16 +2312,22 @@ MonoBehaviour:
   entries:
   - key: enemy
     prefab: {fileID: 7072391522761673993, guid: 1668ce8d19ae7e54185a942772b29bda, type: 3}
-    size: 0
+    size: 20
   - key: Arrow
     prefab: {fileID: 2617466681887532506, guid: 15dbfb6e22b71ef4187ab3f932ecf260, type: 3}
     size: 20
   - key: Archer
     prefab: {fileID: 7072391522761673993, guid: 4a33c87d2e44e1a46bcf3f6600694274, type: 3}
-    size: 0
+    size: 20
   - key: Boss
     prefab: {fileID: 7072391522761673993, guid: 13869cc96d27de1459e532a736d8aac3, type: 3}
-    size: 0
+    size: 5
+  - key: FireArrow
+    prefab: {fileID: 6487819388568271228, guid: 304a15f2f789a414dbf8369200aef1d7, type: 3}
+    size: 20
+  - key: GattlingArrow
+    prefab: {fileID: 5065600066069193573, guid: 0d69eb7ffd542ec46a48b604bd55cc19, type: 3}
+    size: 20
 --- !u!1 &446691815
 GameObject:
   m_ObjectHideFlags: 0
@@ -2983,6 +2989,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3079f4f8a7facf479b20625bcf4b826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  killMonsterCount: 0
+  finalFloor: 0
 --- !u!4 &542793383
 Transform:
   m_ObjectHideFlags: 0
@@ -10266,6 +10274,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476496695}
   m_CullTransparentMesh: 1
+--- !u!1 &1491940663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1491940664}
+  m_Layer: 0
+  m_Name: Levelmanager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1491940664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491940663}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 167.99779, y: 177.48763, z: -3.7039638}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1495112321
 GameObject:
   m_ObjectHideFlags: 0
@@ -12071,7 +12110,7 @@ GameObject:
   - component: {fileID: 1845604628}
   - component: {fileID: 1845604627}
   m_Layer: 0
-  m_Name: AbillitySellectionManager
+  m_Name: AbilitySellectionManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14134,63 +14173,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116461337}
   m_CullTransparentMesh: 1
---- !u!1001 &3024275443278891286
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6656189543097028530, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_Name
-      value: GatlingBow
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 268.5093
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 198.43231
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.1501331
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320019194997152225, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -14198,11 +14180,11 @@ SceneRoots:
   - {fileID: 1443697103}
   - {fileID: 542793383}
   - {fileID: 1765266765}
+  - {fileID: 1845604628}
+  - {fileID: 1491940664}
   - {fileID: 446191943}
   - {fileID: 296519084}
   - {fileID: 1635020337}
   - {fileID: 1032261837}
   - {fileID: 650801477}
   - {fileID: 213979149}
-  - {fileID: 1845604628}
-  - {fileID: 3024275443278891286}

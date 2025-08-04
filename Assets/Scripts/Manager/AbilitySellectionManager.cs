@@ -27,10 +27,6 @@ public class AbilitySelectionManager : MonoBehaviour
     {
         // 씬에서 플레이어 컴포넌트를 찾습니다.
         player = FindObjectOfType<Player>();
-        if (player == null)
-        {
-            Debug.LogError("Player 컴포넌트를 씬에서 찾을 수 없습니다! 플레이어가 씬에 있는지 확인하세요.");
-        }
 
         // 초기에는 선택창을 비활성화합니다.
         if (abilitySelectionPanel != null)
