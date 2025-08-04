@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5222011963930566130}
   - component: {fileID: 5292406470060187744}
   - component: {fileID: 8541414049277450309}
+  - component: {fileID: 357966540712952846}
   m_Layer: 0
   m_Name: BigSword
   m_TagString: Untagged
@@ -152,6 +153,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.6}
   m_EdgeRadius: 0
+--- !u!114 &357966540712952846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3267899936864208380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62f7a590e2df33748a9285fcf8de658f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minOrder: 2
+  maxOrder: 999
+  minY: -1.2
+  maxY: 3.7
 --- !u!1 &4634924188473567027
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,6 +211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 985611628886428246}
   - component: {fileID: 2433237231536406698}
+  - component: {fileID: 1290393906993716965}
   - component: {fileID: 2770559471313659914}
   - component: {fileID: 6812590161000072349}
   - component: {fileID: 2414778369518471636}
@@ -255,7 +273,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.01, y: -0.14}
+  m_Offset: {x: 0, y: 0.16}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -266,7 +284,52 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.35, y: 0.5}
+  m_Size: {x: 0.3, y: 0.19}
+  m_EdgeRadius: 0
+--- !u!61 &1290393906993716965
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072391522761673993}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.26}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.31, y: 0.4}
   m_EdgeRadius: 0
 --- !u!50 &2770559471313659914
 Rigidbody2D:
@@ -309,7 +372,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 4759241726147098205}
   weaponPivot: {fileID: 1139880285270477428}
-  WeaponPrefab: {fileID: 0}
   moveSpeed: 5
   stats:
     maxHealth: 100
@@ -324,6 +386,7 @@ MonoBehaviour:
     distanceTolerance: 0.5
     canRetreat: 0
   behaviorType: 2
+  arrowPrefab: {fileID: 0}
 --- !u!114 &2414778369518471636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,7 +449,7 @@ Transform:
   m_GameObject: {fileID: 8502108601692260934}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.257, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -404,6 +467,7 @@ GameObject:
   - component: {fileID: 6673437190009897637}
   - component: {fileID: 4759241726147098205}
   - component: {fileID: 6732590694404946034}
+  - component: {fileID: 1140897250342360582}
   m_Layer: 0
   m_Name: MainSprite
   m_TagString: Enemy
@@ -499,3 +563,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1140897250342360582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8772406981447706854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62f7a590e2df33748a9285fcf8de658f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minOrder: 2
+  maxOrder: 999
+  minY: -1.2
+  maxY: 3.7
