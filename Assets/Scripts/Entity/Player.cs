@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq; // LINQ 사용을 위해 추가
+using System.Linq;
 
 public class Player : MonoBehaviour
 {
+    
     [Header("기본 스탯")]
     // --- 체력 관련 스탯 ---
     [SerializeField] private float maxHealth = 100f; // 최대 체력
     public float Health { get; set; } // 현재 체력 (Public으로 외부 접근 허용)
+    public float MaxHealth { get; set; } // 최대 체력
 
     // --- 방어 관련 스탯 ---
     [SerializeField] private float baseDefense = 0f;
@@ -39,10 +41,10 @@ public class Player : MonoBehaviour
 
     // --- 경험치/레벨 관련 스탯 ---
     [SerializeField] private int level = 1; // 현재 레벨
-    public int Level => level; // 레벨은 읽기 전용으로 외부 노출 (선택 사항)
+    public int Level => level; // 레벨은 읽기 전용으로 외부 노출
 
     [SerializeField] private float experience = 0f; // 현재 경험치
-    public float Experience => experience; // 경험치 읽기 전용 (선택 사항)
+    public float Experience => experience; // 경험치 읽기 전용
 
     [SerializeField] private float[] expToNextLevel; // 레벨업에 필요한 경험치 배열 (인스펙터에서 설정)
 
@@ -51,21 +53,14 @@ public class Player : MonoBehaviour
     public Dictionary<GameObject, Abillity> activeAbilities = new Dictionary<GameObject, Abillity>();
 
     [Header("능력 합성 레시피")]
-    // 합성 레시피 목록 (Unity 에디터에서 AbilityRecipe ScriptableObject 에셋들을 할당)
+    // 합성 레시피 목록
     public List<AbilityRecipe> abilityRecipes;
 
     void Awake()
     {
         // 모든 스탯 프로퍼티를 기본값으로 초기화
+        RecalculateStats();
         Health = maxHealth; // 시작 시 현재 체력을 최대 체력으로 설정
-        MoveSpeed = baseMoveSpeed;
-        AttackDamage = baseAttackDamage;
-        AttackRange = baseAttackRange;
-        AttackSize = baseAttackSize;
-        CriticalRate = baseCriticalRate;
-        ProjectileSpeed = baseProjectileSpeed;
-        AttackSpeedMultiplier = 100f; // 기본값은 100% (변경 없음)
-        Defense = baseDefense;
 
         if (abilityRecipes == null || abilityRecipes.Count == 0)
         {
@@ -264,43 +259,6 @@ public class Player : MonoBehaviour
         RecalculateStats(); // 모든 스탯 재계산
 
         // 능력 선택 UI를 띄우는 이벤트 또는 메서드 호출 (예시)
-        // AbilitySelectionUI.Instance.ShowAbilitySelection(); 
-    }
-
-    // --- 체력 관리 메서드 (예시) ---
-    /// <summary>
-    /// 플레이어에게 피해를 입힙니다.
-    /// </summary>
-    /// <param name="damageAmount">받을 피해량.</param>
-    public void TakeDamage(float damageAmount)
-    {
-        float finalDamage = Mathf.Max(0, damageAmount - Defense); // 방어력 적용
-        Health -= finalDamage;
-        Debug.Log($"피해를 받았습니다: {finalDamage}. 남은 체력: {Health}");
-
-        if (Health <= 0)
-        {
-            Die(); // 플레이어 사망 처리
-        }
-    }
-
-    /// <summary>
-    /// 플레이어의 체력을 회복시킵니다.
-    /// </summary>
-    /// <param name="healAmount">회복할 체력 양.</param>
-    public void Heal(float healAmount)
-    {
-        Health = Mathf.Min(maxHealth, Health + healAmount);
-        Debug.Log($"체력 회복: {healAmount}. 현재 체력: {Health}");
-    }
-
-    /// <summary>
-    /// 플레이어 사망 처리 로직 (필요시 구현).
-    /// </summary>
-    private void Die()
-    {
-        Debug.Log("플레이어가 사망했습니다!");
-        // 게임 오버 처리, UI 표시 등
-        // Time.timeScale = 0f; // 게임 일시 정지 (예시)
+        // AbilitySelectionUI.Instance.ShowAbilitySelection();
     }
 }

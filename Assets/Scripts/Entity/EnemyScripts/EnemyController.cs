@@ -36,7 +36,7 @@ public class EnemyController : BaseController
 
         moveSpeed = stats.moveSpeed;
 
-        switch (behaviorType)                                   // -> 인스펙터 값 바탕으로 유닛 타입 판단
+        switch (behaviorType)                             // -> 인스펙터 값 바탕으로 유닛 타입 판단
         {
             case EnemyBehaviorType.Melee:
                 EnemyAttack = new MeleeEnemyAttack();
@@ -49,20 +49,28 @@ public class EnemyController : BaseController
             case EnemyBehaviorType.Boss:
                 EnemyAttack = new BossEnemyAttack();
                 break;
-        } 
+        }
     }
 
     protected override void Start()
     {
         base.Start();
 
-        stats.StatInitialize();
+        // stats가 null이 아닐 때만 초기화하도록 null 체크 추가
+        if (stats != null)
+        {
+            stats.StatInitialize();
+        }
 
-        Init(StageManager.Instance._Player.transform);
+        // StageManager.Instance._Player가 null일 수 있으므로 null 체크 추가
+        if (StageManager.Instance != null && StageManager.Instance._Player != null)
+        {
+            Init(StageManager.Instance._Player.transform);
+        }
         _animation = GetComponent<EnemyAnimationHandler>();
     }
 
-    public void Init(Transform target)                                      // 초기화 시 추적 대상 정하는 메서드
+    public void Init(Transform target)                       // 초기화 시 추적 대상 정하는 메서드
     {
         this.target = target;
     }
@@ -70,17 +78,19 @@ public class EnemyController : BaseController
 
 
     // 유틸리티 메서드
-    protected float DistanceToTarget()                                      // DistanceToTarget 메서드 : 플레이어 ~ 적 거리 구하는 메서드
+    protected float DistanceToTarget()                       // DistanceToTarget 메서드 : 플레이어 ~ 적 거리 구하는 메서드
     {
+        if (target == null) return float.MaxValue;
         return Vector2.Distance(transform.position, target.position);
     }
 
-    protected Vector2 DirectionToTarget()                                   // DirectionToTarget 메서드 : 적 -> 플레이어 단위벡터 구함
+    protected Vector2 DirectionToTarget()                    // DirectionToTarget 메서드 : 적 -> 플레이어 단위벡터 구함
     {
+        if (target == null) return Vector2.zero;
         return (target.position - transform.position).normalized;
     }
 
-    public bool IsInAttackRange()                                           // IsInAttackRange 메서드 : 공격 사거리 내에 플레이어 있는 지 확인
+    public bool IsInAttackRange()                            // IsInAttackRange 메서드 : 공격 사거리 내에 플레이어 있는 지 확인
     {
         if (target == null) return false;
         return DistanceToTarget() <= stats.attackRange;
@@ -91,48 +101,48 @@ public class EnemyController : BaseController
     // HandleInput 메서드 : 적 개체의 타겟(플레이어) 추적 시스템
     protected override void HandleInput()
     {
-        if (target == null || stats.healthPoint <= 0)                       // 추적 대상(플레이어) 없거나 적 개체가 죽었을 경우
+        if (target == null || stats.healthPoint <= 0)         // 추적 대상(플레이어) 없거나 적 개체가 죽었을 경우
         {
-            moveDirection = Vector2.zero;                                   // -> 이동 중지
-            lookDirection = Vector2.zero;                                   // -> 회정 중지
+            moveDirection = Vector2.zero;                     // -> 이동 중지
+            lookDirection = Vector2.zero;                     // -> 회전 중지
             return;
         }
 
-        float distance = DistanceToTarget();       
+        float distance = DistanceToTarget();
         Vector2 direction = DirectionToTarget();
 
-        lookDirection = direction;                                          // 적 개체는 타겟을 계속 바라봄
+        lookDirection = direction;                             // 적 개체는 타겟을 계속 바라봄
 
-        if (distance <= stats.detectRange)                                  // 추적 범위 내일 경우
+        if (distance <= stats.detectRange)                     // 추적 범위 내일 경우
         {
             float optimalDist = stats.OptimalDistance;
 
-            if (distance >  optimalDist + stats.distanceTolerance)          // 경우 1. 플레이어가 너무 멀리 있을 경우
+            if (distance > optimalDist + stats.distanceTolerance) // 경우 1. 플레이어가 너무 멀리 있을 경우
             {
-                moveDirection = direction;                                  // 플레이어 방향으로 이동
+                moveDirection = direction;                     // 플레이어 방향으로 이동
             }
-            else if (distance < optimalDist - stats.distanceTolerance)      // 경우 2. 플레이어가 너무 가까이 있을 경우
+            else if (distance < optimalDist - stats.distanceTolerance) // 경우 2. 플레이어가 너무 가까이 있을 경우
             {
-                if (stats.canRetreat)                                     
+                if (stats.canRetreat)
                 {
-                    moveDirection -= direction;                             // 후퇴 가능 개체는 후퇴
+                    moveDirection -= direction;                // 후퇴 가능 개체는 후퇴
                 }
                 else
                 {
-                    moveDirection = Vector2.zero;                           // 후퇴 불가능 시 정지
+                    moveDirection = Vector2.zero;              // 후퇴 불가능 시 정지
                 }
             }
             else
             {
-                moveDirection = Vector2.zero ;                              // 경우3. 최적거리 범위 내일 경우
+                moveDirection = Vector2.zero;                 // 경우3. 최적거리 범위 내일 경우
             }
         }
-        else 
-        { 
-            moveDirection = Vector2.zero;                                   // 추적 범위 외일 경우 : 정지
+        else
+        {
+            moveDirection = Vector2.zero;                      // 추적 범위 외일 경우 : 정지
         }
 
-        if (IsInAttackRange() && EnemyAttack.CanAttack(this))               // 이동 끝 -> 사거리 내에 타겟 있으면 공격
+        if (IsInAttackRange() && EnemyAttack.CanAttack(this))   // 이동 끝 -> 사거리 내에 타겟 있으면 공격
         {
             EnemyAttack.Attack(this);
         }
@@ -141,43 +151,64 @@ public class EnemyController : BaseController
 
 
     // 적 개체 사망 처리 관련 메서드
-    public void GetDamage(float dmg)                                        // GetDamage 메서드 : 적 개체 피격 + 사망 판정 처리
+    public void GetDamage(float dmg)                           // GetDamage 메서드 : 적 개체 피격 + 사망 판정 처리
     {
-        Debug.Log("데미지가 들어갔습니다" + dmg);
-        
+        Debug.Log("데미지가 들어갔습니다: " + dmg);
+
         isDead = stats.TakeDamage(dmg);
 
         if (isDead)
         {
+            // 사망했을 경우, 사망 처리 코루틴을 호출
             HandleDeath();
         }
         else
         {
-            _animation.Death();
+            // 사망하지 않았을 경우, 피격 애니메이션을 호출
+            // _animation이 null인지 체크하여 NullReferenceException 방지
+            if (_animation != null)
+            {
+                _animation.Damage();
+            }
         }
     }
 
-    private void HandleDeath()                                              // HandleDeath 메서드 : 적 개체 사망 처리
+    private void HandleDeath()                                 // HandleDeath 메서드 : 적 개체 사망 처리
     {
-        _animation.Damage();                                                // 애니메이션 실행
+        // 사망 애니메이션 실행
+        // _animation이 null인지 체크하여 NullReferenceException 방지
+        if (_animation != null)
+        {
+            _animation.Death(); // 사망 애니메이션 호출
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name}: EnemyAnimationHandler가 할당되지 않아 사망 애니메이션을 재생할 수 없습니다.");
+        }
 
+        // Death 애니메이션 재생 완료 후 오브젝트를 풀로 반환
         StartCoroutine(DeathCoroutine());
     }
 
-    private IEnumerator DeathCoroutine()                                    // Death 애니메이션 재생 완료 후 오브젝트 삭제
+    private IEnumerator DeathCoroutine()                       // Death 애니메이션 재생 완료 후 오브젝트 삭제
     {
+        // Death 애니메이션이 재생될 시간만큼 대기
         yield return new WaitForSeconds(0.4f);
 
-        StageManager.Instance.RemoveMonsterFromList(gameObject);
+        // StageManager에 현재 적이 사망했음을 알림
+        if (StageManager.Instance != null)
+        {
+            StageManager.Instance.RemoveMonsterFromList(gameObject);
+        }
 
         EnemyPoolObject poolObject = GetComponent<EnemyPoolObject>();
         if (poolObject != null)
         {
-            poolObject.ReturnToPool();                                      // Pool로 죽은 개체 돌려보냄
+            poolObject.ReturnToPool();                         // 풀로 죽은 개체 돌려보냄
         }
         else
         {
-            Debug.Log($"{gameObject.name}: EnemyPoolObject 없음 Destroy로 대체");
+            Debug.Log($"{gameObject.name}: EnemyPoolObject가 없어 Destroy로 대체합니다.");
             Destroy(gameObject);
         }
     }
