@@ -34,6 +34,8 @@ public class EnemyController : BaseController
     {
         base.Awake();
 
+        moveSpeed = stats.moveSpeed;
+
         switch (behaviorType)                                   // -> 인스펙터 값 바탕으로 유닛 타입 판단
         {
             case EnemyBehaviorType.Melee:
