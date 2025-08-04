@@ -8,15 +8,19 @@ public class EndGameDeadUIManager : MonoBehaviour
 {
     [SerializeField] private Text killScoreText;
     [SerializeField] private Text finalFloor;
+    [SerializeField] private Image monsterImage;
 
     private void Start()
     {
         killScoreText.text = GameManager.Instance.KillMonsterCount.ToString();
         finalFloor.text = GameManager.Instance.FinalFloor.ToString();
+        monsterImage.sprite = GameManager.Instance.monsterImage;
     }
 
     public void OnClickMainButton()
     {
+        SoundManager.Instance.PlayButtonSound();
+        
         GameManager.Instance.KillMonsterCount = 0;
         GameManager.Instance.FinalFloor = 1;
         
@@ -25,6 +29,8 @@ public class EndGameDeadUIManager : MonoBehaviour
 
     public void OnClickRetryButton()
     {
+        SoundManager.Instance.PlayButtonSound();
+        
         GameManager.Instance.KillMonsterCount = 0;
         GameManager.Instance.FinalFloor = 1;
         

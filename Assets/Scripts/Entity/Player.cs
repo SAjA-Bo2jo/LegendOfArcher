@@ -325,6 +325,9 @@ public class Player : MonoBehaviour
         if (animationHandler != null)
         {
             animationHandler.Hurt();
+            
+            if (damageSoundClip != null)
+                SoundManager.Instance.PlaySoundEffect(damageSoundClip, Vector3.zero);
         }
         else
         {
@@ -364,6 +367,8 @@ public class Player : MonoBehaviour
 
         // 게임 오버 처리, UI 표시 등
         // Time.timeScale = 0f; // 게임 일시 정지 (예시)
+        StageManager.Instance.PlayerDie();
+        GameManager.Instance.monsterImage = killer.GetComponent<SpriteRenderer>().sprite;
     }
 
     /// <param name="healAmount">회복할 체력 양.</param>

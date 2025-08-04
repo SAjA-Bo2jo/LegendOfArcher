@@ -57,6 +57,8 @@ public class MainGameUIManager : MonoBehaviour
 
     public void OnClickReturnButton()
     {
+        SoundManager.Instance.PlayButtonSound();
+        
         if (OptionUI.activeSelf)
         {
             OptionUI.SetActive(false);
@@ -65,6 +67,8 @@ public class MainGameUIManager : MonoBehaviour
     
     public void OnClickOptionButton()
     {
+        SoundManager.Instance.PlayButtonSound();
+        
         if (!OptionUI.activeSelf)
         {
             OptionUI.SetActive(true);
@@ -73,17 +77,15 @@ public class MainGameUIManager : MonoBehaviour
     
     public void OnClickExitButton()
     {
-// #if UNITY_EDITOR
-//         UnityEditor.EditorApplication.isPlaying = false;
-// #else
-//         Application.Quit(); // 어플리케이션 종료
-// #endif
+        SoundManager.Instance.PlayButtonSound();
 
         GameManager.Instance.LoadTitleScene();
     }
     
     public void OnClickResumeButton()
     {
+        SoundManager.Instance.PlayButtonSound();
+        
         if (isPause)
         {
             PauseUI.SetActive(false);
@@ -95,6 +97,8 @@ public class MainGameUIManager : MonoBehaviour
     
     public void OnClickPauseButton()
     {
+        SoundManager.Instance.PlayButtonSound();
+        
         if (!isPause)
         {
             PauseUI.SetActive(true);
