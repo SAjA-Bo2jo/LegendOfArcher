@@ -27,6 +27,8 @@ public class PlayerController : BaseController
     // 플레이어가 현재 입력에 의해 움직이는 중인지 확인하는 프로퍼티
     public bool IsMoving { get; private set; }
 
+    private bool IsDead = false;
+
     // === Unity 생명주기 메서드 ===
 
     // 오브젝트가 처음 활성화될 때 한 번 호출됩니다.
@@ -74,6 +76,16 @@ public class PlayerController : BaseController
     // 매 프레임마다 호출됩니다. 입력 처리 및 회전 로직을 수행합니다.
     protected override void Update() // 매 프레임마다 호출. 입력 처리 및 회전 로직 수행.
     {
+        if (this.GetComponent<Player>().Health <= 0)
+        {
+            IsDead = true;
+        }
+        else
+        {
+            IsDead = false;
+        }
+        if (IsDead) return;
+        
         HandleInput(); // 방향키 입력 및 타겟 설정
         Rotate(LookDirection); // 캐릭터 회전 (BaseController의 메서드)
     }

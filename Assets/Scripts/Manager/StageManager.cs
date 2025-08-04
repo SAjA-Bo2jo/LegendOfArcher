@@ -137,6 +137,15 @@ public class StageManager : MonoSingleton<StageManager>
         // 스테이지 레벨 +1
         stageLevel++;
         
+        if (StageLevel % 5 == 0)
+        {
+            SoundManager.Instance.PlayBackgroundMusic(SoundManager.Instance.BossMusic);
+        }
+        else
+        {
+            SoundManager.Instance.PlayBackgroundMusic(SoundManager.Instance.MainGameMusic);
+        }
+        
         mainGameUIManager.CalculatePlayerIconPos(stageLevel);
         
         // 다음 스테이지의 정보를 _currentStageData로 옮겨야 함

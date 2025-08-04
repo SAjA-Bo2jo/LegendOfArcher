@@ -8,16 +8,30 @@ public class Player : MonoBehaviour
 
     // === 플레이어 스탯 ===
     [Header("Player Stats")]
-    public float MaxHealth = 100f; // 플레이어의 '최대 체력'을 의미 (어빌리티에 의해 증가 가능)
-    public float AttackDamage = 10f;
-    public float Defense = 0f; // 방어력 스탯
-    public float MoveSpeed = 5f; // 이동 속도 스탯
-    public float AttackSpeed = 1f; // 기본 초당 공격 횟수
-    public float MaxAttackSpeed { get; private set; } // 최종 공격 속도 (AttackSpeed와 어빌리티 보너스 반영)
-    public float AttackRange = 5f;
-    public float AttackSize = 1f;
-    public float ProjectileSpeed = 10f;
-    public float CriticalRate = 0.1f;
+[SerializeField] private float baseDefense = 0f;
+    public float Defense { get; set; }
+
+    [SerializeField] private float baseMoveSpeed = 5.0f;
+    public float MoveSpeed { get; set; }
+
+    [SerializeField] private float baseAttackDamage = 10f;
+    public float AttackDamage { get; set; }
+
+    [SerializeField] private float baseAttackRange = 3f;
+    public float AttackRange { get; set; }
+
+    [SerializeField] private float baseAttackSize = 1.0f;
+    public float AttackSize { get; set; }
+
+    [SerializeField] private float baseCriticalRate = 10f;
+    public float CriticalRate { get; set; }
+
+    [SerializeField] private float baseProjectileSpeed = 7f;
+    public float ProjectileSpeed { get; set; }
+
+    [SerializeField] private float baseAttackSpeed = 1.0f;
+    public float AttackSpeedMultiplier { get; set; } = 100f;
+    public float MaxAttackSpeed => baseAttackSpeed * (AttackSpeedMultiplier / 100f);
 
     // === 플레이어 현재 상태 ===
     public float Health { get; private set; } // 현재 체력

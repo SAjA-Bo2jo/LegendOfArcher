@@ -16,6 +16,8 @@ public class EndGameWinUIManager : MonoBehaviour
     
     public void OnClickMainButton()
     {
+        SoundManager.Instance.PlayButtonSound();
+        
         GameManager.Instance.KillMonsterCount = 0;
         GameManager.Instance.FinalFloor = 1;
         

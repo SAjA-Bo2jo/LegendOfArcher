@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAnimationHandler : MonoBehaviour
 {
-    private static readonly int IsMoving = Animator.StringToHash("IsMove");     // IsMoving : bool IsMove 값
+    private static readonly int IsMove = Animator.StringToHash("IsMove");     // IsMoving : bool IsMove 값
     private static readonly int IsDamage = Animator.StringToHash("IsDamage");   // IsDamage : 트리거 IsDamage
     private static readonly int Die = Animator.StringToHash("Die");             // Die : 트리거 Die
     private static readonly int Attack = Animator.StringToHash("Attack");       // Attack : 트리거 Attack
@@ -25,7 +25,10 @@ public class EnemyAnimationHandler : MonoBehaviour
         if (isDead) return;
 
         bool isMoving = moveVector.magnitude > 0.1f;                            // 일정 수준 이상의 움직임 크기가 있으면 애니메이션 재생
-        animator.SetBool(IsMoving, isMoving);
+
+        // Debug.Log($"[Anim] Move called: vector={moveVector}, isMoving={isMoving}");
+
+        animator.SetBool(IsMove, isMoving);
     }
 
     public virtual void HandleDirection(Vector2 direction)                      // 방향(flipX) 결정 관리
@@ -55,5 +58,30 @@ public class EnemyAnimationHandler : MonoBehaviour
 
         isDead = true;
         animator.SetTrigger(Die);                                               // Die 트리거 켜서 Death 애니메이션 재생함
+    }
+
+    public void ResetState()
+    {
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+            if (animator == null)
+            {
+                Debug.LogWarning("Animator is missing in EnemyAnimationHandler!");
+                return;
+            }
+        }
+
+        /*
+        animator.enabled = false;   // force to stop animator
+        animator.enabled = true;    // initiate animator
+        */
+
+        animator.Rebind();
+        animator.Update(0f);
+        
+        animator.SetBool("IsMove", false);
+
+        isDead = false;
     }
 }
