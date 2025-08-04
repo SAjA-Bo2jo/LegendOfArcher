@@ -50,4 +50,4 @@ MonoBehaviour:
   lastAttackTime: -999
   healthIncreasePerLevel: 10
   healAmountOnAcquire: 10
-  giantsHeartIconSprite: {fileID: 21300000, guid: 30371e54c0d71ec4da9be58e2fb467c3, type: 3}
+  giantsHeartIconSprite: {fileID: 21300000, guid: 83eb6ed6e2ae6df42a03a4d9ff8c3bd0, type: 3}

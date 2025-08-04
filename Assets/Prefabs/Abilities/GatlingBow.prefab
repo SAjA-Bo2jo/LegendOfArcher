@@ -48,7 +48,7 @@ MonoBehaviour:
   description: "\uC9C4\uC815\uD55C \uB0A8\uC790\uC758 \uD65C\uC785\uB2C8\uB2E4"
   abilityIcon: {fileID: 21300000, guid: 6c7a06be0ce925148a01ceaf3c20fa0c, type: 3}
   lastAttackTime: -999
-  gatlingBowAbilityIcon: {fileID: 21300000, guid: 6c7a06be0ce925148a01ceaf3c20fa0c, type: 3}
+  gatlingBowAbilityIcon: {fileID: 21300000, guid: 29b3fc30632eaa0468e184ebca2c2ea4, type: 3}
   arrowsPerShot: 3
   spreadAngle: 10
   fireIntervalBetweenArrows: 0.05

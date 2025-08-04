@@ -6,7 +6,6 @@ using System.Linq;
 public class GatlingBow : Ability // Ability 클래스를 상속받습니다.
 {
     [Header("개틀링 보우 능력 설정")]
-    [SerializeField] private Sprite gatlingBowAbilityIcon; // 능력 선택 UI용 아이콘
     [SerializeField] private int arrowsPerShot = 3; // 한 번에 발사될 화살 수
     [SerializeField] private float spreadAngle = 10f; // 화살이 퍼지는 각도
     [SerializeField] private float fireIntervalBetweenArrows = 0.05f; // 다연장 발사 시 화살 간 시간 간격

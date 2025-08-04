@@ -9,8 +9,6 @@ public class IncreaseMaxHealth : Ability
     // 능력 획득/레벨업 시 회복될 체력량
     [SerializeField] private float healAmountOnAcquire = 10f;
 
-    [SerializeField] private Sprite giantsHeartIconSprite; // 인스펙터에서 할당할 아이콘 스프라이트 필드
-
     // 능력을 획득하거나 레벨업 할 때 호출
     public override void OnAcquire(Player playerInstance)
     {

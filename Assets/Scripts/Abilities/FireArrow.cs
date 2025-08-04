@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class FireArrow : Ability
 {
-    [SerializeField] private Sprite fireArrowIcon;
     [SerializeField] private int[] attackCountForFireArrowPerLevel = { 3, 2, 2, 1, 1 };
     [SerializeField] private float[] damageMultiplierPerLevel = { 1.5f, 1.7f, 2.0f, 2.2f, 2.5f };
 
@@ -52,14 +51,15 @@ public class FireArrow : Ability
     public bool TryActivateFireArrow(GameObject regularArrowGO, Arrow regularArrowScript)
     {
         currentAttackCount++;
-        if (CurrentLevel > 0 && CurrentLevel <= MaxLevel &&
-            currentAttackCount >= attackCountForFireArrowPerLevel[CurrentLevel - 1])
+
+        // --- 추가된 디버그 로그 ---
+        Debug.Log($"[FireArrow] TryActivateFireArrow 호출됨. 현재 공격 횟수: {currentAttackCount}");
+        if (CurrentLevel > 0)
         {
-            currentAttackCount = 0;
+            Debug.Log($"[FireArrow] 조건 확인: 현재 레벨: {CurrentLevel}, 필요 공격 횟수: {attackCountForFireArrowPerLevel[CurrentLevel - 1]}");
+        }
 
-            Debug.Log($"FireArrow: 불화살 발동! (Lv.{CurrentLevel})");
-
-            ObjectPoolManager.Instance.Return("Arrow", regularArrowGO); // 기존 일반 화살 풀 반환
+        ObjectPoolManager.Instance.Return("Arrow", regularArrowGO); // 기존 일반 화살 풀 반환
 
             GameObject fireArrowGO = ObjectPoolManager.Instance.Get(FIRE_ARROW_POOL_KEY);
             if (fireArrowGO == null)

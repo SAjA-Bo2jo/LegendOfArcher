@@ -6,8 +6,6 @@ public class IncreaseAttackSpeed : Ability
     // 이 값들은 최종 AttackSpeed에 더해질 '초당 공격 횟수' 증가량으로 해석합니다.
     [SerializeField] private float[] attackSpeedIncreasePerLevel = { 0.2f, 0.4f, 0.6f, 0.8f, 1.0f }; // 예시: 0.2는 초당 공격 횟수 +0.2
 
-    [SerializeField] private Sprite rapidfireIcon; // 인스펙터에서 할당할 아이콘 스프라이트 필드
-
     // 능력을 획득하거나 레벨업 할 때 호출
     public override void OnAcquire(Player playerInstance)
     {

@@ -192,38 +192,37 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// 플레이어가 보유한 특수 화살 능력이 발동될 수 있는지 확인하고 발동합니다.
+    /// 일반 화살 발사 전에 특수 화살 어빌리티를 시도합니다.
     /// </summary>
+    /// <param name="regularArrowGO">일반 화살 오브젝트</param>
+    /// <param name="regularArrowScript">일반 화살 Arrow 스크립트</param>
+    /// <returns>특수 화살이 발사되었으면 true, 아니면 false</returns>
     public bool TryActivateSpecialArrowAbility(GameObject regularArrowGO, Arrow regularArrowScript)
     {
-        foreach (var entry in activeAbilities)
+        // --- 추가된 디버그 로그 ---
+        Debug.Log($"[Player] TryActivateSpecialArrowAbility 호출됨. 활성화된 어빌리티 개수: {activeAbilities.Count}");
+        // --- 디버그 로그 끝 ---
+
+        // activeAbilities는 Dictionary<GameObject, Ability>입니다.
+        // 여기서 Value인 Ability 컴포넌트를 순회합니다.
+        foreach (var ability in activeAbilities.Values)
         {
-            FireArrow fireArrowAbility = entry.Value as FireArrow;
-            if (fireArrowAbility != null)
+            // 'is' 키워드를 사용하여 ability가 FireArrow 타입인지 확인하고
+            // 맞다면 fireArrow 변수에 캐스팅하여 저장합니다.
+            if (ability is FireArrow fireArrow)
             {
-                if (fireArrowAbility.TryActivateFireArrow(regularArrowGO, regularArrowScript))
+                // FireArrow의 TryActivateFireArrow 메서드를 호출합니다.
+                if (fireArrow.TryActivateFireArrow(regularArrowGO, regularArrowScript))
                 {
+                    // 불화살이 발사되었으므로 true를 반환합니다.
                     return true;
                 }
             }
         }
 
-        foreach (var entry in activeAbilities)
-        {
-            GatlingBow gatlingBowAbility = entry.Value as GatlingBow;
-            if (gatlingBowAbility != null)
-            {
-                if (gatlingBowAbility.TryActivateGatlingArrow(regularArrowGO, regularArrowScript, this))
-                {
-                    return true;
-                }
-            }
-        }
-
+        // FireArrow 어빌리티가 없거나 발동 조건을 만족하지 않으면 false를 반환합니다.
         return false;
     }
-
-
 
     /// <summary>
     /// 현재 플레이어가 보유한 어빌리티로 합성할 수 있는 어빌리티 레시피를 찾습니다.

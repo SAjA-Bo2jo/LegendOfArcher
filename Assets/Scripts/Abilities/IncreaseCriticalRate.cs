@@ -5,8 +5,6 @@ public class IncreaseCriticalRateAbility : Ability
     // 레벨당 증가할 치명타 확률 (%)
     [SerializeField] private float criticalRateIncreasePerLevel = 5f;
 
-    [SerializeField] private Sprite hawksEyeIconSprite; // <--- 인스펙터에서 할당할 아이콘 스프라이트 필드
-
     // 능력을 획득하거나 레벨업 할 때 호출
     public override void OnAcquire(Player playerInstance)
     {
