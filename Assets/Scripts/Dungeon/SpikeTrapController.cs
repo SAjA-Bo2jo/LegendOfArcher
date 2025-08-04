@@ -11,7 +11,7 @@ public class SpikeTrapController : MonoBehaviour
     [SerializeField] private float damageCooldowns = 1.0f;
 
     private Dictionary<Player, float> lastHitTime = new();
-        
+
 
     private void Start()
     {
@@ -48,9 +48,9 @@ public class SpikeTrapController : MonoBehaviour
             Player player = collision.GetComponent<Player>();
             if (player != null && spikeCollider.enabled)
             {
-                lastHitTime.TryGetValue(player, out lastHitTime);
+                lastHitTime.TryGetValue(player, out float lastHit);
 
-                if (Time.time - lastHitTime >= damageCooldowns)
+                if (Time.time - lastHit >= damageCooldowns)
                 {
                     player.Health -= damage;
                     lastHitTime[player] = Time.time;
