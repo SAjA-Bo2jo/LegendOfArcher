@@ -177,7 +177,6 @@ public class Bow : Abillity
         if (animationHandler != null)
         {
             animationHandler.Attack();
-            Debug.Log("Bow: 활 공격 애니메이션 시작 요청.");
         }
         else
         {
