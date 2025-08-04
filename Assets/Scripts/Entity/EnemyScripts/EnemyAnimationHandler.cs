@@ -25,6 +25,9 @@ public class EnemyAnimationHandler : MonoBehaviour
         if (isDead) return;
 
         bool isMoving = moveVector.magnitude > 0.1f;                            // 일정 수준 이상의 움직임 크기가 있으면 애니메이션 재생
+
+        // Debug.Log($"[Anim] Move called: vector={moveVector}, isMoving={isMoving}");
+
         animator.SetBool(IsMove, isMoving);
     }
 
@@ -69,9 +72,16 @@ public class EnemyAnimationHandler : MonoBehaviour
             }
         }
 
+        /*
+        animator.enabled = false;   // force to stop animator
+        animator.enabled = true;    // initiate animator
+        */
+
         animator.Rebind();
         animator.Update(0f);
+        
         animator.SetBool("IsMove", false);
 
+        isDead = false;
     }
 }
