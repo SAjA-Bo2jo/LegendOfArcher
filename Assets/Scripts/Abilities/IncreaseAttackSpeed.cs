@@ -8,16 +8,6 @@ public class IncreaseAttackSpeed : Ability
 
     [SerializeField] private Sprite rapidfireIcon; // 인스펙터에서 할당할 아이콘 스프라이트 필드
 
-    void Awake()
-    {
-        AbilityName = "고속 연사";
-        MaxLevel = attackSpeedIncreasePerLevel.Length; // 배열 크기에 따라 최대 레벨 설정
-
-        InitializeAbility(this.gameObject); // 이 능력 프리팹을 자기 자신으로 할당
-        AbilityIcon = rapidfireIcon; // 아이콘 할당
-        UpdateDescription(); // Awake에서 설명 초기화
-    }
-
     // 능력을 획득하거나 레벨업 할 때 호출
     public override void OnAcquire(Player playerInstance)
     {

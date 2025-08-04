@@ -20,11 +20,19 @@ public class AbilitySelectionManager : MonoBehaviour
     [Tooltip("합성 어빌리티가 나올 확률 (0-1 사이의 값). 다른 확률보다 우선 적용.")]
     [SerializeField] private float combineAbilityChance = 0.3f;
 
-    private Player player;
+    [SerializeField] private Player player;
 
     void Awake()
     {
-        player = FindObjectOfType<Player>();
+        // Unity 에디터에서 player가 할당되지 않은 경우, FindObjectOfType으로 찾습니다.
+        if (player == null)
+        {
+            player = FindObjectOfType<Player>();
+            if (player == null)
+            {
+                Debug.LogError("AbilitySelectionManager: Player 오브젝트를 찾을 수 없습니다! Unity Inspector에서 직접 할당해주세요.");
+            }
+        }
 
         if (abilitySelectionPanel != null)
         {
@@ -37,6 +45,13 @@ public class AbilitySelectionManager : MonoBehaviour
     /// </summary>
     public void ShowAbilitySelection()
     {
+        // Player 변수가 null인지 확인하는 방어 코드 추가
+        if (player == null)
+        {
+            Debug.LogError("Player 오브젝트가 없으므로 어빌리티 선택 창을 열 수 없습니다.");
+            return;
+        }
+
         Time.timeScale = 0f;
 
         if (abilitySelectionPanel != null)
@@ -81,6 +96,9 @@ public class AbilitySelectionManager : MonoBehaviour
                 Ability tempAbility = selectedAbilityPrefab.GetComponent<Ability>();
                 if (tempAbility != null)
                 {
+                    // 이 로그가 콘솔 창에 출력됩니다.
+                    Debug.Log($"[디버그로그] 선택된 어빌리티: {tempAbility.AbilityName}, 설명: {tempAbility.Description}, 아이콘: {tempAbility.AbilityIcon?.name}");
+
                     abilitySlots[i].SetAbility(selectedAbilityPrefab, tempAbility.AbilityName, tempAbility.Description, tempAbility.AbilityIcon);
                     possibleChoices.Add(selectedAbilityPrefab);
                 }
@@ -102,17 +120,20 @@ public class AbilitySelectionManager : MonoBehaviour
     /// </summary>
     private GameObject SelectRandomAbilityUnique(List<GameObject> excludeList)
     {
+        // 수정된 부분: player.activeAbilities의 value가 null인 경우를 대비한 방어 코드 추가
         List<GameObject> upgradableAbilities = player.activeAbilities
-            .Where(entry => entry.Value.CurrentLevel < entry.Value.MaxLevel && !excludeList.Contains(entry.Key))
+            .Where(entry => entry.Value != null && entry.Value.CurrentLevel < entry.Value.MaxLevel && !excludeList.Contains(entry.Key))
             .Select(entry => entry.Key)
             .ToList();
 
+        // 수정된 부분: prefab이 null인 경우를 대비한 방어 코드 추가
         List<GameObject> newAbilities = allAvailableAbilityPrefabs
-            .Where(prefab => !player.activeAbilities.ContainsKey(prefab) && !excludeList.Contains(prefab))
+            .Where(prefab => prefab != null && !player.activeAbilities.ContainsKey(prefab) && !excludeList.Contains(prefab))
             .ToList();
 
+        // GetCombinableAbilities() 메서드 내부에 null 체크가 필요할 수 있습니다.
         List<GameObject> combinableAbilities = player.GetCombinableAbilities()
-            .Where(prefab => !excludeList.Contains(prefab))
+            .Where(prefab => prefab != null && !excludeList.Contains(prefab))
             .ToList();
 
         float randomValue = Random.value;
@@ -154,9 +175,9 @@ public class AbilitySelectionManager : MonoBehaviour
     public void OnAbilitySelected(GameObject selectedAbilityPrefab)
     {
         if (player == null) return;
+        if (selectedAbilityPrefab == null) return; // 추가된 방어 코드
 
         // 선택된 어빌리티 프리팹에 해당하는 레시피를 찾습니다.
-        // 이제 Recipe.CombinedAbilityPrefab와 비교합니다.
         AbilityRecipe selectedRecipe = player.abilityRecipes.FirstOrDefault(
             r => r.CombinedAbilityPrefab == selectedAbilityPrefab);
 

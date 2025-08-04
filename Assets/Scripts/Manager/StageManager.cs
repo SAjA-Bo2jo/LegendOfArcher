@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class StageManager : MonoSingleton<StageManager>
 {
+    [SerializeField]
+    AbilitySelectionManager abilitySelectionManager; // 어빌리티 선택 매니저
+
     // 스테이지 레벨을 저장하고 스테이지를 클리어할 때 마다 레벨이 증가
     // 스테이지 레벨이 올라갈 수록 난이도를 어렵게 설정할 예정 -> 레벨에 따라 추가 체력, 추가 공격력, 추가 화살 등등?
     // 스테이지 레벨이 5의 배수일 때마다 보스 몬스터 스폰
@@ -103,7 +106,7 @@ public class StageManager : MonoSingleton<StageManager>
     private void StageClear()
     {
         Debug.Log("스테이지 클리어!");
-        
+        abilitySelectionManager.ShowAbilitySelection();
         // isClear를 true로 바꿈
         isClear = true;
         isClearProcessed = true;

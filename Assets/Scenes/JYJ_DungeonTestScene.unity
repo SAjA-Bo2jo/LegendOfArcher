@@ -2328,6 +2328,9 @@ MonoBehaviour:
   - key: GattlingArrow
     prefab: {fileID: 5065600066069193573, guid: 0d69eb7ffd542ec46a48b604bd55cc19, type: 3}
     size: 20
+  - key: EnemyArrow
+    prefab: {fileID: 2617466681887532506, guid: cb72814c367ebf140b20b7e4057f8c83, type: 3}
+    size: 20
 --- !u!1 &446691815
 GameObject:
   m_ObjectHideFlags: 0

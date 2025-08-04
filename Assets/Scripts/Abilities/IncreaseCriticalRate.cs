@@ -7,14 +7,6 @@ public class IncreaseCriticalRateAbility : Ability
 
     [SerializeField] private Sprite hawksEyeIconSprite; // <--- 인스펙터에서 할당할 아이콘 스프라이트 필드
 
-    void Awake()
-    {
-        AbilityName = "매의 눈"; // "치명타 확률 증가" 대신 구체적인 이름
-        MaxLevel = 5; // 최대 레벨 5로 설정 (선택 사항, 필요에 따라 조절)
-        InitializeAbility(this.gameObject); // 이 능력의 프리팹 정보를 할당
-        AbilityIcon = hawksEyeIconSprite; // <--- 아이콘 할당
-    }
-
     // 능력을 획득하거나 레벨업 할 때 호출
     public override void OnAcquire(Player playerInstance)
     {

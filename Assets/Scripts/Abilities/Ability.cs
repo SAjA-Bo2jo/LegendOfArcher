@@ -3,6 +3,18 @@ using UnityEngine;
 
 public abstract class Ability : MonoBehaviour
 {
+    // 기존의 public 속성을 SerializeField로 변경합니다.
+    [Header("Base Ability Info")]
+    [SerializeField] protected string abilityName;
+    [SerializeField] protected string description;
+    [SerializeField] protected Sprite abilityIcon;
+
+    // 외부에 노출되는 읽기 전용 속성으로 변경합니다.
+    public string AbilityName => abilityName;
+    public string Description => description;
+    public Sprite AbilityIcon => abilityIcon;
+    public GameObject AbilityPrefab { get; private set; } // 이 능력을 생성한 원본 프리팹
+
     protected Player player; // 능력이 적용될 플레이어 참조
     protected AnimationHandler animationHandler; // 애니메이션 핸들러 (선택 사항)
     protected GameObject target; // 현재 타겟 (일부 능력에서 필요)
@@ -12,11 +24,6 @@ public abstract class Ability : MonoBehaviour
     public int CurrentLevel { get; protected set; } = 0; // 현재 능력 레벨
     public int MaxLevel { get; protected set; } = 5; // 최대 레벨
 
-    public GameObject AbilityPrefab { get; private set; } // 이 능력을 생성한 원본 프리팹
-
-    public string AbilityName { get; protected set; } // 능력 이름
-    public string Description { get; protected set; } // 능력 설명
-    public Sprite AbilityIcon { get; protected set; } // 능력 아이콘 (UI용)
 
     public virtual void InitializeAbility(GameObject prefab)
     {

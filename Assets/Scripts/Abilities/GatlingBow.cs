@@ -17,15 +17,6 @@ public class GatlingBow : Ability // Ability 클래스를 상속받습니다.
     // 개틀링 화살 오브젝트 풀 키
     private const string GATLING_ARROW_POOL_KEY = "GatlingArrow";
 
-    void Awake()
-    {
-        AbilityName = "개틀링 보우";
-        MaxLevel = 1; // 개틀링 보우는 단일 능력이라고 가정 (레벨 시스템을 원하면 확장 가능)
-        InitializeAbility(this.gameObject);
-        AbilityIcon = gatlingBowAbilityIcon; // 아이콘 할당
-        UpdateDescription(); // Awake에서 설명 초기화
-    }
-
     // 능력을 획득하거나 레벨업 할 때 호출
     public override void OnAcquire(Player playerInstance)
     {

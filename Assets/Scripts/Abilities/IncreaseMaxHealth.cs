@@ -11,15 +11,6 @@ public class IncreaseMaxHealth : Ability
 
     [SerializeField] private Sprite giantsHeartIconSprite; // 인스펙터에서 할당할 아이콘 스프라이트 필드
 
-    void Awake()
-    {
-        AbilityName = "거인의 심장";
-        MaxLevel = 5; // 예시: 최대 레벨 5
-        InitializeAbility(this.gameObject);
-        AbilityIcon = giantsHeartIconSprite;
-        UpdateDescription(); // 설명 초기화
-    }
-
     // 능력을 획득하거나 레벨업 할 때 호출
     public override void OnAcquire(Player playerInstance)
     {

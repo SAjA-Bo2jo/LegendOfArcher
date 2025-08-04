@@ -9,15 +9,6 @@ public class FireArrow : Ability
     private int currentAttackCount = 0;
     private const string FIRE_ARROW_POOL_KEY = "FireArrow";
 
-    void Awake()
-    {
-        AbilityName = "불화살";
-        MaxLevel = attackCountForFireArrowPerLevel.Length;
-        InitializeAbility(this.gameObject);
-        AbilityIcon = fireArrowIcon;
-        UpdateDescription(); // Awake에서 설명 초기화
-    }
-
     public override void OnAcquire(Player playerInstance)
     {
         base.OnAcquire(playerInstance);
