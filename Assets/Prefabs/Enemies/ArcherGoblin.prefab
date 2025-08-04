@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 4759241726147098205}
-  weaponPivot: {fileID: 3958370077564874157, guid: 934ff15c845877840ba9e9420f1bd481, type: 3}
+  weaponPivot: {fileID: 1139880285270477428}
   moveSpeed: 5
   stats:
     maxHealth: 8
