@@ -18,11 +18,11 @@ public class BaseController : MonoBehaviour
     public Vector2 LookDirection                                        // -> 참조 시에 LookDirection
     { get => lookDirection; set => lookDirection = value; }
 
-    private Vector2 knockback = Vector2.zero;                           // knockback : 넉백 방향, 크기
+    protected Vector2 knockback = Vector2.zero;                           // knockback : 넉백 방향, 크기
     public Vector2 Knockback                                            // -> 참조 시에 Knockback
     { get => knockback; set => knockback = value; }
 
-    private float knockbackTime = 0.0f;                                 // knockbackTime : 넉백 지속 시간
+    protected float knockbackTime = 0.0f;                                 // knockbackTime : 넉백 지속 시간
     public float KnockbackTime                                          // -> 참조 시에 KnockbackTime
     { get => knockbackTime; set => knockbackTime = value; }
 
