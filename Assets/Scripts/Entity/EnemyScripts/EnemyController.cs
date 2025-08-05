@@ -31,6 +31,13 @@ public class EnemyController : BaseController
 
     private BossEnemyAttack bossAttack;
 
+    private float idleTimer = 0f;
+    private float idleThreshold = 2f; // start wander when stay for 2 secs
+    private Vector2 randomDirection = Vector2.zero;
+    private bool isWandering = false;
+    private float wanderDuration = 0.5f; // random move for 0.5 sec
+    private float wanderTimer = 0f;
+
     bool isDead = false;
     public bool IsDead => isDead;
     public GameObject ArrowPrefab => arrowPrefab;
@@ -124,6 +131,8 @@ public class EnemyController : BaseController
     // AI movement and attack logic
     protected override void HandleInput()
     {
+        if (isWandering) return;
+        
         if (target == null || stats.healthPoint <= 0)
         {
             moveDirection = Vector2.zero;
@@ -152,6 +161,25 @@ public class EnemyController : BaseController
         else
         {
             moveDirection = Vector2.zero; // Idle if out of detection range
+        }
+
+        // if object stay small area for 2 secs
+        if (_rigidbody.velocity.magnitude < 0.5f)
+        {
+            idleTimer += Time.deltaTime;
+
+            if (!isWandering && (idleTimer >= idleThreshold) )
+            {
+                isWandering = true;
+                randomDirection = Random.insideUnitCircle.normalized;
+                wanderTimer = 0f;
+                idleTimer = 0f;
+            }
+        }
+        else
+        {
+            idleTimer = 0f;
+            isWandering = false;
         }
 
         if (IsInAttackRange() && enemyAttack.CanAttack(this))
@@ -286,4 +314,42 @@ public class EnemyController : BaseController
         if (collider != null)
             collider.enabled = true;
     }
+
+    protected override void MoveToward(Vector2 direction)
+    {
+        // skip when boss rushing
+        if (this is EnemyController enemy &&
+            enemy.Stats != null &&
+            enemy.BehaviorType == EnemyBehaviorType.Boss &&
+            enemy.EnemyAttack is BossEnemyAttack boss &&
+            boss.IsCharging())
+        {
+            return;
+        }
+
+        // skip when wandering
+        if (isWandering)
+        {
+            wanderTimer += Time.fixedDeltaTime;
+            _rigidbody.velocity = randomDirection * moveSpeed;
+
+            if (wanderTimer >= wanderDuration)
+            {
+                isWandering = false;
+            }
+
+            return; // 무작위 이동 중엔 일반 이동 로직 무시
+        }
+
+        direction = direction * moveSpeed;
+
+        if (knockbackTime > 0.0f)
+        {
+            direction *= 0.2f;
+            direction += knockback;
+        }
+
+        _rigidbody.velocity = direction;
+    }
+
 }
