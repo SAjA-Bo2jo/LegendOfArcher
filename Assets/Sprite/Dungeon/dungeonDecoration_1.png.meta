@@ -1,0 +1,633 @@
+fileFormatVersion: 2
+guid: b1f3cd9ee079bf049983fc0d60b2c1b4
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: dungeonGate_0
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 160
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e6e4560bc8ac72469069953b7a024de
+      internalID: 1934007455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeonGate_8
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 160
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c47e0201d414fb458152f66a8319389
+      internalID: 712162399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeonGate_7
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 160
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee1a67cd39ced3d4f9ca6859eb1158ca
+      internalID: 2038394360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeonGate_6
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 160
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26b7f0270f008f74fb59cbc8ea0677ff
+      internalID: -780626377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeonGate_5
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 160
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab501a1a55752ed4293e12fecb4de073
+      internalID: 1204583145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeonGate_4
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 112
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f61854be724777b418af4e7f37abf484
+      internalID: -1447881790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeonGate_3
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 112
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 156157c6b7c3eb04cb4589af909bed4b
+      internalID: -1673751581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeonGate_2
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 112
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41768803b29d16241a7162a23c083520
+      internalID: -2074640743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dungeonGate_1
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 112
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47a5e1bd2cdea8b46a2e36aab97eba3a
+      internalID: 380561459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      dungeonDecoration_1_0: -2063045856
+      dungeonDecoration_1_1: -200581908
+      dungeonDecoration_1_10: -1471321744
+      dungeonDecoration_1_100: 928414409
+      dungeonDecoration_1_101: 668563266
+      dungeonDecoration_1_102: -659025645
+      dungeonDecoration_1_103: 1510835843
+      dungeonDecoration_1_104: 872342601
+      dungeonDecoration_1_105: 1310089047
+      dungeonDecoration_1_106: 1950262497
+      dungeonDecoration_1_107: -434533666
+      dungeonDecoration_1_108: 1368362666
+      dungeonDecoration_1_109: 1511223760
+      dungeonDecoration_1_11: -959520906
+      dungeonDecoration_1_110: -1691668470
+      dungeonDecoration_1_111: 1795508041
+      dungeonDecoration_1_112: 825092571
+      dungeonDecoration_1_113: 1403425836
+      dungeonDecoration_1_114: -1438452280
+      dungeonDecoration_1_115: 89973667
+      dungeonDecoration_1_116: -1863149285
+      dungeonDecoration_1_117: -47697295
+      dungeonDecoration_1_118: -1900407741
+      dungeonDecoration_1_119: -1780683121
+      dungeonDecoration_1_12: -1952983535
+      dungeonDecoration_1_120: 512730589
+      dungeonDecoration_1_121: 1315609437
+      dungeonDecoration_1_122: 2127809566
+      dungeonDecoration_1_123: -935738376
+      dungeonDecoration_1_124: 1543081349
+      dungeonDecoration_1_125: -467098682
+      dungeonDecoration_1_126: 1555095739
+      dungeonDecoration_1_127: 1948951144
+      dungeonDecoration_1_128: -1380892814
+      dungeonDecoration_1_129: 1637673458
+      dungeonDecoration_1_13: -2055812578
+      dungeonDecoration_1_130: 1088703272
+      dungeonDecoration_1_131: -430380013
+      dungeonDecoration_1_132: -40234617
+      dungeonDecoration_1_133: -820563647
+      dungeonDecoration_1_135: 899125375
+      dungeonDecoration_1_136: -1784660950
+      dungeonDecoration_1_138: -91039893
+      dungeonDecoration_1_139: 1150430848
+      dungeonDecoration_1_14: -391196359
+      dungeonDecoration_1_141: 140475288
+      dungeonDecoration_1_142: -525426633
+      dungeonDecoration_1_144: 1111261331
+      dungeonDecoration_1_145: 62389097
+      dungeonDecoration_1_146: 1516487094
+      dungeonDecoration_1_147: -1033531499
+      dungeonDecoration_1_148: -1367162377
+      dungeonDecoration_1_149: -177571503
+      dungeonDecoration_1_15: -1900204843
+      dungeonDecoration_1_150: 919002637
+      dungeonDecoration_1_151: -1715783473
+      dungeonDecoration_1_152: 956099887
+      dungeonDecoration_1_153: -578372149
+      dungeonDecoration_1_154: 239985550
+      dungeonDecoration_1_155: 309837704
+      dungeonDecoration_1_156: -377267424
+      dungeonDecoration_1_157: 1017620457
+      dungeonDecoration_1_158: -141097077
+      dungeonDecoration_1_159: -356285010
+      dungeonDecoration_1_16: -1307695758
+      dungeonDecoration_1_160: 1608160436
+      dungeonDecoration_1_161: 2032135995
+      dungeonDecoration_1_163: 2106203361
+      dungeonDecoration_1_164: 185113641
+      dungeonDecoration_1_166: -117673862
+      dungeonDecoration_1_167: 819267693
+      dungeonDecoration_1_169: -470904944
+      dungeonDecoration_1_170: -1791869507
+      dungeonDecoration_1_172: -1256474353
+      dungeonDecoration_1_173: -989445223
+      dungeonDecoration_1_174: -243052898
+      dungeonDecoration_1_175: -793928979
+      dungeonDecoration_1_176: -251103411
+      dungeonDecoration_1_177: -831207360
+      dungeonDecoration_1_178: -435483251
+      dungeonDecoration_1_179: 1871620117
+      dungeonDecoration_1_18: -1266570199
+      dungeonDecoration_1_180: 1248639240
+      dungeonDecoration_1_181: 961525298
+      dungeonDecoration_1_182: 1118875199
+      dungeonDecoration_1_183: -30391148
+      dungeonDecoration_1_184: -809676590
+      dungeonDecoration_1_185: 1571620292
+      dungeonDecoration_1_186: 643980562
+      dungeonDecoration_1_187: -255921831
+      dungeonDecoration_1_188: -1803150022
+      dungeonDecoration_1_189: -1618140202
+      dungeonDecoration_1_19: -1376567184
+      dungeonDecoration_1_190: 738793304
+      dungeonDecoration_1_191: -1435602884
+      dungeonDecoration_1_192: 1827112775
+      dungeonDecoration_1_193: 233412228
+      dungeonDecoration_1_194: 627408978
+      dungeonDecoration_1_195: -2070219280
+      dungeonDecoration_1_196: 1102056774
+      dungeonDecoration_1_197: -1070564564
+      dungeonDecoration_1_198: -330520697
+      dungeonDecoration_1_199: 134551952
+      dungeonDecoration_1_2: 1407107998
+      dungeonDecoration_1_20: 1770511751
+      dungeonDecoration_1_200: -362378026
+      dungeonDecoration_1_201: 544662619
+      dungeonDecoration_1_202: -16054898
+      dungeonDecoration_1_203: 1881277751
+      dungeonDecoration_1_204: -98458766
+      dungeonDecoration_1_205: 2078891701
+      dungeonDecoration_1_206: -732257647
+      dungeonDecoration_1_207: -2011413307
+      dungeonDecoration_1_208: -1092823455
+      dungeonDecoration_1_209: -1183604652
+      dungeonDecoration_1_21: -1466313734
+      dungeonDecoration_1_210: -560119154
+      dungeonDecoration_1_211: 1470969711
+      dungeonDecoration_1_212: 1447713701
+      dungeonDecoration_1_213: -1007869829
+      dungeonDecoration_1_214: -646595066
+      dungeonDecoration_1_215: 873477426
+      dungeonDecoration_1_216: 911158222
+      dungeonDecoration_1_217: 1049175095
+      dungeonDecoration_1_218: -1265564086
+      dungeonDecoration_1_219: 1067439711
+      dungeonDecoration_1_22: -343948083
+      dungeonDecoration_1_220: -228928463
+      dungeonDecoration_1_221: -1484182198
+      dungeonDecoration_1_222: -859720802
+      dungeonDecoration_1_223: -809205008
+      dungeonDecoration_1_224: 1978225792
+      dungeonDecoration_1_225: -1599230182
+      dungeonDecoration_1_226: 883930547
+      dungeonDecoration_1_227: -984439300
+      dungeonDecoration_1_228: 1211628816
+      dungeonDecoration_1_229: 892643334
+      dungeonDecoration_1_23: 496768799
+      dungeonDecoration_1_230: -981259211
+      dungeonDecoration_1_231: -77386211
+      dungeonDecoration_1_232: -1458614765
+      dungeonDecoration_1_233: -998692672
+      dungeonDecoration_1_234: -1741943442
+      dungeonDecoration_1_235: -1552081166
+      dungeonDecoration_1_236: 2101691460
+      dungeonDecoration_1_237: -301485341
+      dungeonDecoration_1_238: -1418883726
+      dungeonDecoration_1_239: -1987995330
+      dungeonDecoration_1_24: -582906108
+      dungeonDecoration_1_240: 325845774
+      dungeonDecoration_1_241: 507174068
+      dungeonDecoration_1_242: -122470073
+      dungeonDecoration_1_243: 1195412915
+      dungeonDecoration_1_244: 1168177752
+      dungeonDecoration_1_245: -1171170874
+      dungeonDecoration_1_246: 1055303145
+      dungeonDecoration_1_247: -2068095497
+      dungeonDecoration_1_248: -803972992
+      dungeonDecoration_1_249: 2085229568
+      dungeonDecoration_1_25: -1854217188
+      dungeonDecoration_1_250: 1949896294
+      dungeonDecoration_1_251: 76946730
+      dungeonDecoration_1_252: 531587261
+      dungeonDecoration_1_253: -1814684770
+      dungeonDecoration_1_254: 760415511
+      dungeonDecoration_1_255: 2017344378
+      dungeonDecoration_1_256: 849560958
+      dungeonDecoration_1_257: 192209834
+      dungeonDecoration_1_258: 58510164
+      dungeonDecoration_1_259: -81538360
+      dungeonDecoration_1_26: 1477524913
+      dungeonDecoration_1_260: 282331804
+      dungeonDecoration_1_261: -403171994
+      dungeonDecoration_1_262: 1010934236
+      dungeonDecoration_1_263: -552220798
+      dungeonDecoration_1_264: 2113044269
+      dungeonDecoration_1_265: -750479615
+      dungeonDecoration_1_266: 1047166638
+      dungeonDecoration_1_267: -795742735
+      dungeonDecoration_1_268: -786875852
+      dungeonDecoration_1_269: -915403082
+      dungeonDecoration_1_27: 427808040
+      dungeonDecoration_1_270: -1566358357
+      dungeonDecoration_1_271: -1464295275
+      dungeonDecoration_1_272: 1583818095
+      dungeonDecoration_1_273: -1157824434
+      dungeonDecoration_1_274: 1777215948
+      dungeonDecoration_1_275: 1106836844
+      dungeonDecoration_1_276: -1781248954
+      dungeonDecoration_1_277: -417241328
+      dungeonDecoration_1_278: -588902322
+      dungeonDecoration_1_279: 1343695411
+      dungeonDecoration_1_28: -786378888
+      dungeonDecoration_1_280: -1682177610
+      dungeonDecoration_1_281: -141225103
+      dungeonDecoration_1_282: 1465239881
+      dungeonDecoration_1_283: 654989520
+      dungeonDecoration_1_284: -831171802
+      dungeonDecoration_1_285: 247138268
+      dungeonDecoration_1_286: -484800297
+      dungeonDecoration_1_287: 1573420834
+      dungeonDecoration_1_288: -1946897454
+      dungeonDecoration_1_289: -1177306823
+      dungeonDecoration_1_29: 760844145
+      dungeonDecoration_1_290: -2004480546
+      dungeonDecoration_1_291: -948360571
+      dungeonDecoration_1_292: 1310622524
+      dungeonDecoration_1_3: 1911929814
+      dungeonDecoration_1_30: 627297982
+      dungeonDecoration_1_31: 452000429
+      dungeonDecoration_1_32: -355154695
+      dungeonDecoration_1_33: 920232786
+      dungeonDecoration_1_34: -858547253
+      dungeonDecoration_1_35: 1038573813
+      dungeonDecoration_1_36: 810391490
+      dungeonDecoration_1_37: -1524047888
+      dungeonDecoration_1_38: 1938779476
+      dungeonDecoration_1_39: -986188575
+      dungeonDecoration_1_40: -455214298
+      dungeonDecoration_1_41: -1499776268
+      dungeonDecoration_1_42: 1746567260
+      dungeonDecoration_1_43: 1704616228
+      dungeonDecoration_1_44: 1333000272
+      dungeonDecoration_1_45: 839047538
+      dungeonDecoration_1_46: -1766848918
+      dungeonDecoration_1_47: -879881894
+      dungeonDecoration_1_49: 533881347
+      dungeonDecoration_1_5: -222881239
+      dungeonDecoration_1_50: 1903906443
+      dungeonDecoration_1_52: -1539390228
+      dungeonDecoration_1_53: -1656381011
+      dungeonDecoration_1_55: 802037382
+      dungeonDecoration_1_56: -924727661
+      dungeonDecoration_1_58: -717866094
+      dungeonDecoration_1_59: 1834578474
+      dungeonDecoration_1_6: -1665693956
+      dungeonDecoration_1_60: 1015740434
+      dungeonDecoration_1_61: -1157600238
+      dungeonDecoration_1_62: 2097863231
+      dungeonDecoration_1_63: 2019719307
+      dungeonDecoration_1_64: -1458179156
+      dungeonDecoration_1_65: 243361932
+      dungeonDecoration_1_66: 1338385785
+      dungeonDecoration_1_67: -1558438887
+      dungeonDecoration_1_68: 959618561
+      dungeonDecoration_1_69: -612188164
+      dungeonDecoration_1_70: 152477800
+      dungeonDecoration_1_71: -1712768534
+      dungeonDecoration_1_72: -474163163
+      dungeonDecoration_1_73: -701900033
+      dungeonDecoration_1_74: 1623767472
+      dungeonDecoration_1_75: -2104435819
+      dungeonDecoration_1_77: 592573613
+      dungeonDecoration_1_78: 1326337173
+      dungeonDecoration_1_8: -1887553497
+      dungeonDecoration_1_80: 409315886
+      dungeonDecoration_1_81: 1628641005
+      dungeonDecoration_1_83: 2022498659
+      dungeonDecoration_1_84: -117514317
+      dungeonDecoration_1_86: -47088866
+      dungeonDecoration_1_87: -71064177
+      dungeonDecoration_1_88: -76516341
+      dungeonDecoration_1_89: -873938711
+      dungeonDecoration_1_9: -1328129891
+      dungeonDecoration_1_90: 146475865
+      dungeonDecoration_1_91: -2046910476
+      dungeonDecoration_1_92: -2031824887
+      dungeonDecoration_1_93: 623996947
+      dungeonDecoration_1_94: -1567469029
+      dungeonDecoration_1_95: -400575796
+      dungeonDecoration_1_96: 714508221
+      dungeonDecoration_1_97: 628761726
+      dungeonDecoration_1_98: -341605557
+      dungeonDecoration_1_99: -818354695
+      dungeonGate_0: 1934007455
+      dungeonGate_1: 380561459
+      dungeonGate_1_1: -1245703839
+      dungeonGate_2: -2074640743
+      dungeonGate_2_0: -1547396636
+      dungeonGate_3: -1673751581
+      dungeonGate_3_0: -372761447
+      dungeonGate_4: -1447881790
+      dungeonGate_4_0: -650840894
+      dungeonGate_5: 1204583145
+      dungeonGate_5_0: 2067889378
+      dungeonGate_6: -780626377
+      dungeonGate_6_0: 1194080988
+      dungeonGate_7: 2038394360
+      dungeonGate_7_0: -1171239618
+      dungeonGate_8: 712162399
+      dungeonGate_8_0: 1484729359
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
