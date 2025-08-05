@@ -54,11 +54,11 @@ public class IncreaseAttackSpeed : Ability
         if (CurrentLevel > 0 && CurrentLevel <= MaxLevel)
         {
             float currentBoost = attackSpeedIncreasePerLevel[CurrentLevel - 1];
-            description = $"공격 속도를 {currentBoost:F2} 만큼 증가시킵니다. (현재 +{currentBoost:F2}초당 공격 횟수)";
+            Description = $"공격 속도를 {currentBoost:F2} 만큼 증가시킵니다. (현재 +{currentBoost:F2}초당 공격 횟수)";
         }
         else
         {
-            description = "공격 속도를 증가시키는 능력입니다.";
+            Description = "공격 속도를 증가시키는 능력입니다.";
         }
     }
 }

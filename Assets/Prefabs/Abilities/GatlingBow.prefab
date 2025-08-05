@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8320019194997152225}
   - component: {fileID: 4795194272429522548}
+  - component: {fileID: 289219149231013362}
   m_Layer: 0
   m_Name: GatlingBow
   m_TagString: Untagged
@@ -44,12 +45,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e69a375654bb3ed43b9f4bf1b7d28433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: "\uAC1C\uD2C0\uB9C1 \uBCF4\uC6B0"
-  description: "\uC9C4\uC815\uD55C \uB0A8\uC790\uC758 \uD65C\uC785\uB2C8\uB2E4"
-  abilityIcon: {fileID: 21300000, guid: 6c7a06be0ce925148a01ceaf3c20fa0c, type: 3}
-  lastAttackTime: -999
-  gatlingBowAbilityIcon: {fileID: 21300000, guid: 29b3fc30632eaa0468e184ebca2c2ea4, type: 3}
-  arrowsPerShot: 3
+  AbilityName: "\uAC1C\uD2C0\uB9C1 \uBCF4\uC6B0"
+  Description: "\uC9C4\uC815\uD55C \uB0A8\uC790\uC758 \uD65C\uC785\uB2C8\uB2E4"
+  AbilityIcon: {fileID: 21300000, guid: 84bbd5c13f1a52c44a7549f5c47e6b10, type: 3}
+  AbilityPrefab: {fileID: 5065600066069193573, guid: 0d69eb7ffd542ec46a48b604bd55cc19, type: 3}
+  MaxLevel: 3
+  arrowsPerShot: 5
   spreadAngle: 10
   fireIntervalBetweenArrows: 0.05
   attackSpeedBonus: 0.5
+--- !u!114 &289219149231013362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6656189543097028530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d1c3deff8b3865489381c313098cc9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CombinedAbilityPrefab: {fileID: 6656189543097028530}
+  RequiredAbilities:
+  - AbilityPrefab: {fileID: 9113084276707236296, guid: 148030fd2160ec7408c6a73ad2d8f0c5, type: 3}
+    RequiredLevel: 3
+  - AbilityPrefab: {fileID: 9026607516348946412, guid: 252dc55a17abed543b8ee70bd7815de9, type: 3}
+    RequiredLevel: 3

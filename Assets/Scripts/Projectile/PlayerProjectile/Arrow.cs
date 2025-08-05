@@ -6,7 +6,7 @@ public class Arrow : Projectile
     private float critRate;
     private float speed;
     private Rigidbody2D rb;
-
+    public Player player;
     public AudioClip attackSoundClip;
 
     // Awake()에서 Rigidbody2D 가져오기

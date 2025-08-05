@@ -1,14 +1,18 @@
+// AbilitySelectionManager.cs
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq; // LINQ를 사용하기 위해 필요
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AbilitySelectionManager : MonoBehaviour
 {
+    // --- 싱글톤 패턴 ---
+    public static AbilitySelectionManager Instance { get; private set; }
+
     [Header("UI References")]
-    [SerializeField] private GameObject abilitySelectionPanel;
+    [SerializeField] private GameObject abilitySelectionPanel; // UI Panel Game Object
     [SerializeField] private AbilitySlotUI[] abilitySlots;
 
     [Header("Ability Pool")]
@@ -22,34 +26,39 @@ public class AbilitySelectionManager : MonoBehaviour
 
     [SerializeField] private Player player;
 
-    void Awake()
+    private void Awake()
     {
-        // Unity 에디터에서 player가 할당되지 않은 경우, FindObjectOfType으로 찾습니다.
-        if (player == null)
+        if (Instance == null)
         {
-            player = FindObjectOfType<Player>();
-            if (player == null)
-            {
-                Debug.LogError("AbilitySelectionManager: Player 오브젝트를 찾을 수 없습니다! Unity Inspector에서 직접 할당해주세요.");
-            }
+            Instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
+    void Start()
+    {
         if (abilitySelectionPanel != null)
         {
             abilitySelectionPanel.SetActive(false);
         }
     }
 
-    /// <summary>
-    /// 플레이어 레벨업 시 호출되어 어빌리티 선택 창을 표시합니다.
-    /// </summary>
     public void ShowAbilitySelection()
     {
-        // Player 변수가 null인지 확인하는 방어 코드 추가
         if (player == null)
         {
-            Debug.LogError("Player 오브젝트가 없으므로 어빌리티 선택 창을 열 수 없습니다.");
-            return;
+            if (StageManager.Instance != null && StageManager.Instance._Player != null)
+            {
+                player = StageManager.Instance._Player.GetComponent<Player>();
+            }
+            else
+            {
+                Debug.LogError("StageManager에 플레이어 인스턴스가 없거나 Player 스크립트를 찾을 수 없습니다.");
+                return;
+            }
         }
 
         Time.timeScale = 0f;
@@ -65,9 +74,6 @@ public class AbilitySelectionManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 어빌리티 선택 창을 숨기고 게임을 다시 시작합니다.
-    /// </summary>
     public void HideAbilitySelection()
     {
         if (abilitySelectionPanel != null)
@@ -77,11 +83,14 @@ public class AbilitySelectionManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    /// <summary>
-    /// 어빌리티 선택지 3개를 생성하여 UI에 표시합니다.
-    /// </summary>
     private void GenerateAbilityChoices()
     {
+        if (player == null)
+        {
+            Debug.LogError("Player 인스턴스가 존재하지 않습니다!");
+            return;
+        }
+
         foreach (var slot in abilitySlots)
         {
             slot.ClearSlot();
@@ -96,9 +105,7 @@ public class AbilitySelectionManager : MonoBehaviour
                 Ability tempAbility = selectedAbilityPrefab.GetComponent<Ability>();
                 if (tempAbility != null)
                 {
-                    // 이 로그가 콘솔 창에 출력됩니다.
                     Debug.Log($"[디버그로그] 선택된 어빌리티: {tempAbility.AbilityName}, 설명: {tempAbility.Description}, 아이콘: {tempAbility.AbilityIcon?.name}");
-
                     abilitySlots[i].SetAbility(selectedAbilityPrefab, tempAbility.AbilityName, tempAbility.Description, tempAbility.AbilityIcon);
                     possibleChoices.Add(selectedAbilityPrefab);
                 }
@@ -115,29 +122,27 @@ public class AbilitySelectionManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 확률에 따라 어빌리티를 선택하고, 이미 선택된 어빌리티는 제외합니다.
-    /// </summary>
     private GameObject SelectRandomAbilityUnique(List<GameObject> excludeList)
     {
-        // 수정된 부분: player.activeAbilities의 value가 null인 경우를 대비한 방어 코드 추가
-        List<GameObject> upgradableAbilities = player.activeAbilities
-            .Where(entry => entry.Value != null && entry.Value.CurrentLevel < entry.Value.MaxLevel && !excludeList.Contains(entry.Key))
-            .Select(entry => entry.Key)
-            .ToList();
-
-        // 수정된 부분: prefab이 null인 경우를 대비한 방어 코드 추가
-        List<GameObject> newAbilities = allAvailableAbilityPrefabs
-            .Where(prefab => prefab != null && !player.activeAbilities.ContainsKey(prefab) && !excludeList.Contains(prefab))
-            .ToList();
-
-        // GetCombinableAbilities() 메서드 내부에 null 체크가 필요할 수 있습니다.
+        // 1. 합성 가능 어빌리티 목록
         List<GameObject> combinableAbilities = player.GetCombinableAbilities()
             .Where(prefab => prefab != null && !excludeList.Contains(prefab))
             .ToList();
 
+        // 2. 업그레이드 가능 어빌리티 목록
+        List<GameObject> upgradableAbilities = player.activeAbilities.Values
+            .Where(ability => ability != null && ability.CurrentLevel < ability.MaxLevel && !excludeList.Contains(ability.AbilityPrefab))
+            .Select(ability => ability.AbilityPrefab)
+            .ToList();
+
+        // 3. 새로운 어빌리티 목록
+        List<GameObject> newAbilities = allAvailableAbilityPrefabs
+            .Where(prefab => prefab != null && !player.activeAbilities.ContainsKey(prefab) && !excludeList.Contains(prefab))
+            .ToList();
+
         float randomValue = Random.value;
 
+        // 우선순위에 따라 어빌리티 선택
         if (combinableAbilities.Any() && randomValue < combineAbilityChance)
         {
             return combinableAbilities[Random.Range(0, combinableAbilities.Count)];
@@ -150,17 +155,13 @@ public class AbilitySelectionManager : MonoBehaviour
         {
             return newAbilities[Random.Range(0, newAbilities.Count)];
         }
-        else if (upgradableAbilities.Any())
+        else if (upgradableAbilities.Any()) // 새로운 어빌리티가 없을 경우 업그레이드 기회 제공
         {
             return upgradableAbilities[Random.Range(0, upgradableAbilities.Count)];
         }
-        else if (combinableAbilities.Any())
+        else if (combinableAbilities.Any()) // 업그레이드할 것이 없을 경우 합성 기회 제공
         {
             return combinableAbilities[Random.Range(0, combinableAbilities.Count)];
-        }
-        else if (newAbilities.Any())
-        {
-            return newAbilities[Random.Range(0, newAbilities.Count)];
         }
         else
         {
@@ -169,35 +170,41 @@ public class AbilitySelectionManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 어빌리티 슬롯에서 선택 버튼을 클릭했을 때 호출됩니다.
-    /// </summary>
     public void OnAbilitySelected(GameObject selectedAbilityPrefab)
     {
-        if (player == null) return;
-        if (selectedAbilityPrefab == null) return; // 추가된 방어 코드
+        if (player == null || selectedAbilityPrefab == null)
+        {
+            Debug.LogWarning("플레이어 또는 선택된 어빌리티 프리팹이 유효하지 않습니다.");
+            return;
+        }
 
-        // 선택된 어빌리티 프리팹에 해당하는 레시피를 찾습니다.
         AbilityRecipe selectedRecipe = player.abilityRecipes.FirstOrDefault(
-            r => r.CombinedAbilityPrefab == selectedAbilityPrefab);
+            r => r != null && r.CombinedAbilityPrefab == selectedAbilityPrefab);
 
         if (selectedRecipe != null)
         {
             Debug.Log($"합성 어빌리티 [{selectedAbilityPrefab.name}] 선택!");
-
             foreach (var req in selectedRecipe.RequiredAbilities)
             {
-                player.RemoveAbility(req.AbilityPrefab);
+                if (req.AbilityPrefab != null && player.activeAbilities.ContainsKey(req.AbilityPrefab))
+                {
+                    player.RemoveAbility(req.AbilityPrefab);
+                }
             }
-            player.AcquireAbility(selectedAbilityPrefab);
         }
         else
         {
-            player.AcquireAbility(selectedAbilityPrefab);
+            Debug.Log($"일반/레벨업 어빌리티 [{selectedAbilityPrefab.name}] 선택!");
         }
 
+        player.AcquireAbility(selectedAbilityPrefab);
         player.RecalculateStats();
-
         HideAbilitySelection();
+    }
+
+    private bool IsCombinedAbility(GameObject prefab)
+    {
+        if (player.abilityRecipes == null) return false;
+        return player.abilityRecipes.Any(r => r != null && r.CombinedAbilityPrefab == prefab);
     }
 }

@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 108c70220ee073f4990cc3105f684d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: "\uAC70\uC778\uC758 \uC2EC\uC7A5"
-  description: "\uCD5C\uB300 \uCCB4\uB825\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4"
-  abilityIcon: {fileID: 21300000, guid: 30371e54c0d71ec4da9be58e2fb467c3, type: 3}
-  lastAttackTime: -999
+  AbilityName: "\uAC70\uC778\uC758 \uC2EC\uC7A5"
+  Description: "\uCD5C\uB300 \uCCB4\uB825\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  AbilityIcon: {fileID: 21300000, guid: 30371e54c0d71ec4da9be58e2fb467c3, type: 3}
+  AbilityPrefab: {fileID: 8686397491478364525}
+  MaxLevel: 3
   healthIncreasePerLevel: 10
   healAmountOnAcquire: 10
-  giantsHeartIconSprite: {fileID: 21300000, guid: 83eb6ed6e2ae6df42a03a4d9ff8c3bd0, type: 3}

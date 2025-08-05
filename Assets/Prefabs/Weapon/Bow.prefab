@@ -49,10 +49,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 410f59d3d550d224ab8f634ecd8baed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bowAnimator: {fileID: 0}
+  AbilityName: 
+  Description: 
+  AbilityIcon: {fileID: 21300000, guid: 6c7a06be0ce925148a01ceaf3c20fa0c, type: 3}
+  AbilityPrefab: {fileID: 5244200189435732769}
+  player: {fileID: 7463710379377135120, guid: c2ca1940d7ca62344b15ac30d1e9ea0f, type: 3}
+  MaxLevel: 3
   weaponPivot: {fileID: 0}
   radius: 0.3
-  arrowPrefab: {fileID: 2617466681887532506, guid: 15dbfb6e22b71ef4187ab3f932ecf260, type: 3}
   firePoint: {fileID: 5518336110533750202}
 --- !u!212 &5363847047641173920
 SpriteRenderer:

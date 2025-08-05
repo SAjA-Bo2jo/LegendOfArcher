@@ -45,11 +45,11 @@ public class IncreaseCriticalRateAbility : Ability
     {
         if (CurrentLevel > 0 && CurrentLevel <= MaxLevel)
         {
-            description = $"치명타 확률 {criticalRateIncreasePerLevel * CurrentLevel}% 증가.";
+            Description = $"치명타 확률 {criticalRateIncreasePerLevel * CurrentLevel}% 증가.";
         }
         else
         {
-            description = "치명타 확률을 증가시킵니다.";
+            Description = "치명타 확률을 증가시킵니다.";
         }
     }
 }

@@ -1,3 +1,4 @@
+// Player.cs
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,10 +61,20 @@ public class Player : MonoBehaviour
     /// </summary>
     public void AcquireAbility(GameObject abilityPrefab)
     {
-        Ability existingAbility = activeAbilities.Values.FirstOrDefault(a => a.AbilityPrefab == abilityPrefab);
-
-        if (existingAbility != null)
+        // --- 디버그 로그 추가 ---
+        if (abilityPrefab == null)
         {
+            Debug.LogWarning("[Player] AcquireAbility 호출 시 프리팹이 null입니다!");
+            return;
+        }
+        Debug.Log($"[Player] AcquireAbility 호출됨. Player: {this.name} (Instance ID: {this.GetInstanceID()})");
+        Debug.Log($"[Player] 전달된 프리팹: {abilityPrefab.name}");
+        // --- 디버그 로그 끝 ---
+
+        Ability existingAbility;
+        if (activeAbilities.TryGetValue(abilityPrefab, out existingAbility))
+        {
+            // 레벨업 로직
             if (existingAbility.CurrentLevel < existingAbility.MaxLevel)
             {
                 existingAbility.OnAcquire(this);
@@ -76,11 +87,19 @@ public class Player : MonoBehaviour
         }
         else
         {
-            GameObject abilityInstance = Instantiate(abilityPrefab, transform);
+            // 새로운 어빌리티 획득 로직
+            GameObject abilityInstance = Instantiate(abilityPrefab, this.transform);
             Ability newAbility = abilityInstance.GetComponent<Ability>();
 
             if (newAbility != null)
             {
+                // --- 디버그 로그 추가 ---
+                Debug.Log($"[Player] 새로운 어빌리티 '{newAbility.name}'에 Player 참조 전달 중...");
+                // --- 디버그 로그 끝 ---
+
+                newAbility.SetPlayer(this);
+
+                abilityInstance.transform.localPosition = Vector3.zero;
                 newAbility.InitializeAbility(abilityPrefab);
                 newAbility.OnAcquire(this);
                 activeAbilities.Add(abilityPrefab, newAbility);
@@ -124,10 +143,9 @@ public class Player : MonoBehaviour
         // === 최종 스탯 계산 ===
         MaxAttackSpeed = AttackSpeed;
 
-        // 최대 체력이 변경되었을 때 현재 체력이 새로운 최대 체력을 초과하지 않도록 조정
         Health = Mathf.Min(Health, MaxHealth);
 
-        Debug.Log($"Player Stats Recalculated: MaxHealth={MaxHealth}, CurrentHealth={Health}, Damage={AttackDamage}, Defense={Defense}, MoveSpeed={MoveSpeed}, Speed={MaxAttackSpeed}, Range={AttackRange}");
+        Debug.Log($"Player Stats Recalculated: MaxHealth={MaxHealth}, CurrentHealth={Health}, Damage={AttackDamage}, Defense={Defense}, MoveSpeed={MoveSpeed}, AttackSpeed={MaxAttackSpeed}, Range={AttackRange}, CriticalRate={CriticalRate}");
     }
 
     //public void SetInvincibleState(bool state)
@@ -144,7 +162,6 @@ public class Player : MonoBehaviour
     /// </summary>
     public void TakeDamage(float damageAmount, GameObject damageSource = null)
     {
-        // 무적 상태 체크 코드를 제거했습니다. 이제 사망하거나 데미지 0일 때만 데미지를 무시합니다.
         if (isDead || damageAmount <= 0)
         {
             Debug.Log($"Player 사망했거나 데미지 0. 데미지 적용 안됨. (소스: {damageSource?.name})");
@@ -194,48 +211,39 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 일반 화살 발사 전에 특수 화살 어빌리티를 시도합니다.
     /// </summary>
-    /// <param name="regularArrowGO">일반 화살 오브젝트</param>
-    /// <param name="regularArrowScript">일반 화살 Arrow 스크립트</param>
-    /// <returns>특수 화살이 발사되었으면 true, 아니면 false</returns>
     public bool TryActivateSpecialArrowAbility(GameObject regularArrowGO, Arrow regularArrowScript)
     {
-        // --- 추가된 디버그 로그 ---
         Debug.Log($"[Player] TryActivateSpecialArrowAbility 호출됨. 활성화된 어빌리티 개수: {activeAbilities.Count}");
-        // --- 디버그 로그 끝 ---
 
-        // activeAbilities는 Dictionary<GameObject, Ability>입니다.
-        // 여기서 Value인 Ability 컴포넌트를 순회합니다.
         foreach (var ability in activeAbilities.Values)
         {
-            // 'is' 키워드를 사용하여 ability가 FireArrow 타입인지 확인하고
-            // 맞다면 fireArrow 변수에 캐스팅하여 저장합니다.
+            Debug.Log($"[Player] 순회 중인 어빌리티: {ability.AbilityName} (타입: {ability.GetType().Name})");
+
             if (ability is FireArrow fireArrow)
             {
-                // FireArrow의 TryActivateFireArrow 메서드를 호출합니다.
-                if (fireArrow.TryActivateFireArrow(regularArrowGO, regularArrowScript))
+                Debug.Log($"[Player] FireArrow 어빌리티 발견! 발동 시도.");
+                if (fireArrow.TryActivateFireArrow(regularArrowGO, regularArrowScript, this))
                 {
-                    // 불화살이 발사되었으므로 true를 반환합니다.
                     return true;
                 }
             }
             if (ability is GatlingBow gatlingBow)
             {
-                // GatlingBow의 TryActivateGatlingArrow 메서드 호출
-                if (gatlingBow.TryActivateGatlingArrow(regularArrowGO, regularArrowScript, this))
-                {
-                    return true;
-                }
+                Debug.Log($"[Player] GatlingBow 어빌리티 발견! 발동 시도.");
+                // GatlingBow의 TryActivateGatlingArrow 메서드가 Player 참조를 요구할 경우를 대비하여 수정
+                // if (gatlingBow.TryActivateGatlingArrow(regularArrowGO, regularArrowScript, this))
+                // {
+                //     return true;
+                // }
             }
         }
 
-        // FireArrow 어빌리티가 없거나 발동 조건을 만족하지 않으면 false를 반환합니다.
         return false;
     }
 
     /// <summary>
     /// 현재 플레이어가 보유한 어빌리티로 합성할 수 있는 어빌리티 레시피를 찾습니다.
     /// </summary>
-    /// <returns>합성 가능한 최종 어빌리티 프리팹 목록.</returns>
     public List<GameObject> GetCombinableAbilities()
     {
         List<GameObject> combinablePrefabs = new List<GameObject>();
@@ -254,7 +262,6 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 플레이어에게서 특정 어빌리티를 제거합니다.
     /// </summary>
-    /// <param name="abilityPrefab">제거할 어빌리티의 프리팹.</param>
     public void RemoveAbility(GameObject abilityPrefab)
     {
         if (activeAbilities.ContainsKey(abilityPrefab))

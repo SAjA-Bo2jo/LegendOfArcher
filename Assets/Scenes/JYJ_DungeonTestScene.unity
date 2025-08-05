@@ -2325,7 +2325,7 @@ MonoBehaviour:
   - key: FireArrow
     prefab: {fileID: 6487819388568271228, guid: 304a15f2f789a414dbf8369200aef1d7, type: 3}
     size: 20
-  - key: GattlingArrow
+  - key: GatlingArrow
     prefab: {fileID: 5065600066069193573, guid: 0d69eb7ffd542ec46a48b604bd55cc19, type: 3}
     size: 20
   - key: EnemyArrow
@@ -7152,7 +7152,7 @@ GameObject:
   - component: {fileID: 1176959088}
   - component: {fileID: 1176959087}
   m_Layer: 0
-  m_Name: AbilityRecipes
+  m_Name: AbilityRecipeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7173,9 +7173,9 @@ MonoBehaviour:
   CombinedAbilityPrefab: {fileID: 4069219637729505124, guid: 43cfc3fd95a8e414da130a2033304c82, type: 3}
   RequiredAbilities:
   - AbilityPrefab: {fileID: 3341465619746869620, guid: bb77263ebf8a33c4885ad58134393908, type: 3}
-    RequiredLevel: 5
+    RequiredLevel: 3
   - AbilityPrefab: {fileID: 7302838883461125089, guid: 07a352a40767f764fa2abce3300d7d3c, type: 3}
-    RequiredLevel: 5
+    RequiredLevel: 3
 --- !u!114 &1176959088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7191,9 +7191,9 @@ MonoBehaviour:
   CombinedAbilityPrefab: {fileID: 6656189543097028530, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
   RequiredAbilities:
   - AbilityPrefab: {fileID: 9026607516348946412, guid: 252dc55a17abed543b8ee70bd7815de9, type: 3}
-    RequiredLevel: 5
+    RequiredLevel: 3
   - AbilityPrefab: {fileID: 9113084276707236296, guid: 148030fd2160ec7408c6a73ad2d8f0c5, type: 3}
-    RequiredLevel: 5
+    RequiredLevel: 3
 --- !u!4 &1176959089
 Transform:
   m_ObjectHideFlags: 0
@@ -12231,8 +12231,8 @@ MonoBehaviour:
   - {fileID: 3341465619746869620, guid: bb77263ebf8a33c4885ad58134393908, type: 3}
   - {fileID: 8686397491478364525, guid: a11d6fbd4d48edb479e7b65f9c5425e8, type: 3}
   - {fileID: 7302838883461125089, guid: 07a352a40767f764fa2abce3300d7d3c, type: 3}
-  existingAbilityUpgradeChance: 0.6
-  combineAbilityChance: 0.3
+  existingAbilityUpgradeChance: 0.9
+  combineAbilityChance: 0.9
   player: {fileID: 7463710379377135120, guid: c2ca1940d7ca62344b15ac30d1e9ea0f, type: 3}
 --- !u!4 &1845604628
 Transform:

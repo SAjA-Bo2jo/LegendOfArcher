@@ -356,13 +356,14 @@ MonoBehaviour:
   AttackDamage: 10
   Defense: 0
   MoveSpeed: 5
-  AttackSpeed: 1
-  AttackRange: 5
+  AttackSpeed: 1.6
+  AttackRange: 9
   AttackSize: 1
   ProjectileSpeed: 10
   CriticalRate: 0.1
   abilityRecipes:
-  - {fileID: 11400000, guid: df18535bac5162242ace048b062f2b99, type: 2}
+  - {fileID: 289219149231013362, guid: 3735fbf68870f6740a77094b98523cec, type: 3}
+  - {fileID: 5697064612584678730, guid: 43cfc3fd95a8e414da130a2033304c82, type: 3}
 --- !u!114 &725293929147769396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,11 +411,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5363847047641173920, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: m_SortingLayer
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5363847047641173920, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1344219013
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7578177436838376626, guid: 72e8a328aa2f02a41a1d3280ee7b3d79, type: 3}
       propertyPath: m_LocalPosition.x

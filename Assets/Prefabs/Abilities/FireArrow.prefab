@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc40a48ab730084a9bfeb2c9d5675df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: "\uBD88\uD654\uC0B4"
-  description: "\uBD88\uD654\uC0B4\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
-  abilityIcon: {fileID: 21300000, guid: 84bbd5c13f1a52c44a7549f5c47e6b10, type: 3}
-  lastAttackTime: -999
-  fireArrowIcon: {fileID: 21300000, guid: 29b3fc30632eaa0468e184ebca2c2ea4, type: 3}
+  AbilityName: "\uBD88\uD654\uC0B4"
+  Description: "\uAC00\uB054 \uBD88\uD654\uC0B4\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4"
+  AbilityIcon: {fileID: 21300000, guid: 84bbd5c13f1a52c44a7549f5c47e6b10, type: 3}
+  AbilityPrefab: {fileID: 6487819388568271228, guid: 304a15f2f789a414dbf8369200aef1d7, type: 3}
+  MaxLevel: 3
   attackCountForFireArrowPerLevel: 0300000002000000020000000100000001000000
   damageMultiplierPerLevel:
   - 1.5
