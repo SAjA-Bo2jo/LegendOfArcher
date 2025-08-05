@@ -6,7 +6,7 @@ public class Arrow : Projectile
     private float critRate;
     private float speed;
     private Rigidbody2D rb;
-
+    public Player player;
     public AudioClip attackSoundClip;
 
     // Awake()에서 Rigidbody2D 가져오기
@@ -75,6 +75,11 @@ public class Arrow : Projectile
             rb.angularVelocity = 0;
             rb.isKinematic = true; // 풀로 돌아갈 때 정지 상태 유지
             ObjectPoolManager.Instance.Return("Arrow", gameObject);
+        }
+        if (other.CompareTag("LowObject"))
+        {
+            // 낮은 오브젝트와 충돌 시
+            return;
         }
     }
 }
