@@ -19,6 +19,7 @@ public class MainGameUIManager : MonoBehaviour
     [SerializeField] private Button optionButton;
     [SerializeField] private Button exitButton;
     [SerializeField] private Button returnButton;
+    [SerializeField] private Slider musicSlider;
 
     private bool isPause = false;
     
@@ -145,5 +146,10 @@ public class MainGameUIManager : MonoBehaviour
         
         HpBarSlider.value = StageManager.Instance._Player.GetComponent<Player>().Health /
                             StageManager.Instance._Player.GetComponent<Player>().MaxHealth;
+    }
+    
+    public void OnSoundSliderChanged(float value)
+    {
+        SoundManager.Instance.musicVolume = musicSlider.value;
     }
 }

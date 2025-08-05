@@ -49,7 +49,7 @@ public class SoundMusicSettingsManager : MonoBehaviour
     }
 
     // 슬라이더 값 변경시 처리 (음소거 이미지 토글 여부 포함)
-    private void OnSoundSliderChanged(float value)
+    public void OnSoundSliderChanged(float value)
     {
         if (value <= 0f)
         {
@@ -64,6 +64,7 @@ public class SoundMusicSettingsManager : MonoBehaviour
 
         // 여기에 실제 오디오 믹서나 AudioSource 음량 조절 코드 추가 가능
         // 예: AudioManager.Instance.SetSoundVolume(value/100f);
+        SoundManager.Instance.musicVolume = musicSlider.value / 100;
     }
 
     private void OnMusicSliderChanged(float value)

@@ -2983,6 +2983,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3079f4f8a7facf479b20625bcf4b826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  killMonsterCount: 0
+  finalFloor: 0
+  monsterImage: {fileID: 0}
 --- !u!4 &542793383
 Transform:
   m_ObjectHideFlags: 0
@@ -4114,6 +4117,7 @@ MonoBehaviour:
   optionButton: {fileID: 1896688115}
   exitButton: {fileID: 610369870}
   returnButton: {fileID: 1110408667}
+  musicSlider: {fileID: 1175303080}
 --- !u!1 &691458319
 GameObject:
   m_ObjectHideFlags: 0
@@ -7124,10 +7128,22 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 650801478}
+        m_TargetAssemblyTypeName: MainGameUIManager, Assembly-CSharp
+        m_MethodName: OnSoundSliderChanged
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1181651346
 GameObject:
   m_ObjectHideFlags: 0

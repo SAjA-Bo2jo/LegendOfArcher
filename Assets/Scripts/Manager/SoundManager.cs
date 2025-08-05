@@ -7,7 +7,7 @@ public class SoundManager : MonoSingleton<SoundManager>
 {
     public SoundSource soundSourcePrefab; // 효과음 재생용 프리팹
     private AudioSource musicAudioSource; // 배경 음악 재생용 AudioSource
-
+    
     [Range(0f, 1f)]
     public float musicVolume = 1f; // 배경음악 볼륨 (Inspector에서 0~1 사이 값 조정 가능)
 
@@ -130,5 +130,10 @@ public class SoundManager : MonoSingleton<SoundManager>
         SoundSource obj = Instantiate(soundSourcePrefab, Vector3.zero, Quaternion.identity);
         
         obj.Play(ButtonClick, volume, pitchVariance);
+    }
+
+    public void ChangeSoundVolume(int volume)
+    {
+        musicVolume = volume;
     }
 }
